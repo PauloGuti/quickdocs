@@ -15,6 +15,8 @@ const SEED_MANIFEST = [
   'github.json',
   'gcloud.json',
   'javascript.json',
+  'react.json',
+  'node.json',
   'macos.json',
   'linux.json',
   'seguridad.json',

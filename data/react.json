@@ -1,0 +1,122 @@
+{
+  "id": "react",
+  "name": "React",
+  "icon": "⚛️",
+  "color": "#61DAFB",
+  "toolOptions": [
+    { "id": "jsx", "label": "JSX" },
+    { "id": "tsx", "label": "TSX" }
+  ],
+  "defaultTool": "jsx",
+  "topics": [
+    {
+      "id": "react-proyecto",
+      "name": "Crear proyecto",
+      "snippets": [
+        {
+          "id": "react-vite",
+          "title": "Crear proyecto con Vite",
+          "description": "La forma recomendada hoy para SPAs de React",
+          "language": "bash",
+          "code": "pnpm create vite mi-app --template react\ncd mi-app\npnpm install\npnpm dev",
+          "tags": ["setup", "vite"],
+          "variants": {
+            "tsx": {
+              "code": "pnpm create vite mi-app --template react-ts\ncd mi-app\npnpm install\npnpm dev"
+            }
+          }
+        },
+        {
+          "id": "react-nextjs",
+          "title": "Crear proyecto con Next.js",
+          "description": "Framework full-stack con App Router. El instalador pregunta si querés TypeScript",
+          "language": "bash",
+          "code": "pnpm create next-app mi-app\ncd mi-app\npnpm dev",
+          "tags": ["setup", "next"]
+        }
+      ]
+    },
+    {
+      "id": "react-componentes",
+      "name": "Componentes y hooks",
+      "snippets": [
+        {
+          "id": "react-componente-basico",
+          "title": "Componente funcional básico",
+          "description": "Recibe props y devuelve JSX",
+          "language": "javascript",
+          "code": "function Saludo({ nombre }) {\n  return <h1>Hola, {nombre}!</h1>;\n}",
+          "tags": ["componentes"],
+          "variants": {
+            "tsx": {
+              "description": "Con el tipo de las props declarado",
+              "language": "typescript",
+              "code": "type SaludoProps = { nombre: string };\n\nexport function Saludo({ nombre }: SaludoProps) {\n  return <h1>Hola, {nombre}!</h1>;\n}"
+            }
+          }
+        },
+        {
+          "id": "react-usestate",
+          "title": "useState",
+          "description": "Estado local del componente",
+          "language": "javascript",
+          "code": "const [contador, setContador] = useState(0);\n\n<button onClick={() => setContador((c) => c + 1)}>+1</button>;",
+          "tags": ["hooks"],
+          "variants": {
+            "tsx": {
+              "description": "Con el tipo del estado explícito (útil si el valor inicial no lo deja claro)",
+              "language": "typescript",
+              "code": "const [usuario, setUsuario] = useState<Usuario | null>(null);\n\n<button onClick={() => setUsuario({ nombre: 'Polo', edad: 30 })}>Cargar</button>;"
+            }
+          }
+        },
+        {
+          "id": "react-useeffect",
+          "title": "useEffect",
+          "description": "Efectos secundarios (fetch, suscripciones, etc.)",
+          "language": "javascript",
+          "code": "useEffect(() => {\n  const controller = new AbortController();\n  fetch(url, { signal: controller.signal }).then(...);\n  return () => controller.abort();\n}, [url]);",
+          "tags": ["hooks"]
+        },
+        {
+          "id": "react-usememo-usecallback",
+          "title": "useMemo / useCallback",
+          "description": "Memorizar valores y funciones costosas",
+          "language": "javascript",
+          "code": "const total = useMemo(() => calcularTotal(items), [items]);\nconst onClick = useCallback(() => setContador((c) => c + 1), []);",
+          "tags": ["hooks", "performance"]
+        },
+        {
+          "id": "react-custom-hook",
+          "title": "Hook personalizado",
+          "description": "Extrae lógica reutilizable con \"use\"",
+          "language": "javascript",
+          "code": "function useLocalStorage(key, initial) {\n  const [value, setValue] = useState(() => localStorage.getItem(key) ?? initial);\n  useEffect(() => localStorage.setItem(key, value), [key, value]);\n  return [value, setValue];\n}",
+          "tags": ["hooks"],
+          "variants": {
+            "tsx": {
+              "description": "Con parámetros y retorno tipados (\"as const\" fija la tupla)",
+              "language": "typescript",
+              "code": "function useLocalStorage(key: string, initial: string) {\n  const [value, setValue] = useState(() => localStorage.getItem(key) ?? initial);\n  useEffect(() => localStorage.setItem(key, value), [key, value]);\n  return [value, setValue] as const;\n}"
+            }
+          }
+        },
+        {
+          "id": "react-context",
+          "title": "Context para estado compartido",
+          "description": "Evita pasar props manualmente en cada nivel",
+          "language": "javascript",
+          "code": "const TemaContext = createContext('light');\n\nfunction useTema() {\n  return useContext(TemaContext);\n}",
+          "tags": ["estado"],
+          "variants": {
+            "tsx": {
+              "description": "Restringiendo los valores posibles del contexto",
+              "language": "typescript",
+              "code": "const TemaContext = createContext<'light' | 'dark'>('light');\n\nfunction useTema() {\n  return useContext(TemaContext);\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -17,13 +17,20 @@ comandos) para no abrumar.</em></p>
   imports, tipos de datos, ciclos, funciones, manejo de errores. Con selector
   de gestor de paquetes (**pip+venv / uv / Poetry**) que cambia los comandos
   mostrados a la sintaxis de cada uno.
-- **JavaScript & React** — pnpm (proyecto, dependencias, monorepos), crear
-  apps con Vite/Next.js, componentes y hooks de React.
+- **JavaScript** — condicionales, tipos de datos, funciones asíncronas,
+  fetch/HTTP, IA y análisis de datos. Selector **JavaScript / TypeScript**
+  (los snippets con diferencia real entre ambos cambian de sintaxis; el
+  resto es igual en los dos, así que se queda igual).
+- **React** — crear proyecto (Vite/Next.js), componentes y hooks. Selector
+  **JSX / TSX**.
+- **Node.js** — proyecto y dependencias, workspaces/monorepo, comandos del
+  runtime, publicar un paquete. Selector **npm / pnpm / Yarn**.
 - **Google ADK** (Agent Development Kit) — instalación, crear agentes,
   ejecutar, multi-agente, despliegue.
 - **Desarrollo de Agentes** — guía conceptual (framework-agnóstica): estructura
-  de carpetas para multi-agente, plantillas de system prompts, definición de
-  skills/tools, memoria y contexto, patrones de orquestación multi-agente.
+  de carpetas para multi-agente, system prompts, skills/tools, memoria y
+  contexto, **patrones de ejecución** (el loop del agente/ReAct, en serie,
+  en paralelo, reflexión, human-in-the-loop) y orquestación multi-agente.
 - **GitHub** — git básico, ramas, pull requests/issues con `gh`, deshacer cambios.
 - **Google Cloud (gcloud)** — configuración, Cloud Run, Storage, IAM, Firestore.
 - **BigQuery** — SQL básico/intermedio/avanzado (window functions, CTEs, MERGE),

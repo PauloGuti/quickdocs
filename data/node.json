@@ -1,0 +1,241 @@
+{
+  "id": "node",
+  "name": "Node.js",
+  "icon": "⬢",
+  "color": "#339933",
+  "toolOptions": [
+    { "id": "npm", "label": "npm" },
+    { "id": "pnpm", "label": "pnpm" },
+    { "id": "yarn", "label": "Yarn" }
+  ],
+  "defaultTool": "npm",
+  "topics": [
+    {
+      "id": "node-proyecto-dependencias",
+      "name": "Proyecto y dependencias",
+      "snippets": [
+        {
+          "id": "node-init",
+          "title": "Iniciar un proyecto",
+          "description": "Crea package.json",
+          "language": "bash",
+          "code": "npm init -y",
+          "tags": ["setup"],
+          "variants": {
+            "pnpm": { "code": "pnpm init" },
+            "yarn": { "code": "yarn init -y" }
+          }
+        },
+        {
+          "id": "node-install-all",
+          "title": "Instalar todas las dependencias",
+          "description": "Lee package.json (y el lockfile si existe)",
+          "language": "bash",
+          "code": "npm install",
+          "tags": ["install"],
+          "variants": {
+            "pnpm": { "code": "pnpm install" },
+            "yarn": { "code": "yarn install" }
+          }
+        },
+        {
+          "id": "node-add",
+          "title": "Agregar un paquete",
+          "description": "Se suma a \"dependencies\"",
+          "language": "bash",
+          "code": "npm install nombre-paquete",
+          "tags": ["install"],
+          "variants": {
+            "pnpm": { "code": "pnpm add nombre-paquete" },
+            "yarn": { "code": "yarn add nombre-paquete" }
+          }
+        },
+        {
+          "id": "node-add-dev",
+          "title": "Agregar una dependencia de desarrollo",
+          "description": "Se suma a \"devDependencies\"",
+          "language": "bash",
+          "code": "npm install -D nombre-paquete",
+          "tags": ["install"],
+          "variants": {
+            "pnpm": { "code": "pnpm add -D nombre-paquete" },
+            "yarn": { "code": "yarn add -D nombre-paquete" }
+          }
+        },
+        {
+          "id": "node-remove",
+          "title": "Quitar un paquete",
+          "description": "Lo desinstala y lo saca de package.json",
+          "language": "bash",
+          "code": "npm uninstall nombre-paquete",
+          "tags": ["install"],
+          "variants": {
+            "pnpm": { "code": "pnpm remove nombre-paquete" },
+            "yarn": { "code": "yarn remove nombre-paquete" }
+          }
+        },
+        {
+          "id": "node-update",
+          "title": "Actualizar paquetes",
+          "description": "A la última versión permitida por el rango en package.json",
+          "language": "bash",
+          "code": "npm update",
+          "tags": ["install"],
+          "variants": {
+            "pnpm": { "code": "pnpm update" },
+            "yarn": { "code": "yarn upgrade" }
+          }
+        },
+        {
+          "id": "node-run-script",
+          "title": "Ejecutar un script",
+          "description": "Corre un script definido en \"scripts\" de package.json",
+          "language": "bash",
+          "code": "npm run dev",
+          "tags": ["scripts"],
+          "variants": {
+            "pnpm": { "code": "pnpm dev" },
+            "yarn": { "code": "yarn dev" }
+          }
+        },
+        {
+          "id": "node-dlx",
+          "title": "Ejecutar un paquete sin instalarlo",
+          "description": "Para generadores/CLIs que usás una sola vez",
+          "language": "bash",
+          "code": "npx create-vite@latest",
+          "tags": ["scripts"],
+          "variants": {
+            "pnpm": { "code": "pnpm dlx create-vite@latest" },
+            "yarn": { "code": "yarn dlx create-vite@latest" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "node-workspaces",
+      "name": "Workspaces / monorepo",
+      "snippets": [
+        {
+          "id": "node-workspaces-config",
+          "title": "Declarar los paquetes del monorepo",
+          "description": "npm y Yarn lo hacen en package.json; pnpm usa un archivo aparte",
+          "language": "json",
+          "code": "{\n  \"workspaces\": [\"apps/*\", \"packages/*\"]\n}",
+          "tags": ["monorepo"],
+          "variants": {
+            "pnpm": {
+              "description": "pnpm-workspace.yaml, en la raíz del proyecto",
+              "language": "yaml",
+              "code": "packages:\n  - \"apps/*\"\n  - \"packages/*\""
+            }
+          }
+        },
+        {
+          "id": "node-filter-workspace",
+          "title": "Correr un script en un paquete específico",
+          "description": "Sin tener que entrar a esa carpeta",
+          "language": "bash",
+          "code": "npm run dev --workspace=mi-app",
+          "tags": ["monorepo"],
+          "variants": {
+            "pnpm": { "code": "pnpm --filter mi-app dev" },
+            "yarn": { "code": "yarn workspace mi-app dev" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "node-runtime",
+      "name": "Comandos del runtime de Node",
+      "snippets": [
+        {
+          "id": "node-run-file",
+          "title": "Ejecutar un archivo",
+          "description": "No depende del gestor de paquetes",
+          "language": "bash",
+          "code": "node servidor.js",
+          "tags": ["runtime"]
+        },
+        {
+          "id": "node-version",
+          "title": "Ver la versión instalada",
+          "language": "bash",
+          "description": "Útil para confirmar qué versión de Node estás usando",
+          "code": "node --version",
+          "tags": ["runtime"]
+        },
+        {
+          "id": "node-repl",
+          "title": "Abrir el REPL interactivo",
+          "description": "Para probar JS suelto en la terminal, sin crear un archivo",
+          "language": "bash",
+          "code": "node",
+          "tags": ["runtime"]
+        },
+        {
+          "id": "node-watch",
+          "title": "Reiniciar solo al guardar cambios",
+          "description": "--watch viene incluido desde Node 18+, sin instalar nodemon",
+          "language": "bash",
+          "code": "node --watch servidor.js",
+          "tags": ["runtime", "dev"]
+        },
+        {
+          "id": "node-env-file",
+          "title": "Cargar variables de entorno desde un .env",
+          "description": "Nativo desde Node 20.6+, sin instalar dotenv",
+          "language": "bash",
+          "code": "node --env-file=.env servidor.js",
+          "tags": ["runtime", "config"]
+        },
+        {
+          "id": "node-package-json-scripts",
+          "title": "Scripts típicos en package.json",
+          "description": "\"pre\"/\"post\" se ejecutan solos antes/después del script del mismo nombre",
+          "language": "json",
+          "code": "{\n  \"scripts\": {\n    \"dev\": \"node --watch servidor.js\",\n    \"start\": \"node servidor.js\",\n    \"test\": \"node --test\",\n    \"pretest\": \"echo 'corriendo antes de test'\"\n  }\n}",
+          "tags": ["config"]
+        }
+      ]
+    },
+    {
+      "id": "node-publicar",
+      "name": "Publicar un paquete",
+      "snippets": [
+        {
+          "id": "node-login",
+          "title": "Iniciar sesión en el registry",
+          "description": "Necesario antes de publicar por primera vez",
+          "language": "bash",
+          "code": "npm login",
+          "tags": ["publicar"],
+          "variants": {
+            "pnpm": { "code": "pnpm login" },
+            "yarn": { "code": "yarn login" }
+          }
+        },
+        {
+          "id": "node-publish",
+          "title": "Publicar el paquete",
+          "description": "Sube la versión actual de package.json al registry",
+          "language": "bash",
+          "code": "npm publish",
+          "tags": ["publicar"],
+          "variants": {
+            "pnpm": { "code": "pnpm publish" },
+            "yarn": { "code": "yarn publish" }
+          }
+        },
+        {
+          "id": "node-version-bump",
+          "title": "Subir la versión (semver)",
+          "description": "Actualiza package.json y crea un tag de git",
+          "language": "bash",
+          "code": "npm version patch   # 1.0.0 -> 1.0.1\nnpm version minor   # 1.0.0 -> 1.1.0\nnpm version major   # 1.0.0 -> 2.0.0",
+          "tags": ["publicar", "semver"]
+        }
+      ]
+    }
+  ]
+}

@@ -117,6 +117,68 @@
       ]
     },
     {
+      "id": "ag-patrones-ejecucion",
+      "name": "Patrones de ejecución: loop, serie, paralelo",
+      "snippets": [
+        {
+          "id": "ag-loop-react",
+          "title": "El loop del agente (ReAct: razonar → actuar → observar)",
+          "description": "El patrón base de casi todo agente, se repite hasta terminar",
+          "language": "text",
+          "code": "mientras la tarea no esté terminada:\n  1. Razonar: ¿qué hace falta hacer ahora?\n  2. Actuar: llamar una tool (o responder si ya se puede)\n  3. Observar: leer el resultado de la tool\n  4. Decidir: ¿está listo? si no, volver al paso 1\n\nEsto es lo que hacen por debajo frameworks como ADK, LangGraph, etc.\ncuando les das un modelo + una lista de tools.",
+          "tags": ["loop", "react"]
+        },
+        {
+          "id": "ag-loop-pseudocodigo",
+          "title": "Loop del agente en pseudo-código",
+          "description": "La versión mínima que se puede escribir a mano, sin framework",
+          "language": "python",
+          "code": "def ejecutar_agente(tarea, max_iteraciones=10):\n    historial = [{\"role\": \"user\", \"content\": tarea}]\n    for _ in range(max_iteraciones):\n        respuesta = llamar_modelo(historial)\n        if respuesta.termino:\n            return respuesta.contenido\n        resultado = ejecutar_tool(respuesta.tool_call)\n        historial.append(respuesta)\n        historial.append({\"role\": \"tool\", \"content\": resultado})\n    return \"Se alcanzó el máximo de iteraciones sin terminar\"",
+          "tags": ["loop", "código"]
+        },
+        {
+          "id": "ag-max-iteraciones",
+          "title": "Límite de iteraciones (evitar loops infinitos)",
+          "description": "Un agente sin límite puede quedar dando vueltas y gastar de más",
+          "language": "text",
+          "code": "Siempre poné un tope: max_iterations / max_turns.\n\nSi el agente lo alcanza sin terminar:\n- devolvé lo que tengas hasta ahí, no un error silencioso\n- registralo (log) para revisar por qué no terminó\n- considerá bajar la complejidad de la tarea o mejorar el prompt",
+          "tags": ["loop", "buenas-prácticas"]
+        },
+        {
+          "id": "ag-ejecucion-serie",
+          "title": "Ejecución en serie (secuencial)",
+          "description": "Cada paso espera al anterior — úsalo cuando un paso necesita el resultado del previo",
+          "language": "python",
+          "code": "resultado_1 = agente_investigar(tema)\nresultado_2 = agente_redactar(resultado_1)   # necesita el resultado anterior\nresultado_3 = agente_revisar(resultado_2)    # necesita el resultado anterior",
+          "tags": ["serie", "secuencial"]
+        },
+        {
+          "id": "ag-ejecucion-paralelo",
+          "title": "Ejecución en paralelo",
+          "description": "Pasos independientes entre sí — se lanzan juntos y se espera a todos",
+          "language": "python",
+          "code": "import asyncio\n\nasync def procesar_todo(ciudad):\n    resultados = await asyncio.gather(\n        agente_clima(ciudad),\n        agente_noticias(ciudad),\n        agente_transito(ciudad),\n    )\n    return combinar(resultados)",
+          "tags": ["paralelo", "asyncio"]
+        },
+        {
+          "id": "ag-reflexion",
+          "title": "Loop de reflexión (self-critique)",
+          "description": "El agente revisa y mejora su propia respuesta antes de entregarla",
+          "language": "text",
+          "code": "1. Generar una primera respuesta\n2. Pedirle al modelo que la critique (¿qué le falta? ¿hay errores?)\n3. Regenerar tomando la crítica como contexto\n4. Repetir 1-2 veces más, o hasta que la crítica diga \"está bien\"\n\nMejora la calidad a costa de más latencia/tokens — resérvalo para\ncasos donde el costo de un error es alto (código, contenido publicado).",
+          "tags": ["reflexión", "calidad"]
+        },
+        {
+          "id": "ag-human-in-the-loop",
+          "title": "Human-in-the-loop (aprobación humana)",
+          "description": "Pausar antes de acciones riesgosas o difíciles de deshacer",
+          "language": "text",
+          "code": "Antes de ejecutar una acción con impacto real (borrar datos, mandar un\nemail, hacer un pago), el agente:\n1. Muestra qué va a hacer y por qué\n2. Espera confirmación de una persona\n3. Solo entonces ejecuta la tool\n\nNo hace falta para TODO — resérvalo para acciones caras de deshacer.",
+          "tags": ["human-in-the-loop", "seguridad"]
+        }
+      ]
+    },
+    {
       "id": "ag-orquestacion",
       "name": "Orquestación multi-agente",
       "snippets": [

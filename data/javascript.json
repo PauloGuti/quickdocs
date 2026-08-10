@@ -1,171 +1,14 @@
 {
   "id": "javascript",
-  "name": "JavaScript & React",
-  "icon": "⚛️",
-  "color": "#61DAFB",
+  "name": "JavaScript",
+  "icon": "🟨",
+  "color": "#F7DF1E",
+  "toolOptions": [
+    { "id": "js", "label": "JavaScript" },
+    { "id": "ts", "label": "TypeScript" }
+  ],
+  "defaultTool": "js",
   "topics": [
-    {
-      "id": "pnpm-setup",
-      "name": "pnpm — proyecto y dependencias",
-      "snippets": [
-        {
-          "id": "pnpm-install-cli",
-          "title": "Instalar pnpm",
-          "description": "Vía Corepack (viene con Node ≥16.13)",
-          "language": "bash",
-          "code": "corepack enable\ncorepack prepare pnpm@latest --activate",
-          "tags": ["setup"]
-        },
-        {
-          "id": "pnpm-init",
-          "title": "Iniciar un proyecto",
-          "description": "Crea package.json",
-          "language": "bash",
-          "code": "pnpm init",
-          "tags": ["setup"]
-        },
-        {
-          "id": "pnpm-install",
-          "title": "Instalar dependencias",
-          "description": "Instala todo lo declarado en package.json",
-          "language": "bash",
-          "code": "pnpm install",
-          "tags": ["install"]
-        },
-        {
-          "id": "pnpm-add",
-          "title": "Agregar un paquete",
-          "description": "Se suma a \"dependencies\"",
-          "language": "bash",
-          "code": "pnpm add nombre-paquete",
-          "tags": ["install"]
-        },
-        {
-          "id": "pnpm-add-dev",
-          "title": "Agregar una dependencia de desarrollo",
-          "description": "Se suma a \"devDependencies\"",
-          "language": "bash",
-          "code": "pnpm add -D nombre-paquete",
-          "tags": ["install"]
-        },
-        {
-          "id": "pnpm-remove",
-          "title": "Quitar un paquete",
-          "language": "bash",
-          "description": "Lo desinstala y lo saca de package.json",
-          "code": "pnpm remove nombre-paquete",
-          "tags": ["install"]
-        },
-        {
-          "id": "pnpm-run",
-          "title": "Ejecutar un script",
-          "description": "Corre un script definido en \"scripts\"",
-          "language": "bash",
-          "code": "pnpm run dev\npnpm dev",
-          "tags": ["scripts"]
-        },
-        {
-          "id": "pnpm-dlx",
-          "title": "Ejecutar un paquete sin instalarlo",
-          "description": "Equivalente a npx",
-          "language": "bash",
-          "code": "pnpm dlx create-vite@latest",
-          "tags": ["scripts"]
-        },
-        {
-          "id": "pnpm-workspace",
-          "title": "Monorepo: pnpm-workspace.yaml",
-          "description": "Declara los paquetes del monorepo",
-          "language": "yaml",
-          "code": "packages:\n  - \"apps/*\"\n  - \"packages/*\"",
-          "tags": ["monorepo"]
-        },
-        {
-          "id": "pnpm-filter",
-          "title": "Correr un script en un paquete del monorepo",
-          "description": "Apunta a un paquete específico con --filter",
-          "language": "bash",
-          "code": "pnpm --filter mi-app dev",
-          "tags": ["monorepo"]
-        }
-      ]
-    },
-    {
-      "id": "react-proyecto",
-      "name": "React — crear proyecto",
-      "snippets": [
-        {
-          "id": "react-vite",
-          "title": "Crear proyecto con Vite",
-          "description": "La forma recomendada hoy para SPAs de React",
-          "language": "bash",
-          "code": "pnpm create vite mi-app --template react-ts\ncd mi-app\npnpm install\npnpm dev",
-          "tags": ["setup", "vite"]
-        },
-        {
-          "id": "react-nextjs",
-          "title": "Crear proyecto con Next.js",
-          "description": "Framework full-stack con App Router",
-          "language": "bash",
-          "code": "pnpm create next-app mi-app\ncd mi-app\npnpm dev",
-          "tags": ["setup", "next"]
-        }
-      ]
-    },
-    {
-      "id": "react-componentes",
-      "name": "React — componentes y hooks",
-      "snippets": [
-        {
-          "id": "react-componente-basico",
-          "title": "Componente funcional básico",
-          "description": "Recibe props y devuelve JSX",
-          "language": "typescript",
-          "code": "type SaludoProps = { nombre: string };\n\nexport function Saludo({ nombre }: SaludoProps) {\n  return <h1>Hola, {nombre}!</h1>;\n}",
-          "tags": ["componentes"]
-        },
-        {
-          "id": "react-usestate",
-          "title": "useState",
-          "description": "Estado local del componente",
-          "language": "typescript",
-          "code": "const [contador, setContador] = useState(0);\n\n<button onClick={() => setContador((c) => c + 1)}>+1</button>;",
-          "tags": ["hooks"]
-        },
-        {
-          "id": "react-useeffect",
-          "title": "useEffect",
-          "description": "Efectos secundarios (fetch, suscripciones, etc.)",
-          "language": "typescript",
-          "code": "useEffect(() => {\n  const controller = new AbortController();\n  fetch(url, { signal: controller.signal }).then(...);\n  return () => controller.abort();\n}, [url]);",
-          "tags": ["hooks"]
-        },
-        {
-          "id": "react-usememo-usecallback",
-          "title": "useMemo / useCallback",
-          "description": "Memorizar valores y funciones costosas",
-          "language": "typescript",
-          "code": "const total = useMemo(() => calcularTotal(items), [items]);\nconst onClick = useCallback(() => setContador((c) => c + 1), []);",
-          "tags": ["hooks", "performance"]
-        },
-        {
-          "id": "react-custom-hook",
-          "title": "Hook personalizado",
-          "description": "Extrae lógica reutilizable con \"use\"",
-          "language": "typescript",
-          "code": "function useLocalStorage(key: string, initial: string) {\n  const [value, setValue] = useState(() => localStorage.getItem(key) ?? initial);\n  useEffect(() => localStorage.setItem(key, value), [key, value]);\n  return [value, setValue] as const;\n}",
-          "tags": ["hooks"]
-        },
-        {
-          "id": "react-context",
-          "title": "Context para estado compartido",
-          "description": "Evita pasar props manualmente en cada nivel",
-          "language": "typescript",
-          "code": "const TemaContext = createContext<'light' | 'dark'>('light');\n\nfunction useTema() {\n  return useContext(TemaContext);\n}",
-          "tags": ["estado"]
-        }
-      ]
-    },
     {
       "id": "js-condicionales",
       "name": "Condicionales y operadores",
@@ -230,7 +73,14 @@
           "description": "string, number, boolean, null, undefined",
           "language": "javascript",
           "code": "const nombre = 'Polo';\nconst edad = 30;\nconst activo = true;\nlet resultado = null;\nlet sinDefinir;",
-          "tags": ["tipos"]
+          "tags": ["tipos"],
+          "variants": {
+            "ts": {
+              "description": "Con anotaciones de tipo explícitas",
+              "language": "typescript",
+              "code": "const nombre: string = 'Polo';\nconst edad: number = 30;\nconst activo: boolean = true;\nlet resultado: string | null = null;\nlet sinDefinir: unknown;"
+            }
+          }
         },
         {
           "id": "js-arrays-metodos",
@@ -249,28 +99,52 @@
           "tags": ["tipos"]
         },
         {
-          "id": "ts-type-alias",
-          "title": "Type alias (TypeScript)",
-          "description": "Define la forma de un dato",
-          "language": "typescript",
-          "code": "type Usuario = {\n  nombre: string;\n  edad: number;\n  email?: string; // opcional\n};",
-          "tags": ["tipos", "typescript"]
+          "id": "js-tipo-objeto",
+          "title": "Definir la forma de un objeto",
+          "description": "En JS puro, con un comentario JSDoc — te da autocompletado en el editor sin instalar TypeScript",
+          "language": "javascript",
+          "code": "/**\n * @typedef {Object} Usuario\n * @property {string} nombre\n * @property {number} edad\n * @property {string} [email] - opcional\n */",
+          "tags": ["tipos", "jsdoc"],
+          "variants": {
+            "ts": {
+              "title": "Type alias (TypeScript)",
+              "description": "El equivalente nativo de TypeScript a lo de la izquierda",
+              "language": "typescript",
+              "code": "type Usuario = {\n  nombre: string;\n  edad: number;\n  email?: string; // opcional\n};"
+            }
+          }
         },
         {
-          "id": "ts-interface",
-          "title": "Interface (TypeScript)",
-          "description": "Similar a \"type\", pero se puede extender con \"extends\"",
-          "language": "typescript",
-          "code": "interface Usuario {\n  nombre: string;\n  edad: number;\n}\n\ninterface Admin extends Usuario {\n  permisos: string[];\n}",
-          "tags": ["tipos", "typescript"]
+          "id": "js-tipo-extender",
+          "title": "Extender la forma de un objeto",
+          "description": "JSDoc también soporta composición, aunque es más limitado que TS",
+          "language": "javascript",
+          "code": "/**\n * @typedef {Usuario & { permisos: string[] }} Admin\n */",
+          "tags": ["tipos", "jsdoc"],
+          "variants": {
+            "ts": {
+              "title": "Interface con extends (TypeScript)",
+              "description": "\"interface\" se puede extender; \"type\" se compone con &",
+              "language": "typescript",
+              "code": "interface Usuario {\n  nombre: string;\n  edad: number;\n}\n\ninterface Admin extends Usuario {\n  permisos: string[];\n}"
+            }
+          }
         },
         {
-          "id": "ts-union-types",
-          "title": "Union types",
-          "description": "Una variable que puede ser de más de un tipo",
-          "language": "typescript",
-          "code": "type Estado = 'cargando' | 'listo' | 'error';\nfunction procesar(valor: string | number) { ... }",
-          "tags": ["tipos", "typescript"]
+          "id": "js-tipo-union",
+          "title": "Una variable con valores limitados",
+          "description": "En JS puro se valida en tiempo de ejecución, no hay chequeo estático",
+          "language": "javascript",
+          "code": "function procesar(estado) {\n  // estado debería ser 'cargando' | 'listo' | 'error'\n  if (!['cargando', 'listo', 'error'].includes(estado)) {\n    throw new Error('Estado inválido');\n  }\n}",
+          "tags": ["tipos"],
+          "variants": {
+            "ts": {
+              "title": "Union types (TypeScript)",
+              "description": "El compilador avisa en tiempo de escritura, antes de correr nada",
+              "language": "typescript",
+              "code": "type Estado = 'cargando' | 'listo' | 'error';\n\nfunction procesar(estado: Estado) { /* ... */ }"
+            }
+          }
         }
       ]
     },
@@ -284,7 +158,14 @@
           "description": "La forma más legible de trabajar con promesas",
           "language": "javascript",
           "code": "async function obtenerUsuario(id) {\n  const respuesta = await fetch(`/api/usuarios/${id}`);\n  const datos = await respuesta.json();\n  return datos;\n}",
-          "tags": ["async"]
+          "tags": ["async"],
+          "variants": {
+            "ts": {
+              "description": "Con el tipo de retorno y del parámetro explícitos",
+              "language": "typescript",
+              "code": "async function obtenerUsuario(id: string): Promise<Usuario> {\n  const respuesta = await fetch(`/api/usuarios/${id}`);\n  const datos: Usuario = await respuesta.json();\n  return datos;\n}"
+            }
+          }
         },
         {
           "id": "js-promise-manual",
@@ -330,7 +211,14 @@
           "description": "La forma nativa de hacer peticiones HTTP en JS",
           "language": "javascript",
           "code": "const respuesta = await fetch('https://api.example.com/usuarios');\nconst datos = await respuesta.json();",
-          "tags": ["fetch", "http"]
+          "tags": ["fetch", "http"],
+          "variants": {
+            "ts": {
+              "description": "Tipando la respuesta con un genérico manual (fetch no lo hace solo)",
+              "language": "typescript",
+              "code": "const respuesta = await fetch('https://api.example.com/usuarios');\nconst datos = (await respuesta.json()) as Usuario[];"
+            }
+          }
         },
         {
           "id": "js-fetch-post",
