@@ -8,6 +8,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
 import json from 'highlight.js/lib/languages/json';
 import yaml from 'highlight.js/lib/languages/yaml';
+import sql from 'highlight.js/lib/languages/sql';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 
 hljs.registerLanguage('python', python);
@@ -17,6 +18,7 @@ hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('sql', sql);
 hljs.registerLanguage('plaintext', plaintext);
 hljs.registerLanguage('text', plaintext);
 

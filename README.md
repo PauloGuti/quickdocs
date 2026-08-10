@@ -26,6 +26,9 @@ comandos) para no abrumar.</em></p>
   skills/tools, memoria y contexto, patrones de orquestación multi-agente.
 - **GitHub** — git básico, ramas, pull requests/issues con `gh`, deshacer cambios.
 - **Google Cloud (gcloud)** — configuración, Cloud Run, Storage, IAM, Firestore.
+- **BigQuery** — SQL básico/intermedio/avanzado (window functions, CTEs, MERGE),
+  CLI `bq`, datasets/tablas/vistas, optimización de costos, **BigQuery ML**
+  (regresión, clasificación, k-means, forecasting) e IA generativa desde SQL.
 - **Docker** — imágenes, contenedores, Docker Compose, volúmenes y redes.
 - **Terraform** — comandos básicos, estructura de proyecto, variables/outputs, state y módulos.
 - **Go** — iniciar proyecto, comandos básicos, dependencias, tipos y sintaxis.

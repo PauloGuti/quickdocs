@@ -1,0 +1,480 @@
+{
+  "id": "bigquery",
+  "name": "BigQuery",
+  "icon": "📊",
+  "color": "#669DF6",
+  "topics": [
+    {
+      "id": "bq-sql-basico",
+      "name": "SQL básico",
+      "snippets": [
+        {
+          "id": "bq-select",
+          "title": "SELECT básico",
+          "description": "Elegir columnas específicas de una tabla",
+          "language": "sql",
+          "code": "SELECT nombre, edad\nFROM `mi-proyecto.mi_dataset.usuarios`;",
+          "tags": ["select"]
+        },
+        {
+          "id": "bq-where",
+          "title": "Filtrar filas (WHERE)",
+          "description": "Condiciones básicas y combinadas",
+          "language": "sql",
+          "code": "SELECT *\nFROM `mi-proyecto.mi_dataset.ventas`\nWHERE fecha >= '2026-01-01'\n  AND monto > 100;",
+          "tags": ["where"]
+        },
+        {
+          "id": "bq-order-limit",
+          "title": "Ordenar y limitar resultados",
+          "description": "ORDER BY + LIMIT, muy usado para \"top N\"",
+          "language": "sql",
+          "code": "SELECT nombre, ventas\nFROM `mi-proyecto.mi_dataset.vendedores`\nORDER BY ventas DESC\nLIMIT 10;",
+          "tags": ["order", "limit"]
+        },
+        {
+          "id": "bq-distinct",
+          "title": "Valores únicos (DISTINCT)",
+          "description": "Elimina filas duplicadas del resultado",
+          "language": "sql",
+          "code": "SELECT DISTINCT pais\nFROM `mi-proyecto.mi_dataset.clientes`;",
+          "tags": ["distinct"]
+        },
+        {
+          "id": "bq-alias",
+          "title": "Alias de columnas y tablas",
+          "description": "AS renombra columnas o tablas en el resultado",
+          "language": "sql",
+          "code": "SELECT\n  u.nombre AS cliente,\n  COUNT(*) AS total_pedidos\nFROM `mi-proyecto.mi_dataset.pedidos` AS p\nJOIN `mi-proyecto.mi_dataset.usuarios` AS u USING (usuario_id)\nGROUP BY cliente;",
+          "tags": ["alias"]
+        },
+        {
+          "id": "bq-agregaciones-basicas",
+          "title": "Funciones de agregación básicas",
+          "description": "COUNT, SUM, AVG, MIN, MAX",
+          "language": "sql",
+          "code": "SELECT\n  COUNT(*) AS total_filas,\n  SUM(monto) AS suma_total,\n  AVG(monto) AS promedio,\n  MIN(monto) AS minimo,\n  MAX(monto) AS maximo\nFROM `mi-proyecto.mi_dataset.ventas`;",
+          "tags": ["agregación"]
+        }
+      ]
+    },
+    {
+      "id": "bq-sql-intermedio",
+      "name": "SQL intermedio",
+      "snippets": [
+        {
+          "id": "bq-group-by",
+          "title": "Agrupar y agregar (GROUP BY)",
+          "description": "Total de ventas por categoría",
+          "language": "sql",
+          "code": "SELECT categoria, SUM(monto) AS total\nFROM `mi-proyecto.mi_dataset.ventas`\nGROUP BY categoria\nORDER BY total DESC;",
+          "tags": ["group by"]
+        },
+        {
+          "id": "bq-having",
+          "title": "Filtrar después de agrupar (HAVING)",
+          "description": "WHERE filtra filas, HAVING filtra grupos ya agregados",
+          "language": "sql",
+          "code": "SELECT categoria, SUM(monto) AS total\nFROM `mi-proyecto.mi_dataset.ventas`\nGROUP BY categoria\nHAVING total > 10000;",
+          "tags": ["having"]
+        },
+        {
+          "id": "bq-inner-join",
+          "title": "INNER JOIN",
+          "description": "Combina filas que existen en ambas tablas",
+          "language": "sql",
+          "code": "SELECT p.id, u.nombre, p.monto\nFROM `mi-proyecto.mi_dataset.pedidos` AS p\nINNER JOIN `mi-proyecto.mi_dataset.usuarios` AS u\n  ON p.usuario_id = u.id;",
+          "tags": ["join"]
+        },
+        {
+          "id": "bq-left-join",
+          "title": "LEFT JOIN",
+          "description": "Trae todas las filas de la izquierda, aunque no haya match",
+          "language": "sql",
+          "code": "SELECT u.nombre, p.id AS pedido_id\nFROM `mi-proyecto.mi_dataset.usuarios` AS u\nLEFT JOIN `mi-proyecto.mi_dataset.pedidos` AS p\n  ON u.id = p.usuario_id;",
+          "tags": ["join"]
+        },
+        {
+          "id": "bq-subquery",
+          "title": "Subconsulta (subquery)",
+          "description": "Una consulta dentro de otra, en el WHERE o el FROM",
+          "language": "sql",
+          "code": "SELECT nombre\nFROM `mi-proyecto.mi_dataset.usuarios`\nWHERE id IN (\n  SELECT usuario_id\n  FROM `mi-proyecto.mi_dataset.pedidos`\n  WHERE monto > 1000\n);",
+          "tags": ["subquery"]
+        },
+        {
+          "id": "bq-case-when",
+          "title": "CASE WHEN",
+          "description": "Lógica condicional dentro de un SELECT",
+          "language": "sql",
+          "code": "SELECT\n  nombre,\n  CASE\n    WHEN edad < 18 THEN 'menor'\n    WHEN edad < 65 THEN 'adulto'\n    ELSE 'senior'\n  END AS categoria_edad\nFROM `mi-proyecto.mi_dataset.usuarios`;",
+          "tags": ["case"]
+        },
+        {
+          "id": "bq-fechas",
+          "title": "Funciones de fecha",
+          "description": "Truncar, diferencia entre fechas, formatear",
+          "language": "sql",
+          "code": "SELECT\n  DATE_TRUNC(fecha, MONTH) AS mes,\n  DATE_DIFF(CURRENT_DATE(), fecha, DAY) AS dias_transcurridos,\n  FORMAT_DATE('%Y-%m-%d', fecha) AS fecha_formateada\nFROM `mi-proyecto.mi_dataset.ventas`;",
+          "tags": ["fechas"]
+        },
+        {
+          "id": "bq-coalesce",
+          "title": "Manejar valores nulos (COALESCE / IFNULL)",
+          "description": "Devuelve el primer valor no nulo",
+          "language": "sql",
+          "code": "SELECT nombre, COALESCE(telefono, 'sin teléfono') AS telefono\nFROM `mi-proyecto.mi_dataset.usuarios`;",
+          "tags": ["nulos"]
+        }
+      ]
+    },
+    {
+      "id": "bq-sql-avanzado",
+      "name": "SQL avanzado",
+      "snippets": [
+        {
+          "id": "bq-cte",
+          "title": "CTE — Common Table Expression (WITH)",
+          "description": "Nombra una subconsulta para reusarla y hacer el SQL más legible",
+          "language": "sql",
+          "code": "WITH ventas_por_mes AS (\n  SELECT DATE_TRUNC(fecha, MONTH) AS mes, SUM(monto) AS total\n  FROM `mi-proyecto.mi_dataset.ventas`\n  GROUP BY mes\n)\nSELECT mes, total\nFROM ventas_por_mes\nWHERE total > 50000;",
+          "tags": ["cte", "with"]
+        },
+        {
+          "id": "bq-window-row-number",
+          "title": "Window function: ROW_NUMBER / RANK",
+          "description": "Numera filas dentro de cada grupo (PARTITION BY)",
+          "language": "sql",
+          "code": "SELECT\n  usuario_id,\n  fecha,\n  monto,\n  ROW_NUMBER() OVER (PARTITION BY usuario_id ORDER BY fecha DESC) AS orden,\n  RANK() OVER (PARTITION BY usuario_id ORDER BY monto DESC) AS ranking_monto\nFROM `mi-proyecto.mi_dataset.pedidos`;",
+          "tags": ["window functions"]
+        },
+        {
+          "id": "bq-window-lag-lead",
+          "title": "Window function: LAG / LEAD",
+          "description": "Compara una fila con la anterior/siguiente (útil para deltas)",
+          "language": "sql",
+          "code": "SELECT\n  fecha,\n  ventas,\n  ventas - LAG(ventas) OVER (ORDER BY fecha) AS diferencia_vs_dia_anterior\nFROM `mi-proyecto.mi_dataset.ventas_diarias`;",
+          "tags": ["window functions"]
+        },
+        {
+          "id": "bq-qualify",
+          "title": "QUALIFY — filtrar sobre una window function",
+          "description": "Evita tener que envolver todo en una subconsulta solo para filtrar",
+          "language": "sql",
+          "code": "SELECT usuario_id, fecha, monto\nFROM `mi-proyecto.mi_dataset.pedidos`\nQUALIFY ROW_NUMBER() OVER (PARTITION BY usuario_id ORDER BY fecha DESC) = 1;",
+          "tags": ["qualify", "window functions"]
+        },
+        {
+          "id": "bq-unnest",
+          "title": "UNNEST — expandir un array",
+          "description": "BigQuery guarda arrays/structs nativamente; UNNEST los convierte en filas",
+          "language": "sql",
+          "code": "SELECT pedido_id, item\nFROM `mi-proyecto.mi_dataset.pedidos`,\n  UNNEST(items) AS item;",
+          "tags": ["unnest", "arrays"]
+        },
+        {
+          "id": "bq-struct",
+          "title": "STRUCT y campos anidados",
+          "description": "Acceso a columnas anidadas con notación de punto",
+          "language": "sql",
+          "code": "SELECT\n  pedido_id,\n  direccion_envio.ciudad,\n  direccion_envio.codigo_postal\nFROM `mi-proyecto.mi_dataset.pedidos`;",
+          "tags": ["struct"]
+        },
+        {
+          "id": "bq-merge",
+          "title": "MERGE (upsert)",
+          "description": "Inserta o actualiza según si la fila ya existe",
+          "language": "sql",
+          "code": "MERGE `mi-proyecto.mi_dataset.usuarios` T\nUSING `mi-proyecto.mi_dataset.usuarios_staging` S\nON T.id = S.id\nWHEN MATCHED THEN\n  UPDATE SET nombre = S.nombre, email = S.email\nWHEN NOT MATCHED THEN\n  INSERT (id, nombre, email) VALUES (S.id, S.nombre, S.email);",
+          "tags": ["merge", "upsert"]
+        },
+        {
+          "id": "bq-pivot",
+          "title": "PIVOT",
+          "description": "Convierte valores de filas en columnas",
+          "language": "sql",
+          "code": "SELECT *\nFROM (\n  SELECT categoria, mes, monto\n  FROM `mi-proyecto.mi_dataset.ventas`\n)\nPIVOT (SUM(monto) FOR mes IN ('Ene', 'Feb', 'Mar'));",
+          "tags": ["pivot"]
+        }
+      ]
+    },
+    {
+      "id": "bq-cli",
+      "name": "CLI — comando bq",
+      "snippets": [
+        {
+          "id": "bq-query-cli",
+          "title": "Ejecutar una consulta desde la terminal",
+          "description": "--use_legacy_sql=false para SQL estándar (default hoy)",
+          "language": "bash",
+          "code": "bq query --use_legacy_sql=false \\\n  'SELECT COUNT(*) FROM `mi-proyecto.mi_dataset.ventas`'",
+          "tags": ["cli"]
+        },
+        {
+          "id": "bq-mk-dataset",
+          "title": "Crear un dataset",
+          "description": "--location define la región de los datos",
+          "language": "bash",
+          "code": "bq mk --dataset --location=US mi-proyecto:mi_dataset",
+          "tags": ["cli", "datasets"]
+        },
+        {
+          "id": "bq-ls",
+          "title": "Listar datasets o tablas",
+          "language": "bash",
+          "description": "Sin argumento lista datasets; con uno, sus tablas",
+          "code": "bq ls mi-proyecto:\nbq ls mi-proyecto:mi_dataset",
+          "tags": ["cli"]
+        },
+        {
+          "id": "bq-show",
+          "title": "Ver el esquema y detalles de una tabla",
+          "language": "bash",
+          "description": "Filas, tamaño, columnas y tipos",
+          "code": "bq show mi-proyecto:mi_dataset.usuarios",
+          "tags": ["cli"]
+        },
+        {
+          "id": "bq-load",
+          "title": "Cargar datos desde un archivo",
+          "description": "CSV, JSON, Avro, Parquet — autodetect infiere el esquema",
+          "language": "bash",
+          "code": "bq load --autodetect --source_format=CSV \\\n  mi-proyecto:mi_dataset.usuarios \\\n  ./usuarios.csv",
+          "tags": ["cli", "carga"]
+        },
+        {
+          "id": "bq-extract",
+          "title": "Exportar una tabla a Cloud Storage",
+          "description": "Para backups o procesar los datos fuera de BigQuery",
+          "language": "bash",
+          "code": "bq extract mi-proyecto:mi_dataset.ventas \\\n  gs://mi-bucket/exports/ventas-*.csv",
+          "tags": ["cli", "export"]
+        },
+        {
+          "id": "bq-cp-rm",
+          "title": "Copiar o eliminar una tabla",
+          "language": "bash",
+          "description": "cp duplica, rm borra (-f sin confirmar)",
+          "code": "bq cp mi-proyecto:mi_dataset.ventas mi-proyecto:mi_dataset.ventas_backup\nbq rm -f -t mi-proyecto:mi_dataset.tabla_vieja",
+          "tags": ["cli"]
+        }
+      ]
+    },
+    {
+      "id": "bq-datasets-tablas",
+      "name": "Datasets, tablas y vistas",
+      "snippets": [
+        {
+          "id": "bq-create-table",
+          "title": "Crear una tabla con esquema explícito",
+          "description": "Más seguro que dejar que BigQuery infiera los tipos",
+          "language": "sql",
+          "code": "CREATE TABLE `mi-proyecto.mi_dataset.usuarios` (\n  id INT64,\n  nombre STRING,\n  email STRING,\n  creado_en TIMESTAMP\n);",
+          "tags": ["ddl", "tablas"]
+        },
+        {
+          "id": "bq-create-table-particionada",
+          "title": "Tabla particionada por fecha",
+          "description": "Reduce muchísimo el costo si sueles filtrar por fecha",
+          "language": "sql",
+          "code": "CREATE TABLE `mi-proyecto.mi_dataset.eventos`\nPARTITION BY DATE(creado_en) AS\nSELECT * FROM `mi-proyecto.mi_dataset.eventos_staging`;",
+          "tags": ["ddl", "particionado"]
+        },
+        {
+          "id": "bq-create-table-clustered",
+          "title": "Tabla con clustering",
+          "description": "Ordena físicamente los datos por esas columnas — acelera filtros frecuentes",
+          "language": "sql",
+          "code": "CREATE TABLE `mi-proyecto.mi_dataset.ventas`\nPARTITION BY DATE(fecha)\nCLUSTER BY categoria, region AS\nSELECT * FROM `mi-proyecto.mi_dataset.ventas_staging`;",
+          "tags": ["ddl", "clustering"]
+        },
+        {
+          "id": "bq-create-view",
+          "title": "Crear una vista (VIEW)",
+          "description": "Consulta guardada, se ejecuta cada vez que se la usa",
+          "language": "sql",
+          "code": "CREATE VIEW `mi-proyecto.mi_dataset.ventas_2026` AS\nSELECT * FROM `mi-proyecto.mi_dataset.ventas`\nWHERE EXTRACT(YEAR FROM fecha) = 2026;",
+          "tags": ["ddl", "vistas"]
+        },
+        {
+          "id": "bq-create-materialized-view",
+          "title": "Vista materializada",
+          "description": "A diferencia de una vista normal, guarda los resultados y se actualiza sola",
+          "language": "sql",
+          "code": "CREATE MATERIALIZED VIEW `mi-proyecto.mi_dataset.resumen_ventas` AS\nSELECT categoria, SUM(monto) AS total\nFROM `mi-proyecto.mi_dataset.ventas`\nGROUP BY categoria;",
+          "tags": ["ddl", "vistas", "performance"]
+        },
+        {
+          "id": "bq-alter-table",
+          "title": "Agregar una columna a una tabla existente",
+          "language": "sql",
+          "description": "No requiere recrear la tabla",
+          "code": "ALTER TABLE `mi-proyecto.mi_dataset.usuarios`\nADD COLUMN telefono STRING;",
+          "tags": ["ddl"]
+        }
+      ]
+    },
+    {
+      "id": "bq-optimizacion",
+      "name": "Optimización y costos",
+      "snippets": [
+        {
+          "id": "bq-dry-run",
+          "title": "Estimar bytes/costo antes de correr una consulta",
+          "description": "No ejecuta nada, solo dice cuánto va a escanear",
+          "language": "bash",
+          "code": "bq query --use_legacy_sql=false --dry_run \\\n  'SELECT * FROM `mi-proyecto.mi_dataset.ventas`'",
+          "tags": ["costos"]
+        },
+        {
+          "id": "bq-evitar-select-star",
+          "title": "Evitar SELECT * en tablas grandes",
+          "description": "BigQuery es columnar: cobra por columnas leídas, no por filas",
+          "language": "sql",
+          "code": "-- Caro: lee TODAS las columnas aunque uses pocas\nSELECT * FROM `mi-proyecto.mi_dataset.ventas` WHERE categoria = 'ropa';\n\n-- Mejor: solo las columnas que necesitas\nSELECT id, monto, fecha FROM `mi-proyecto.mi_dataset.ventas` WHERE categoria = 'ropa';",
+          "tags": ["costos", "buenas-prácticas"]
+        },
+        {
+          "id": "bq-bytes-procesados",
+          "title": "Ver bytes procesados por consultas ya corridas",
+          "description": "Auditoría de gasto vía INFORMATION_SCHEMA",
+          "language": "sql",
+          "code": "SELECT\n  user_email,\n  query,\n  total_bytes_processed / POW(10, 9) AS gb_procesados,\n  creation_time\nFROM `mi-proyecto.region-us.INFORMATION_SCHEMA.JOBS_BY_PROJECT`\nORDER BY creation_time DESC\nLIMIT 20;",
+          "tags": ["costos", "auditoría"]
+        },
+        {
+          "id": "bq-maximum-bytes-billed",
+          "title": "Poner un límite de bytes a una consulta",
+          "description": "La consulta falla si supera el límite, en vez de cobrarte de más",
+          "language": "bash",
+          "code": "bq query --use_legacy_sql=false \\\n  --maximum_bytes_billed=1000000000 \\\n  'SELECT * FROM `mi-proyecto.mi_dataset.ventas`'",
+          "tags": ["costos"]
+        }
+      ]
+    },
+    {
+      "id": "bq-ml",
+      "name": "BigQuery ML — Machine Learning",
+      "snippets": [
+        {
+          "id": "bq-ml-create-linear",
+          "title": "Entrenar un modelo de regresión lineal",
+          "description": "Todo con SQL, sin exportar datos ni escribir Python",
+          "language": "sql",
+          "code": "CREATE OR REPLACE MODEL `mi-proyecto.mi_dataset.modelo_precio`\nOPTIONS (model_type = 'linear_reg', input_label_cols = ['precio']) AS\nSELECT metros_cuadrados, habitaciones, antiguedad, precio\nFROM `mi-proyecto.mi_dataset.propiedades`;",
+          "tags": ["ml", "regresión"]
+        },
+        {
+          "id": "bq-ml-create-logistic",
+          "title": "Entrenar un modelo de clasificación",
+          "description": "logistic_reg para predecir una categoría binaria",
+          "language": "sql",
+          "code": "CREATE OR REPLACE MODEL `mi-proyecto.mi_dataset.modelo_churn`\nOPTIONS (model_type = 'logistic_reg', input_label_cols = ['se_dio_de_baja']) AS\nSELECT antiguedad_meses, uso_mensual, tickets_soporte, se_dio_de_baja\nFROM `mi-proyecto.mi_dataset.clientes`;",
+          "tags": ["ml", "clasificación"]
+        },
+        {
+          "id": "bq-ml-predict",
+          "title": "Predecir con un modelo entrenado",
+          "description": "ML.PREDICT corre el modelo sobre datos nuevos",
+          "language": "sql",
+          "code": "SELECT *\nFROM ML.PREDICT(\n  MODEL `mi-proyecto.mi_dataset.modelo_precio`,\n  (SELECT metros_cuadrados, habitaciones, antiguedad\n   FROM `mi-proyecto.mi_dataset.propiedades_nuevas`)\n);",
+          "tags": ["ml", "predict"]
+        },
+        {
+          "id": "bq-ml-evaluate",
+          "title": "Evaluar la calidad de un modelo",
+          "description": "Métricas como precisión, recall, RMSE según el tipo de modelo",
+          "language": "sql",
+          "code": "SELECT *\nFROM ML.EVALUATE(MODEL `mi-proyecto.mi_dataset.modelo_churn`);",
+          "tags": ["ml", "evaluate"]
+        },
+        {
+          "id": "bq-ml-feature-importance",
+          "title": "Ver qué variables más influyen",
+          "description": "Útil para explicar el modelo (feature importance / pesos)",
+          "language": "sql",
+          "code": "SELECT *\nFROM ML.FEATURE_IMPORTANCE(MODEL `mi-proyecto.mi_dataset.modelo_churn`);",
+          "tags": ["ml", "explicabilidad"]
+        },
+        {
+          "id": "bq-ml-kmeans",
+          "title": "Clustering no supervisado (k-means)",
+          "description": "Agrupa clientes/productos similares sin etiquetas previas",
+          "language": "sql",
+          "code": "CREATE OR REPLACE MODEL `mi-proyecto.mi_dataset.segmentos_clientes`\nOPTIONS (model_type = 'kmeans', num_clusters = 4) AS\nSELECT frecuencia_compra, ticket_promedio, antiguedad_meses\nFROM `mi-proyecto.mi_dataset.clientes`;",
+          "tags": ["ml", "kmeans", "clustering"]
+        },
+        {
+          "id": "bq-ml-forecast",
+          "title": "Pronóstico de series de tiempo (ARIMA_PLUS)",
+          "description": "Predice valores futuros a partir de datos históricos",
+          "language": "sql",
+          "code": "CREATE OR REPLACE MODEL `mi-proyecto.mi_dataset.forecast_ventas`\nOPTIONS (model_type = 'ARIMA_PLUS', time_series_timestamp_col = 'fecha', time_series_data_col = 'ventas') AS\nSELECT fecha, ventas FROM `mi-proyecto.mi_dataset.ventas_diarias`;\n\nSELECT *\nFROM ML.FORECAST(MODEL `mi-proyecto.mi_dataset.forecast_ventas`, STRUCT(30 AS horizon));",
+          "tags": ["ml", "series-de-tiempo"]
+        }
+      ]
+    },
+    {
+      "id": "bq-avanzado-ia",
+      "name": "IA generativa y funciones avanzadas",
+      "snippets": [
+        {
+          "id": "bq-ml-generate-text",
+          "title": "Generar texto con un modelo de IA desde SQL",
+          "description": "Llama a un modelo de Vertex AI (Gemini) conectado como modelo remoto",
+          "language": "sql",
+          "code": "SELECT ml_generate_text_result\nFROM ML.GENERATE_TEXT(\n  MODEL `mi-proyecto.mi_dataset.modelo_gemini`,\n  (SELECT CONCAT('Resume esta reseña: ', texto) AS prompt\n   FROM `mi-proyecto.mi_dataset.reseñas`)\n);",
+          "tags": ["ia", "generativa"]
+        },
+        {
+          "id": "bq-ml-generate-embedding",
+          "title": "Generar embeddings desde SQL",
+          "description": "Para búsqueda semántica o clustering de texto",
+          "language": "sql",
+          "code": "SELECT *\nFROM ML.GENERATE_EMBEDDING(\n  MODEL `mi-proyecto.mi_dataset.modelo_embeddings`,\n  (SELECT texto AS content FROM `mi-proyecto.mi_dataset.documentos`)\n);",
+          "tags": ["ia", "embeddings"]
+        },
+        {
+          "id": "bq-json-functions",
+          "title": "Funciones para datos JSON",
+          "description": "Leer campos dentro de una columna tipo JSON/STRING",
+          "language": "sql",
+          "code": "SELECT\n  JSON_VALUE(payload, '$.usuario.nombre') AS nombre,\n  JSON_VALUE(payload, '$.evento') AS evento\nFROM `mi-proyecto.mi_dataset.logs_json`;",
+          "tags": ["json"]
+        },
+        {
+          "id": "bq-geo-functions",
+          "title": "Funciones geoespaciales",
+          "description": "Distancia entre dos puntos geográficos",
+          "language": "sql",
+          "code": "SELECT\n  nombre,\n  ST_DISTANCE(\n    ST_GEOGPOINT(lng, lat),\n    ST_GEOGPOINT(-70.6483, -33.4569)  -- Santiago, Chile\n  ) AS distancia_metros\nFROM `mi-proyecto.mi_dataset.tiendas`;",
+          "tags": ["geoespacial"]
+        },
+        {
+          "id": "bq-scripting",
+          "title": "Scripting: variables y control de flujo",
+          "description": "DECLARE/SET/IF para lógica procedural dentro de BigQuery",
+          "language": "sql",
+          "code": "DECLARE umbral INT64 DEFAULT 1000;\n\nIF (SELECT COUNT(*) FROM `mi-proyecto.mi_dataset.ventas`) > umbral THEN\n  SELECT 'Hay muchas ventas' AS mensaje;\nELSE\n  SELECT 'Volumen normal' AS mensaje;\nEND IF;",
+          "tags": ["scripting"]
+        },
+        {
+          "id": "bq-stored-procedure",
+          "title": "Procedimiento almacenado",
+          "description": "Encapsula lógica SQL reutilizable, con parámetros",
+          "language": "sql",
+          "code": "CREATE OR REPLACE PROCEDURE `mi-proyecto.mi_dataset.ventas_por_categoria`(categoria_in STRING)\nBEGIN\n  SELECT categoria, SUM(monto) AS total\n  FROM `mi-proyecto.mi_dataset.ventas`\n  WHERE categoria = categoria_in\n  GROUP BY categoria;\nEND;\n\nCALL `mi-proyecto.mi_dataset.ventas_por_categoria`('electrónica');",
+          "tags": ["scripting", "procedimientos"]
+        },
+        {
+          "id": "bq-scheduled-query",
+          "title": "Programar una consulta (scheduled query)",
+          "description": "Ejecuta una consulta automáticamente en un horario fijo",
+          "language": "bash",
+          "code": "bq query --use_legacy_sql=false \\\n  --schedule='every 24 hours' \\\n  --display_name='Resumen diario de ventas' \\\n  --destination_table=mi_dataset.resumen_diario \\\n  --append_table=true \\\n  'SELECT DATE(fecha) AS dia, SUM(monto) AS total FROM `mi-proyecto.mi_dataset.ventas` GROUP BY dia'",
+          "tags": ["scheduled-queries", "automatización"]
+        }
+      ]
+    }
+  ]
+}

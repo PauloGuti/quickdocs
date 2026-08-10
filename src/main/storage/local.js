@@ -21,6 +21,7 @@ const SEED_MANIFEST = [
   'docker.json',
   'terraform.json',
   'go.json',
+  'bigquery.json',
 ];
 
 /**
