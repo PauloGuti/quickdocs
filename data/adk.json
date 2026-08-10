@@ -1,0 +1,150 @@
+{
+  "id": "adk",
+  "name": "Google ADK",
+  "icon": "🤖",
+  "color": "#4285F4",
+  "topics": [
+    {
+      "id": "adk-instalacion",
+      "name": "Instalación",
+      "snippets": [
+        {
+          "id": "adk-install",
+          "title": "Instalar el ADK",
+          "description": "Agent Development Kit de Google para Python",
+          "language": "bash",
+          "code": "pip install google-adk",
+          "tags": ["setup"]
+        },
+        {
+          "id": "adk-version",
+          "title": "Verificar instalación",
+          "description": "Comprueba la versión instalada",
+          "language": "bash",
+          "code": "adk --version",
+          "tags": ["setup"]
+        },
+        {
+          "id": "adk-credenciales",
+          "title": "Configurar credenciales de Google AI",
+          "description": "API key de Google AI Studio vía variable de entorno",
+          "language": "bash",
+          "code": "export GOOGLE_API_KEY=\"tu-api-key\"\nexport GOOGLE_GENAI_USE_VERTEXAI=FALSE",
+          "tags": ["auth", "config"]
+        },
+        {
+          "id": "adk-credenciales-vertex",
+          "title": "Configurar credenciales con Vertex AI",
+          "description": "Usa un proyecto de GCP en vez de una API key suelta",
+          "language": "bash",
+          "code": "export GOOGLE_GENAI_USE_VERTEXAI=TRUE\nexport GOOGLE_CLOUD_PROJECT=\"mi-proyecto\"\nexport GOOGLE_CLOUD_LOCATION=\"us-central1\"",
+          "tags": ["auth", "vertex"]
+        }
+      ]
+    },
+    {
+      "id": "adk-crear-agente",
+      "name": "Crear un agente",
+      "snippets": [
+        {
+          "id": "adk-create",
+          "title": "Generar un proyecto de agente",
+          "description": "Crea el andamiaje base con adk create",
+          "language": "bash",
+          "code": "adk create mi_agente",
+          "tags": ["scaffold"]
+        },
+        {
+          "id": "adk-agente-basico",
+          "title": "Agente mínimo",
+          "description": "Definición típica en agent.py",
+          "language": "python",
+          "code": "from google.adk.agents import Agent\n\nroot_agent = Agent(\n    name=\"asistente\",\n    model=\"gemini-2.0-flash\",\n    description=\"Asistente de propósito general\",\n    instruction=\"Responde de forma breve y clara.\",\n)",
+          "tags": ["agente"]
+        },
+        {
+          "id": "adk-agente-con-tool",
+          "title": "Agente con una herramienta (tool)",
+          "description": "Le da al agente una función Python invocable",
+          "language": "python",
+          "code": "from google.adk.agents import Agent\n\ndef obtener_clima(ciudad: str) -> dict:\n    \"\"\"Devuelve el clima actual de una ciudad.\"\"\"\n    return {\"ciudad\": ciudad, \"clima\": \"soleado\"}\n\nroot_agent = Agent(\n    name=\"agente_clima\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Usa la herramienta para responder sobre el clima.\",\n    tools=[obtener_clima],\n)",
+          "tags": ["agente", "tools"]
+        }
+      ]
+    },
+    {
+      "id": "adk-ejecutar",
+      "name": "Ejecutar y probar",
+      "snippets": [
+        {
+          "id": "adk-run",
+          "title": "Ejecutar en terminal",
+          "description": "Chat interactivo en la consola",
+          "language": "bash",
+          "code": "adk run mi_agente",
+          "tags": ["dev"]
+        },
+        {
+          "id": "adk-web",
+          "title": "Ejecutar con interfaz web",
+          "description": "Abre una UI local de desarrollo para probar el agente",
+          "language": "bash",
+          "code": "adk web",
+          "tags": ["dev", "ui"]
+        },
+        {
+          "id": "adk-api-server",
+          "title": "Levantar como servidor API",
+          "description": "Expone el agente vía HTTP/FastAPI",
+          "language": "bash",
+          "code": "adk api_server mi_agente",
+          "tags": ["dev", "api"]
+        }
+      ]
+    },
+    {
+      "id": "adk-multiagente",
+      "name": "Multi-agente y sesiones",
+      "snippets": [
+        {
+          "id": "adk-sub-agentes",
+          "title": "Agente con sub-agentes",
+          "description": "Delega tareas a agentes especializados",
+          "language": "python",
+          "code": "from google.adk.agents import Agent\n\nagente_reservas = Agent(\n    name=\"reservas\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Gestiona reservas de vuelos.\",\n)\n\nroot_agent = Agent(\n    name=\"coordinador\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Deriva las tareas de vuelos al sub-agente adecuado.\",\n    sub_agents=[agente_reservas],\n)",
+          "tags": ["multi-agente"]
+        },
+        {
+          "id": "adk-session-service",
+          "title": "Sesión en memoria",
+          "description": "Guarda el historial de conversación durante la ejecución",
+          "language": "python",
+          "code": "from google.adk.sessions import InMemorySessionService\n\nsession_service = InMemorySessionService()",
+          "tags": ["sesiones"]
+        }
+      ]
+    },
+    {
+      "id": "adk-despliegue",
+      "name": "Despliegue",
+      "snippets": [
+        {
+          "id": "adk-deploy-cloud-run",
+          "title": "Desplegar en Cloud Run",
+          "description": "Publica el agente como servicio administrado",
+          "language": "bash",
+          "code": "adk deploy cloud_run \\\n  --project=mi-proyecto \\\n  --region=us-central1 \\\n  mi_agente",
+          "tags": ["deploy", "cloud run"]
+        },
+        {
+          "id": "adk-deploy-agent-engine",
+          "title": "Desplegar en Vertex AI Agent Engine",
+          "description": "Publica el agente en el runtime administrado de Vertex AI",
+          "language": "bash",
+          "code": "adk deploy agent_engine \\\n  --project=mi-proyecto \\\n  --region=us-central1 \\\n  mi_agente",
+          "tags": ["deploy", "vertex"]
+        }
+      ]
+    }
+  ]
+}

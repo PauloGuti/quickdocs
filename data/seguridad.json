@@ -1,0 +1,168 @@
+{
+  "id": "seguridad",
+  "name": "Seguridad",
+  "icon": "🛡️",
+  "color": "#E63946",
+  "topics": [
+    {
+      "id": "sec-reconocimiento-red",
+      "name": "Reconocimiento de red",
+      "snippets": [
+        {
+          "id": "sec-nmap-basico",
+          "title": "Escaneo básico de puertos (nmap)",
+          "description": "Solo en redes/equipos que administras o con autorización",
+          "language": "bash",
+          "code": "nmap objetivo.com",
+          "tags": ["nmap", "pentesting"]
+        },
+        {
+          "id": "sec-nmap-version",
+          "title": "Detectar versión de servicios",
+          "description": "Útil para auditar qué está corriendo en cada puerto",
+          "language": "bash",
+          "code": "nmap -sV objetivo.com",
+          "tags": ["nmap"]
+        },
+        {
+          "id": "sec-nmap-todos-puertos",
+          "title": "Escanear todos los puertos",
+          "description": "Más lento, pero no se salta ninguno",
+          "language": "bash",
+          "code": "nmap -p- objetivo.com",
+          "tags": ["nmap"]
+        },
+        {
+          "id": "sec-whois",
+          "title": "Datos de registro de un dominio",
+          "description": "Propietario, fechas, servidores DNS",
+          "language": "bash",
+          "code": "whois dominio.com",
+          "tags": ["dns", "recon"]
+        },
+        {
+          "id": "sec-dig",
+          "title": "Consultar registros DNS",
+          "description": "A, MX, TXT, etc.",
+          "language": "bash",
+          "code": "dig dominio.com\ndig dominio.com MX",
+          "tags": ["dns", "recon"]
+        },
+        {
+          "id": "sec-traceroute",
+          "title": "Trazar la ruta de red hasta un host",
+          "description": "Muestra cada salto (router) hasta el destino",
+          "language": "bash",
+          "code": "traceroute objetivo.com",
+          "tags": ["red", "recon"]
+        }
+      ]
+    },
+    {
+      "id": "sec-inspeccion-sistema",
+      "name": "Inspección del sistema",
+      "snippets": [
+        {
+          "id": "sec-lsof-puertos",
+          "title": "Ver qué proceso escucha en cada puerto",
+          "description": "Para detectar servicios abiertos que no reconoces",
+          "language": "bash",
+          "code": "sudo lsof -i -P -n | grep LISTEN",
+          "tags": ["auditoría", "mac", "linux"]
+        },
+        {
+          "id": "sec-netstat",
+          "title": "Conexiones de red activas",
+          "description": "Quién está conectado y a dónde",
+          "language": "bash",
+          "code": "netstat -an | grep ESTABLISHED",
+          "tags": ["auditoría"]
+        },
+        {
+          "id": "sec-ps-sospechosos",
+          "title": "Revisar procesos en ejecución",
+          "description": "Busca procesos desconocidos o con nombres raros",
+          "language": "bash",
+          "code": "ps aux | less",
+          "tags": ["auditoría"]
+        },
+        {
+          "id": "sec-who-last",
+          "title": "Historial de inicios de sesión",
+          "description": "Quién entró, desde dónde y cuándo",
+          "language": "bash",
+          "code": "who\nlast",
+          "tags": ["auditoría", "accesos"]
+        },
+        {
+          "id": "sec-history",
+          "title": "Ver comandos ejecutados recientemente",
+          "description": "Útil al auditar una máquina tras un incidente",
+          "language": "bash",
+          "code": "history | tail -50",
+          "tags": ["auditoría"]
+        }
+      ]
+    },
+    {
+      "id": "sec-trafico",
+      "name": "Tráfico y certificados",
+      "snippets": [
+        {
+          "id": "sec-tcpdump",
+          "title": "Capturar tráfico de red",
+          "description": "En la interfaz indicada (en0/eth0). Requiere permisos",
+          "language": "bash",
+          "code": "sudo tcpdump -i en0",
+          "tags": ["tráfico"]
+        },
+        {
+          "id": "sec-curl-headers",
+          "title": "Inspeccionar headers HTTP de un sitio",
+          "description": "Cabeceras de seguridad, cookies, servidor",
+          "language": "bash",
+          "code": "curl -I https://objetivo.com",
+          "tags": ["http"]
+        },
+        {
+          "id": "sec-openssl-cert",
+          "title": "Revisar el certificado TLS de un sitio",
+          "description": "Emisor, validez, cadena de confianza",
+          "language": "bash",
+          "code": "openssl s_client -connect objetivo.com:443 -showcerts",
+          "tags": ["tls"]
+        }
+      ]
+    },
+    {
+      "id": "sec-integridad",
+      "name": "Integridad y claves",
+      "snippets": [
+        {
+          "id": "sec-sha256",
+          "title": "Calcular el hash de un archivo",
+          "description": "Para verificar que no fue alterado (checksums)",
+          "language": "bash",
+          "code": "shasum -a 256 archivo.dmg",
+          "tags": ["hash", "integridad"]
+        },
+        {
+          "id": "sec-gpg-verify",
+          "title": "Verificar una firma GPG",
+          "description": "Confirma que un archivo viene de quien dice venir",
+          "language": "bash",
+          "code": "gpg --verify archivo.sig archivo",
+          "tags": ["gpg", "integridad"]
+        },
+        {
+          "id": "sec-ssh-keygen",
+          "title": "Generar un par de llaves SSH",
+          "description": "ed25519 es el estándar recomendado hoy",
+          "language": "bash",
+          "code": "ssh-keygen -t ed25519 -C \"tu-email@ejemplo.com\"",
+          "tags": ["ssh", "claves"]
+        }
+      ]
+    }
+  ]
+}

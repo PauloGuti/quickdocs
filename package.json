@@ -1,0 +1,71 @@
+{
+  "name": "quickdocs",
+  "productName": "QuickDocs",
+  "version": "0.1.0",
+  "description": "Panel rápido y transparente de comandos y documentación para desarrolladores en macOS.",
+  "main": "src/main/main.js",
+  "author": "Polo",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac --universal",
+    "dist:win": "electron-builder --win",
+    "build:icon": "node scripts/build-icon.js",
+    "build:vendor": "node scripts/build-vendor.js",
+    "build:assets": "node scripts/build-icon.js && node scripts/build-vendor.js",
+    "postinstall": "node scripts/build-icon.js && node scripts/build-vendor.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "highlight.js": "^11.9.0"
+  },
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.23.1",
+    "png2icons": "^2.0.1",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.9.6"
+  },
+  "build": {
+    "appId": "com.polo.quickdocs",
+    "productName": "QuickDocs",
+    "files": [
+      "src/**/*",
+      "data/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "data",
+        "to": "data"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": [
+        { "target": "dmg", "arch": ["universal"] },
+        { "target": "zip", "arch": ["universal"] }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "title": "QuickDocs ${version}"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [{ "target": "nsis", "arch": ["x64", "arm64"] }]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "id": "javascript",
+  "name": "JavaScript & React",
+  "icon": "⚛️",
+  "color": "#61DAFB",
+  "topics": [
+    {
+      "id": "pnpm-setup",
+      "name": "pnpm — proyecto y dependencias",
+      "snippets": [
+        {
+          "id": "pnpm-install-cli",
+          "title": "Instalar pnpm",
+          "description": "Vía Corepack (viene con Node ≥16.13)",
+          "language": "bash",
+          "code": "corepack enable\ncorepack prepare pnpm@latest --activate",
+          "tags": ["setup"]
+        },
+        {
+          "id": "pnpm-init",
+          "title": "Iniciar un proyecto",
+          "description": "Crea package.json",
+          "language": "bash",
+          "code": "pnpm init",
+          "tags": ["setup"]
+        },
+        {
+          "id": "pnpm-install",
+          "title": "Instalar dependencias",
+          "description": "Instala todo lo declarado en package.json",
+          "language": "bash",
+          "code": "pnpm install",
+          "tags": ["install"]
+        },
+        {
+          "id": "pnpm-add",
+          "title": "Agregar un paquete",
+          "description": "Se suma a \"dependencies\"",
+          "language": "bash",
+          "code": "pnpm add nombre-paquete",
+          "tags": ["install"]
+        },
+        {
+          "id": "pnpm-add-dev",
+          "title": "Agregar una dependencia de desarrollo",
+          "description": "Se suma a \"devDependencies\"",
+          "language": "bash",
+          "code": "pnpm add -D nombre-paquete",
+          "tags": ["install"]
+        },
+        {
+          "id": "pnpm-remove",
+          "title": "Quitar un paquete",
+          "language": "bash",
+          "description": "Lo desinstala y lo saca de package.json",
+          "code": "pnpm remove nombre-paquete",
+          "tags": ["install"]
+        },
+        {
+          "id": "pnpm-run",
+          "title": "Ejecutar un script",
+          "description": "Corre un script definido en \"scripts\"",
+          "language": "bash",
+          "code": "pnpm run dev\npnpm dev",
+          "tags": ["scripts"]
+        },
+        {
+          "id": "pnpm-dlx",
+          "title": "Ejecutar un paquete sin instalarlo",
+          "description": "Equivalente a npx",
+          "language": "bash",
+          "code": "pnpm dlx create-vite@latest",
+          "tags": ["scripts"]
+        },
+        {
+          "id": "pnpm-workspace",
+          "title": "Monorepo: pnpm-workspace.yaml",
+          "description": "Declara los paquetes del monorepo",
+          "language": "yaml",
+          "code": "packages:\n  - \"apps/*\"\n  - \"packages/*\"",
+          "tags": ["monorepo"]
+        },
+        {
+          "id": "pnpm-filter",
+          "title": "Correr un script en un paquete del monorepo",
+          "description": "Apunta a un paquete específico con --filter",
+          "language": "bash",
+          "code": "pnpm --filter mi-app dev",
+          "tags": ["monorepo"]
+        }
+      ]
+    },
+    {
+      "id": "react-proyecto",
+      "name": "React — crear proyecto",
+      "snippets": [
+        {
+          "id": "react-vite",
+          "title": "Crear proyecto con Vite",
+          "description": "La forma recomendada hoy para SPAs de React",
+          "language": "bash",
+          "code": "pnpm create vite mi-app --template react-ts\ncd mi-app\npnpm install\npnpm dev",
+          "tags": ["setup", "vite"]
+        },
+        {
+          "id": "react-nextjs",
+          "title": "Crear proyecto con Next.js",
+          "description": "Framework full-stack con App Router",
+          "language": "bash",
+          "code": "pnpm create next-app mi-app\ncd mi-app\npnpm dev",
+          "tags": ["setup", "next"]
+        }
+      ]
+    },
+    {
+      "id": "react-componentes",
+      "name": "React — componentes y hooks",
+      "snippets": [
+        {
+          "id": "react-componente-basico",
+          "title": "Componente funcional básico",
+          "description": "Recibe props y devuelve JSX",
+          "language": "typescript",
+          "code": "type SaludoProps = { nombre: string };\n\nexport function Saludo({ nombre }: SaludoProps) {\n  return <h1>Hola, {nombre}!</h1>;\n}",
+          "tags": ["componentes"]
+        },
+        {
+          "id": "react-usestate",
+          "title": "useState",
+          "description": "Estado local del componente",
+          "language": "typescript",
+          "code": "const [contador, setContador] = useState(0);\n\n<button onClick={() => setContador((c) => c + 1)}>+1</button>;",
+          "tags": ["hooks"]
+        },
+        {
+          "id": "react-useeffect",
+          "title": "useEffect",
+          "description": "Efectos secundarios (fetch, suscripciones, etc.)",
+          "language": "typescript",
+          "code": "useEffect(() => {\n  const controller = new AbortController();\n  fetch(url, { signal: controller.signal }).then(...);\n  return () => controller.abort();\n}, [url]);",
+          "tags": ["hooks"]
+        },
+        {
+          "id": "react-usememo-usecallback",
+          "title": "useMemo / useCallback",
+          "description": "Memorizar valores y funciones costosas",
+          "language": "typescript",
+          "code": "const total = useMemo(() => calcularTotal(items), [items]);\nconst onClick = useCallback(() => setContador((c) => c + 1), []);",
+          "tags": ["hooks", "performance"]
+        },
+        {
+          "id": "react-custom-hook",
+          "title": "Hook personalizado",
+          "description": "Extrae lógica reutilizable con \"use\"",
+          "language": "typescript",
+          "code": "function useLocalStorage(key: string, initial: string) {\n  const [value, setValue] = useState(() => localStorage.getItem(key) ?? initial);\n  useEffect(() => localStorage.setItem(key, value), [key, value]);\n  return [value, setValue] as const;\n}",
+          "tags": ["hooks"]
+        },
+        {
+          "id": "react-context",
+          "title": "Context para estado compartido",
+          "description": "Evita pasar props manualmente en cada nivel",
+          "language": "typescript",
+          "code": "const TemaContext = createContext<'light' | 'dark'>('light');\n\nfunction useTema() {\n  return useContext(TemaContext);\n}",
+          "tags": ["estado"]
+        }
+      ]
+    }
+  ]
+}

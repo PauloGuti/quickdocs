@@ -1,0 +1,214 @@
+{
+  "id": "github",
+  "name": "GitHub",
+  "icon": "🐙",
+  "color": "#181717",
+  "topics": [
+    {
+      "id": "gh-inicio",
+      "name": "Empezar un repositorio",
+      "snippets": [
+        {
+          "id": "gh-init",
+          "title": "Inicializar repositorio local",
+          "description": "Crea un repo git en la carpeta actual",
+          "language": "bash",
+          "code": "git init",
+          "tags": ["setup"]
+        },
+        {
+          "id": "gh-clone",
+          "title": "Clonar un repositorio",
+          "description": "Descarga un repo remoto completo",
+          "language": "bash",
+          "code": "git clone https://github.com/usuario/repo.git",
+          "tags": ["setup"]
+        },
+        {
+          "id": "gh-gh-repo-create",
+          "title": "Crear repo en GitHub desde la terminal",
+          "description": "Usa la GitHub CLI para crear y subir el repo",
+          "language": "bash",
+          "code": "gh repo create mi-proyecto --public --source=. --push",
+          "tags": ["gh cli", "setup"]
+        },
+        {
+          "id": "gh-gitignore",
+          "title": "Ignorar archivos",
+          "description": "Contenido típico de un .gitignore",
+          "language": "text",
+          "code": ".venv/\nnode_modules/\n.env\n__pycache__/\n.DS_Store\ndist/",
+          "tags": ["gitignore"]
+        }
+      ]
+    },
+    {
+      "id": "gh-cambios",
+      "name": "Guardar cambios",
+      "snippets": [
+        {
+          "id": "gh-status",
+          "title": "Ver estado del repo",
+          "description": "Qué cambió, qué está en staging",
+          "language": "bash",
+          "code": "git status",
+          "tags": ["básico"]
+        },
+        {
+          "id": "gh-add",
+          "title": "Agregar cambios al staging",
+          "description": "Prepara archivos para el commit",
+          "language": "bash",
+          "code": "git add archivo.py\ngit add .",
+          "tags": ["básico"]
+        },
+        {
+          "id": "gh-commit",
+          "title": "Confirmar cambios",
+          "description": "Guarda un punto en el historial",
+          "language": "bash",
+          "code": "git commit -m \"Descripción breve del cambio\"",
+          "tags": ["básico"]
+        },
+        {
+          "id": "gh-push",
+          "title": "Subir cambios",
+          "description": "Envía commits locales al remoto",
+          "language": "bash",
+          "code": "git push origin main",
+          "tags": ["básico"]
+        },
+        {
+          "id": "gh-pull",
+          "title": "Traer cambios",
+          "description": "Descarga y fusiona cambios del remoto",
+          "language": "bash",
+          "code": "git pull origin main",
+          "tags": ["básico"]
+        },
+        {
+          "id": "gh-diff",
+          "title": "Ver diferencias",
+          "description": "Compara cambios no confirmados",
+          "language": "bash",
+          "code": "git diff",
+          "tags": ["básico"]
+        }
+      ]
+    },
+    {
+      "id": "gh-ramas",
+      "name": "Ramas (branches)",
+      "snippets": [
+        {
+          "id": "gh-branch-crear",
+          "title": "Crear y cambiar de rama",
+          "description": "Combina creación y checkout en un paso",
+          "language": "bash",
+          "code": "git checkout -b feature/nueva-funcionalidad",
+          "tags": ["ramas"]
+        },
+        {
+          "id": "gh-branch-listar",
+          "title": "Listar ramas",
+          "description": "Muestra las ramas locales",
+          "language": "bash",
+          "code": "git branch",
+          "tags": ["ramas"]
+        },
+        {
+          "id": "gh-merge",
+          "title": "Fusionar una rama",
+          "description": "Trae los cambios de otra rama a la actual",
+          "language": "bash",
+          "code": "git checkout main\ngit merge feature/nueva-funcionalidad",
+          "tags": ["ramas"]
+        },
+        {
+          "id": "gh-rebase",
+          "title": "Rebase interactivo",
+          "description": "Reordena o combina commits antes de subir",
+          "language": "bash",
+          "code": "git rebase -i HEAD~3",
+          "tags": ["ramas", "avanzado"]
+        },
+        {
+          "id": "gh-stash",
+          "title": "Guardar cambios temporalmente",
+          "description": "Aparta cambios sin commitear para cambiar de rama",
+          "language": "bash",
+          "code": "git stash\ngit stash pop",
+          "tags": ["ramas"]
+        }
+      ]
+    },
+    {
+      "id": "gh-pr-issues",
+      "name": "Pull requests e issues",
+      "snippets": [
+        {
+          "id": "gh-pr-create",
+          "title": "Crear un pull request",
+          "description": "Abre un PR desde la rama actual",
+          "language": "bash",
+          "code": "gh pr create --fill",
+          "tags": ["gh cli", "pr"]
+        },
+        {
+          "id": "gh-pr-view",
+          "title": "Ver el PR actual en el navegador",
+          "description": "Abre el PR asociado a la rama activa",
+          "language": "bash",
+          "code": "gh pr view --web",
+          "tags": ["gh cli", "pr"]
+        },
+        {
+          "id": "gh-pr-checkout",
+          "title": "Bajar un PR ajeno para probarlo",
+          "description": "Trae localmente los cambios de un PR",
+          "language": "bash",
+          "code": "gh pr checkout 42",
+          "tags": ["gh cli", "pr"]
+        },
+        {
+          "id": "gh-issue-create",
+          "title": "Crear un issue",
+          "description": "Reporta un bug o pide una feature",
+          "language": "bash",
+          "code": "gh issue create --title \"Título\" --body \"Descripción\"",
+          "tags": ["gh cli", "issues"]
+        }
+      ]
+    },
+    {
+      "id": "gh-deshacer",
+      "name": "Deshacer cambios",
+      "snippets": [
+        {
+          "id": "gh-reset-soft",
+          "title": "Deshacer el último commit (sin perder cambios)",
+          "description": "Vuelve el commit al staging",
+          "language": "bash",
+          "code": "git reset --soft HEAD~1",
+          "tags": ["deshacer"]
+        },
+        {
+          "id": "gh-checkout-file",
+          "title": "Descartar cambios de un archivo",
+          "description": "Vuelve un archivo a su última versión commiteada",
+          "language": "bash",
+          "code": "git checkout -- archivo.py",
+          "tags": ["deshacer"]
+        },
+        {
+          "id": "gh-revert",
+          "title": "Revertir un commit ya subido",
+          "description": "Crea un commit que deshace otro, sin reescribir historia",
+          "language": "bash",
+          "code": "git revert <hash-del-commit>",
+          "tags": ["deshacer"]
+        }
+      ]
+    }
+  ]
+}

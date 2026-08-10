@@ -1,0 +1,18 @@
+node_modules/
+dist/
+out/
+*.log
+.DS_Store
+.env
+.env.local
+
+# Generados por scripts/build-icon.js y scripts/build-vendor.js en
+# "npm install" (postinstall) — no hace falta versionarlos, cada clone
+# los regenera solo.
+assets/icon.png
+assets/trayIconTemplate.png
+assets/trayIconTemplate@2x.png
+build/icon.icns
+build/icon.ico
+build/icon.iconset/
+src/renderer/vendor/*.bundle.js

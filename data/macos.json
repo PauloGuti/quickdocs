@@ -1,0 +1,162 @@
+{
+  "id": "macos",
+  "name": "macOS",
+  "icon": "🍎",
+  "color": "#999999",
+  "topics": [
+    {
+      "id": "macos-portapapeles-archivos",
+      "name": "Portapapeles y archivos",
+      "snippets": [
+        {
+          "id": "mac-pbcopy",
+          "title": "Copiar al portapapeles",
+          "description": "Manda la salida de un comando al clipboard",
+          "language": "bash",
+          "code": "cat archivo.txt | pbcopy",
+          "tags": ["clipboard"]
+        },
+        {
+          "id": "mac-pbpaste",
+          "title": "Pegar el portapapeles",
+          "description": "Vuelca el contenido del clipboard",
+          "language": "bash",
+          "code": "pbpaste > archivo.txt",
+          "tags": ["clipboard"]
+        },
+        {
+          "id": "mac-open",
+          "title": "Abrir archivos/carpetas/URLs",
+          "description": "Usa la app por defecto del sistema",
+          "language": "bash",
+          "code": "open .\nopen archivo.pdf\nopen https://example.com",
+          "tags": ["finder"]
+        },
+        {
+          "id": "mac-mdfind",
+          "title": "Buscar archivos (Spotlight desde terminal)",
+          "description": "Busca por nombre en todo el sistema",
+          "language": "bash",
+          "code": "mdfind -name \"informe.pdf\"",
+          "tags": ["búsqueda"]
+        },
+        {
+          "id": "mac-quicklook",
+          "title": "Vista previa rápida",
+          "description": "Abre Quick Look sobre un archivo",
+          "language": "bash",
+          "code": "qlmanage -p archivo.png",
+          "tags": ["finder"]
+        }
+      ]
+    },
+    {
+      "id": "macos-sistema",
+      "name": "Sistema",
+      "snippets": [
+        {
+          "id": "mac-screencapture",
+          "title": "Captura de pantalla",
+          "description": "A un archivo, sin usar atajos de teclado",
+          "language": "bash",
+          "code": "screencapture -x captura.png",
+          "tags": ["screenshot"]
+        },
+        {
+          "id": "mac-defaults-hidden-files",
+          "title": "Mostrar archivos ocultos en Finder",
+          "description": "Alterna con \"NO\" para volver a ocultarlos",
+          "language": "bash",
+          "code": "defaults write com.apple.finder AppleShowAllFiles YES\nkillall Finder",
+          "tags": ["finder", "config"]
+        },
+        {
+          "id": "mac-killall",
+          "title": "Reiniciar una app del sistema",
+          "description": "Útil tras cambiar preferencias (Finder, Dock, SystemUIServer)",
+          "language": "bash",
+          "code": "killall Dock",
+          "tags": ["procesos"]
+        },
+        {
+          "id": "mac-softwareupdate",
+          "title": "Ver actualizaciones de macOS disponibles",
+          "description": "Sin instalar nada todavía",
+          "language": "bash",
+          "code": "softwareupdate --list",
+          "tags": ["sistema"]
+        },
+        {
+          "id": "mac-diskutil-list",
+          "title": "Listar discos y volúmenes",
+          "description": "Igual que Utilidad de Discos, en terminal",
+          "language": "bash",
+          "code": "diskutil list",
+          "tags": ["disco"]
+        },
+        {
+          "id": "mac-caffeinate",
+          "title": "Evitar que el Mac se duerma",
+          "description": "Útil durante builds o descargas largas",
+          "language": "bash",
+          "code": "caffeinate -d",
+          "tags": ["energía"]
+        },
+        {
+          "id": "mac-launchctl",
+          "title": "Ver procesos en segundo plano (LaunchAgents)",
+          "description": "Lista los servicios administrados por launchd",
+          "language": "bash",
+          "code": "launchctl list | grep nombre",
+          "tags": ["procesos"]
+        }
+      ]
+    },
+    {
+      "id": "macos-homebrew",
+      "name": "Homebrew",
+      "snippets": [
+        {
+          "id": "mac-brew-install",
+          "title": "Instalar Homebrew",
+          "description": "El gestor de paquetes de macOS",
+          "language": "bash",
+          "code": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+          "tags": ["setup"]
+        },
+        {
+          "id": "mac-brew-install-pkg",
+          "title": "Instalar un paquete",
+          "language": "bash",
+          "description": "CLI tools en general",
+          "code": "brew install nombre-paquete",
+          "tags": ["paquetes"]
+        },
+        {
+          "id": "mac-brew-cask",
+          "title": "Instalar una app (cask)",
+          "description": "Apps de escritorio con interfaz gráfica",
+          "language": "bash",
+          "code": "brew install --cask visual-studio-code",
+          "tags": ["paquetes"]
+        },
+        {
+          "id": "mac-brew-update",
+          "title": "Actualizar Homebrew y paquetes",
+          "language": "bash",
+          "description": "Refresca el índice y sube todo a su última versión",
+          "code": "brew update && brew upgrade",
+          "tags": ["paquetes"]
+        },
+        {
+          "id": "mac-brew-cleanup",
+          "title": "Limpiar versiones viejas",
+          "description": "Libera espacio en disco",
+          "language": "bash",
+          "code": "brew cleanup",
+          "tags": ["mantenimiento"]
+        }
+      ]
+    }
+  ]
+}

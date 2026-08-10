@@ -1,0 +1,174 @@
+{
+  "id": "gcloud",
+  "name": "Google Cloud",
+  "icon": "☁️",
+  "color": "#4285F4",
+  "topics": [
+    {
+      "id": "gc-setup",
+      "name": "Configuración inicial",
+      "snippets": [
+        {
+          "id": "gc-init",
+          "title": "Inicializar gcloud",
+          "description": "Asistente de configuración inicial",
+          "language": "bash",
+          "code": "gcloud init",
+          "tags": ["setup"]
+        },
+        {
+          "id": "gc-login",
+          "title": "Iniciar sesión",
+          "description": "Autentica tu cuenta de Google",
+          "language": "bash",
+          "code": "gcloud auth login",
+          "tags": ["auth"]
+        },
+        {
+          "id": "gc-adc",
+          "title": "Credenciales por defecto para apps",
+          "description": "Usadas por SDKs/librerías (Application Default Credentials)",
+          "language": "bash",
+          "code": "gcloud auth application-default login",
+          "tags": ["auth"]
+        },
+        {
+          "id": "gc-set-project",
+          "title": "Seleccionar proyecto activo",
+          "description": "Todos los comandos siguientes usarán este proyecto",
+          "language": "bash",
+          "code": "gcloud config set project mi-proyecto-id",
+          "tags": ["config"]
+        },
+        {
+          "id": "gc-list-projects",
+          "title": "Listar proyectos disponibles",
+          "description": "Muestra los proyectos de tu cuenta",
+          "language": "bash",
+          "code": "gcloud projects list",
+          "tags": ["config"]
+        },
+        {
+          "id": "gc-config-list",
+          "title": "Ver configuración activa",
+          "description": "Proyecto, cuenta y región actuales",
+          "language": "bash",
+          "code": "gcloud config list",
+          "tags": ["config"]
+        }
+      ]
+    },
+    {
+      "id": "gc-cloud-run",
+      "name": "Cloud Run",
+      "snippets": [
+        {
+          "id": "gc-run-deploy",
+          "title": "Desplegar desde código fuente",
+          "description": "Construye y despliega directamente desde la carpeta actual",
+          "language": "bash",
+          "code": "gcloud run deploy mi-servicio \\\n  --source . \\\n  --region us-central1 \\\n  --allow-unauthenticated",
+          "tags": ["deploy"]
+        },
+        {
+          "id": "gc-run-logs",
+          "title": "Ver logs del servicio",
+          "description": "Sigue los logs en tiempo real",
+          "language": "bash",
+          "code": "gcloud run services logs tail mi-servicio --region us-central1",
+          "tags": ["logs"]
+        },
+        {
+          "id": "gc-run-env",
+          "title": "Actualizar variables de entorno",
+          "description": "Setea env vars sin redeploy completo",
+          "language": "bash",
+          "code": "gcloud run services update mi-servicio \\\n  --update-env-vars CLAVE=valor",
+          "tags": ["config"]
+        }
+      ]
+    },
+    {
+      "id": "gc-storage",
+      "name": "Storage y Artifact Registry",
+      "snippets": [
+        {
+          "id": "gc-storage-cp",
+          "title": "Copiar archivos a un bucket",
+          "description": "Sube un archivo local a Cloud Storage",
+          "language": "bash",
+          "code": "gcloud storage cp ./archivo.zip gs://mi-bucket/",
+          "tags": ["storage"]
+        },
+        {
+          "id": "gc-storage-ls",
+          "title": "Listar contenido de un bucket",
+          "description": "Muestra los objetos dentro del bucket",
+          "language": "bash",
+          "code": "gcloud storage ls gs://mi-bucket/",
+          "tags": ["storage"]
+        },
+        {
+          "id": "gc-artifact-docker",
+          "title": "Subir imagen Docker a Artifact Registry",
+          "description": "Build y push en un solo comando",
+          "language": "bash",
+          "code": "gcloud builds submit --tag us-central1-docker.pkg.dev/mi-proyecto/repo/imagen:latest",
+          "tags": ["docker", "ci"]
+        }
+      ]
+    },
+    {
+      "id": "gc-iam",
+      "name": "IAM y permisos",
+      "snippets": [
+        {
+          "id": "gc-iam-add-role",
+          "title": "Asignar un rol a una cuenta",
+          "description": "Da permisos sobre el proyecto",
+          "language": "bash",
+          "code": "gcloud projects add-iam-policy-binding mi-proyecto \\\n  --member=\"user:persona@dominio.com\" \\\n  --role=\"roles/editor\"",
+          "tags": ["iam"]
+        },
+        {
+          "id": "gc-sa-create",
+          "title": "Crear service account",
+          "description": "Identidad para que apps/servicios se autentiquen",
+          "language": "bash",
+          "code": "gcloud iam service-accounts create mi-app-sa \\\n  --display-name=\"Service account de mi app\"",
+          "tags": ["iam"]
+        },
+        {
+          "id": "gc-sa-key",
+          "title": "Generar clave de service account",
+          "description": "Archivo JSON para autenticación desde fuera de GCP",
+          "language": "bash",
+          "code": "gcloud iam service-accounts keys create key.json \\\n  --iam-account=mi-app-sa@mi-proyecto.iam.gserviceaccount.com",
+          "tags": ["iam", "auth"]
+        }
+      ]
+    },
+    {
+      "id": "gc-firestore",
+      "name": "Firestore",
+      "snippets": [
+        {
+          "id": "gc-firestore-create",
+          "title": "Crear base de datos Firestore",
+          "description": "En modo nativo, en una región",
+          "language": "bash",
+          "code": "gcloud firestore databases create --location=us-central1",
+          "tags": ["firestore"]
+        },
+        {
+          "id": "gc-firestore-export",
+          "title": "Exportar datos (backup)",
+          "description": "Vuelca la base de datos a un bucket",
+          "language": "bash",
+          "code": "gcloud firestore export gs://mi-bucket/backups",
+          "tags": ["firestore", "backup"]
+        }
+      ]
+    }
+  ]
+}

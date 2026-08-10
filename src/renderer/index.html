@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;" />
+<title>QuickDocs</title>
+<link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <div id="app" class="panel" data-view="categories">
+
+    <header class="panel-header">
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          id="search-input"
+          class="search-input"
+          type="text"
+          placeholder="Buscar comandos, librerías…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="search-clear" class="search-clear" hidden aria-label="Limpiar búsqueda">✕</button>
+      </div>
+      <div class="menu-anchor">
+        <button id="menu-btn" class="icon-btn" aria-label="Más opciones" aria-haspopup="true">
+          <span class="dots">•••</span>
+        </button>
+        <div id="menu-popover" class="popover" hidden role="menu">
+          <button id="menu-add" class="popover-item" role="menuitem">
+            <span class="popover-icon">＋</span> Agregar documentación
+          </button>
+          <button id="menu-export" class="popover-item" role="menuitem">
+            <span class="popover-icon">⇪</span> Exportar documentación
+          </button>
+          <button id="menu-import" class="popover-item" role="menuitem">
+            <span class="popover-icon">⇩</span> Importar documentación
+          </button>
+          <div class="popover-divider"></div>
+          <button id="menu-settings" class="popover-item" role="menuitem">
+            <span class="popover-icon">⚙︎</span> Configuración
+          </button>
+        </div>
+      </div>
+      <button id="close-panel-btn" class="icon-btn" aria-label="Cerrar panel" title="Cerrar (Esc)">✕</button>
+    </header>
+
+    <nav id="breadcrumb" class="breadcrumb" hidden>
+      <button id="back-btn" class="back-btn" aria-label="Atrás">
+        <span class="chevron">‹</span> Atrás
+      </button>
+      <span id="breadcrumb-label" class="breadcrumb-label"></span>
+      <select id="tool-switcher" class="tool-switcher" hidden aria-label="Gestor de paquetes"></select>
+    </nav>
+
+    <main id="content" class="content" tabindex="-1"></main>
+
+    <footer class="panel-footer">
+      <span id="shortcut-hint" class="shortcut-hint"></span>
+      <span class="footer-divider">·</span>
+      <span id="footer-status" class="footer-status">Modo local</span>
+    </footer>
+  </div>
+
+  <!-- Modal: agregar/editar documentación -->
+  <div id="add-modal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
+      <div class="modal-header">
+        <h2 id="add-modal-title">Agregar documentación</h2>
+        <button class="icon-btn modal-close" data-close="add-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="add-form" class="modal-body">
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Categoría</span>
+            <select id="field-category" class="field-input"></select>
+          </label>
+          <label class="field field-emoji" id="field-category-new-wrap" hidden>
+            <span class="field-label">Nombre y emoji</span>
+            <div class="field-emoji-row">
+              <input id="field-category-emoji" class="field-input field-emoji-input" type="text" maxlength="2" placeholder="📁" />
+              <input id="field-category-new" class="field-input" type="text" placeholder="p. ej. Docker" />
+            </div>
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Tema</span>
+            <select id="field-topic" class="field-input"></select>
+          </label>
+          <label class="field" id="field-topic-new-wrap" hidden>
+            <span class="field-label">Nombre del tema</span>
+            <input id="field-topic-new" class="field-input" type="text" placeholder="p. ej. Contenedores" />
+          </label>
+        </div>
+        <label class="field">
+          <span class="field-label">Título del comando</span>
+          <input id="field-title" class="field-input" type="text" required placeholder="p. ej. Construir imagen" />
+        </label>
+        <label class="field">
+          <span class="field-label">Descripción breve</span>
+          <input id="field-description" class="field-input" type="text" placeholder="Para qué sirve, en pocas palabras" />
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Lenguaje</span>
+            <select id="field-language" class="field-input">
+              <option value="bash">bash</option>
+              <option value="python">python</option>
+              <option value="javascript">javascript</option>
+              <option value="typescript">typescript</option>
+              <option value="json">json</option>
+              <option value="yaml">yaml</option>
+              <option value="text">texto plano</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field-label">Tags (opcional)</span>
+            <input id="field-tags" class="field-input" type="text" placeholder="separados por coma" />
+          </label>
+        </div>
+        <label class="field">
+          <span class="field-label-row">
+            <span class="field-label">Código</span>
+            <span class="field-hint" id="format-hint">⌘S para formatear (JS/TS/JSON/YAML)</span>
+          </span>
+          <textarea id="field-code" class="field-input field-textarea" rows="6" required placeholder="tu comando o snippet…" spellcheck="false"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-close="add-modal">Cancelar</button>
+          <button type="submit" class="btn btn-accent" id="add-form-submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: configuración -->
+  <div id="settings-modal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+      <div class="modal-header">
+        <h2 id="settings-modal-title">Configuración</h2>
+        <button class="icon-btn modal-close" data-close="settings-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <span class="field-label">Apariencia</span>
+          <div id="theme-options" class="segmented">
+            <button type="button" class="segmented-item" data-theme="system">Sistema</button>
+            <button type="button" class="segmented-item" data-theme="light">Claro</button>
+            <button type="button" class="segmented-item" data-theme="dark">Oscuro</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <span class="field-label">Color de acento</span>
+          <div id="accent-options" class="swatches">
+            <button type="button" class="swatch" data-accent="blue" title="Azul"></button>
+            <button type="button" class="swatch" data-accent="purple" title="Violeta"></button>
+            <button type="button" class="swatch" data-accent="pink" title="Rosa"></button>
+            <button type="button" class="swatch" data-accent="orange" title="Naranja"></button>
+            <button type="button" class="swatch" data-accent="green" title="Verde"></button>
+            <button type="button" class="swatch" data-accent="graphite" title="Grafito"></button>
+          </div>
+        </div>
+
+        <div class="settings-section settings-row">
+          <div>
+            <span class="field-label">Iniciar con el sistema</span>
+            <p class="field-hint">Abre QuickDocs en segundo plano al encender el Mac</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="start-at-login-toggle" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+
+        <div class="settings-section">
+          <span class="field-label">Atajo global</span>
+          <p class="field-hint" id="shortcut-display"></p>
+          <p class="field-hint field-hint-muted">Se cambia editando <code>GLOBAL_SHORTCUT</code> en tu archivo .env</p>
+        </div>
+
+        <div class="settings-section">
+          <span class="field-label">Gestionar documentación</span>
+          <p class="field-hint">Elimina una categoría completa (con sus temas y comandos). Para editar o borrar un comando puntual, usa los botones de su tarjeta en la lista.</p>
+          <div id="manage-categories-list" class="manage-list"></div>
+        </div>
+
+        <div class="settings-section">
+          <span class="field-label">Cuenta</span>
+          <p class="field-hint" id="account-status">Modo local — tus datos se guardan solo en este Mac</p>
+          <button type="button" class="btn btn-ghost" id="google-signin-btn" disabled>
+            Iniciar sesión con Google (próximamente)
+          </button>
+        </div>
+
+        <div class="settings-section settings-footer">
+          <span class="field-hint field-hint-muted" id="version-label"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/highlight.bundle.js"></script>
+  <script src="vendor/prettier.bundle.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

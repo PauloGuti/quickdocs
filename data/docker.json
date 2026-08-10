@@ -1,0 +1,192 @@
+{
+  "id": "docker",
+  "name": "Docker",
+  "icon": "🐳",
+  "color": "#2496ED",
+  "topics": [
+    {
+      "id": "docker-imagenes",
+      "name": "Imágenes",
+      "snippets": [
+        {
+          "id": "docker-build",
+          "title": "Construir una imagen",
+          "description": "-t le pone nombre:tag; \".\" es el contexto de build",
+          "language": "bash",
+          "code": "docker build -t mi-app:latest .",
+          "tags": ["build"]
+        },
+        {
+          "id": "docker-images",
+          "title": "Listar imágenes locales",
+          "language": "bash",
+          "description": "Con tamaño y fecha de creación",
+          "code": "docker images",
+          "tags": ["imágenes"]
+        },
+        {
+          "id": "docker-pull",
+          "title": "Descargar una imagen",
+          "description": "Desde Docker Hub u otro registry",
+          "language": "bash",
+          "code": "docker pull nginx:alpine",
+          "tags": ["registry"]
+        },
+        {
+          "id": "docker-push",
+          "title": "Subir una imagen a un registry",
+          "description": "Requiere haber hecho docker login antes",
+          "language": "bash",
+          "code": "docker tag mi-app:latest usuario/mi-app:latest\ndocker push usuario/mi-app:latest",
+          "tags": ["registry"]
+        },
+        {
+          "id": "docker-rmi",
+          "title": "Eliminar una imagen",
+          "description": "-f fuerza si hay contenedores usándola",
+          "language": "bash",
+          "code": "docker rmi mi-app:latest",
+          "tags": ["limpieza"]
+        },
+        {
+          "id": "docker-dockerfile-basico",
+          "title": "Dockerfile básico (Node/Python genérico)",
+          "description": "Multi-stage simple, cachea dependencias",
+          "language": "text",
+          "code": "FROM node:20-alpine\nWORKDIR /app\nCOPY package.json pnpm-lock.yaml ./\nRUN corepack enable && pnpm install --frozen-lockfile\nCOPY . .\nRUN pnpm build\nEXPOSE 3000\nCMD [\"pnpm\", \"start\"]",
+          "tags": ["dockerfile"]
+        }
+      ]
+    },
+    {
+      "id": "docker-contenedores",
+      "name": "Contenedores",
+      "snippets": [
+        {
+          "id": "docker-run",
+          "title": "Ejecutar un contenedor",
+          "description": "-d segundo plano, -p mapea puertos, --name lo nombra",
+          "language": "bash",
+          "code": "docker run -d -p 8080:80 --name mi-app mi-app:latest",
+          "tags": ["run"]
+        },
+        {
+          "id": "docker-ps",
+          "title": "Listar contenedores",
+          "description": "-a incluye los detenidos",
+          "language": "bash",
+          "code": "docker ps -a",
+          "tags": ["run"]
+        },
+        {
+          "id": "docker-logs",
+          "title": "Ver logs de un contenedor",
+          "description": "-f sigue el log en vivo",
+          "language": "bash",
+          "code": "docker logs -f mi-app",
+          "tags": ["debug"]
+        },
+        {
+          "id": "docker-exec",
+          "title": "Entrar a un contenedor corriendo",
+          "description": "Abre una shell interactiva dentro",
+          "language": "bash",
+          "code": "docker exec -it mi-app sh",
+          "tags": ["debug"]
+        },
+        {
+          "id": "docker-stop-rm",
+          "title": "Detener y eliminar un contenedor",
+          "language": "bash",
+          "description": "stop lo apaga, rm lo borra",
+          "code": "docker stop mi-app\ndocker rm mi-app",
+          "tags": ["limpieza"]
+        },
+        {
+          "id": "docker-inspect",
+          "title": "Ver detalles de un contenedor",
+          "description": "IP, volúmenes, variables de entorno, etc.",
+          "language": "bash",
+          "code": "docker inspect mi-app",
+          "tags": ["debug"]
+        }
+      ]
+    },
+    {
+      "id": "docker-compose",
+      "name": "Docker Compose",
+      "snippets": [
+        {
+          "id": "compose-up",
+          "title": "Levantar todos los servicios",
+          "description": "-d en segundo plano, --build reconstruye imágenes",
+          "language": "bash",
+          "code": "docker compose up -d --build",
+          "tags": ["compose"]
+        },
+        {
+          "id": "compose-down",
+          "title": "Apagar y limpiar servicios",
+          "description": "-v también borra los volúmenes",
+          "language": "bash",
+          "code": "docker compose down -v",
+          "tags": ["compose"]
+        },
+        {
+          "id": "compose-logs",
+          "title": "Ver logs de todos los servicios",
+          "language": "bash",
+          "description": "-f sigue en vivo, o especifica un servicio",
+          "code": "docker compose logs -f\ndocker compose logs -f api",
+          "tags": ["compose", "debug"]
+        },
+        {
+          "id": "compose-exec",
+          "title": "Entrar a un servicio",
+          "description": "Por el nombre del servicio, no del contenedor",
+          "language": "bash",
+          "code": "docker compose exec api sh",
+          "tags": ["compose", "debug"]
+        },
+        {
+          "id": "compose-ejemplo",
+          "title": "docker-compose.yml de ejemplo",
+          "description": "App + base de datos Postgres",
+          "language": "yaml",
+          "code": "services:\n  api:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      DATABASE_URL: postgres://user:pass@db:5432/app\n    depends_on:\n      - db\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_PASSWORD: pass\n    volumes:\n      - db-data:/var/lib/postgresql/data\n\nvolumes:\n  db-data:",
+          "tags": ["compose", "yaml"]
+        }
+      ]
+    },
+    {
+      "id": "docker-volumenes-redes",
+      "name": "Volúmenes, redes y limpieza",
+      "snippets": [
+        {
+          "id": "docker-volume-create",
+          "title": "Crear y listar volúmenes",
+          "description": "Los volúmenes persisten datos fuera del contenedor",
+          "language": "bash",
+          "code": "docker volume create mis-datos\ndocker volume ls",
+          "tags": ["volúmenes"]
+        },
+        {
+          "id": "docker-network-create",
+          "title": "Crear una red",
+          "description": "Para que varios contenedores se vean entre sí por nombre",
+          "language": "bash",
+          "code": "docker network create mi-red",
+          "tags": ["redes"]
+        },
+        {
+          "id": "docker-system-prune",
+          "title": "Limpiar todo lo que no se usa",
+          "description": "Imágenes, contenedores y redes huérfanas — libera espacio",
+          "language": "bash",
+          "code": "docker system prune -a",
+          "tags": ["limpieza"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,504 @@
+{
+  "id": "python",
+  "name": "Python",
+  "icon": "🐍",
+  "color": "#3776AB",
+  "toolOptions": [
+    { "id": "pip", "label": "pip + venv" },
+    { "id": "uv", "label": "uv" },
+    { "id": "poetry", "label": "Poetry" }
+  ],
+  "defaultTool": "pip",
+  "topics": [
+    {
+      "id": "iniciar-proyecto",
+      "name": "Iniciar un proyecto",
+      "snippets": [
+        {
+          "id": "py-venv-crear",
+          "title": "Crear entorno virtual",
+          "description": "Crea un entorno aislado en la carpeta .venv",
+          "language": "bash",
+          "code": "python3 -m venv .venv",
+          "tags": ["venv", "setup"],
+          "variants": {
+            "uv": {
+              "title": "Iniciar proyecto con uv",
+              "description": "Crea pyproject.toml y el entorno .venv juntos",
+              "code": "uv init mi_proyecto\ncd mi_proyecto"
+            },
+            "poetry": {
+              "title": "Iniciar proyecto con Poetry",
+              "description": "Crea pyproject.toml y gestiona dependencias",
+              "code": "poetry init\npoetry install"
+            }
+          }
+        },
+        {
+          "id": "py-venv-activar",
+          "title": "Activar entorno virtual",
+          "description": "Activa el entorno en macOS/Linux",
+          "language": "bash",
+          "code": "source .venv/bin/activate",
+          "tags": ["venv", "setup"],
+          "variants": {
+            "uv": {
+              "description": "Con 'uv run' casi nunca hace falta activarlo a mano",
+              "code": "source .venv/bin/activate"
+            },
+            "poetry": {
+              "title": "Entrar al entorno de Poetry",
+              "code": "poetry shell"
+            }
+          }
+        },
+        {
+          "id": "py-venv-desactivar",
+          "title": "Desactivar entorno virtual",
+          "description": "Sale del entorno virtual activo",
+          "language": "bash",
+          "code": "deactivate",
+          "tags": ["venv"],
+          "variants": {
+            "poetry": {
+              "title": "Salir del entorno de Poetry",
+              "code": "exit"
+            }
+          }
+        },
+        {
+          "id": "py-estructura",
+          "title": "Estructura básica de proyecto",
+          "description": "Carpetas típicas de un proyecto Python",
+          "language": "text",
+          "code": "mi_proyecto/\n├── .venv/\n├── src/\n│   └── mi_proyecto/\n│       └── __init__.py\n├── tests/\n├── requirements.txt\n├── pyproject.toml\n└── README.md",
+          "tags": ["estructura"]
+        }
+      ]
+    },
+    {
+      "id": "instalar-librerias",
+      "name": "Instalar librerías",
+      "snippets": [
+        {
+          "id": "py-pip-install",
+          "title": "Instalar un paquete",
+          "description": "Instala la última versión del paquete",
+          "language": "bash",
+          "code": "pip install nombre-paquete",
+          "tags": ["pip"],
+          "variants": {
+            "uv": { "code": "uv add nombre-paquete" },
+            "poetry": { "code": "poetry add nombre-paquete" }
+          }
+        },
+        {
+          "id": "py-pip-version",
+          "title": "Instalar versión específica",
+          "description": "Fija una versión exacta",
+          "language": "bash",
+          "code": "pip install nombre-paquete==2.31.0",
+          "tags": ["pip"],
+          "variants": {
+            "uv": { "code": "uv add nombre-paquete==2.31.0" },
+            "poetry": { "code": "poetry add nombre-paquete==2.31.0" }
+          }
+        },
+        {
+          "id": "py-pip-requirements",
+          "title": "Instalar dependencias del proyecto",
+          "description": "Instala todas las dependencias declaradas",
+          "language": "bash",
+          "code": "pip install -r requirements.txt",
+          "tags": ["pip"],
+          "variants": {
+            "uv": {
+              "description": "Instala según uv.lock / pyproject.toml",
+              "code": "uv sync"
+            },
+            "poetry": {
+              "description": "Instala según poetry.lock / pyproject.toml",
+              "code": "poetry install"
+            }
+          }
+        },
+        {
+          "id": "py-pip-freeze",
+          "title": "Congelar dependencias",
+          "description": "Vuelca las versiones instaladas a un archivo",
+          "language": "bash",
+          "code": "pip freeze > requirements.txt",
+          "tags": ["pip"],
+          "variants": {
+            "uv": {
+              "title": "Bloquear versiones (lockfile)",
+              "description": "Genera o actualiza uv.lock",
+              "code": "uv lock"
+            },
+            "poetry": {
+              "title": "Bloquear versiones (lockfile)",
+              "description": "Genera o actualiza poetry.lock",
+              "code": "poetry lock"
+            }
+          }
+        },
+        {
+          "id": "py-pip-upgrade",
+          "title": "Actualizar un paquete",
+          "description": "Sube el paquete a su última versión",
+          "language": "bash",
+          "code": "pip install --upgrade nombre-paquete",
+          "tags": ["pip"],
+          "variants": {
+            "uv": { "code": "uv add nombre-paquete --upgrade" },
+            "poetry": { "code": "poetry update nombre-paquete" }
+          }
+        },
+        {
+          "id": "py-pip-uninstall",
+          "title": "Desinstalar un paquete",
+          "description": "Elimina el paquete del entorno actual",
+          "language": "bash",
+          "code": "pip uninstall nombre-paquete",
+          "tags": ["pip"],
+          "variants": {
+            "uv": { "code": "uv remove nombre-paquete" },
+            "poetry": { "code": "poetry remove nombre-paquete" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "librerias-recomendadas",
+      "name": "Librerías más usadas",
+      "snippets": [
+        {
+          "id": "py-lib-requests",
+          "title": "requests",
+          "description": "Peticiones HTTP simples y legibles",
+          "language": "bash",
+          "code": "pip install requests",
+          "tags": ["http"],
+          "variants": {
+            "uv": { "code": "uv add requests" },
+            "poetry": { "code": "poetry add requests" }
+          }
+        },
+        {
+          "id": "py-lib-fastapi",
+          "title": "fastapi + uvicorn",
+          "description": "Framework web moderno para APIs, con servidor ASGI",
+          "language": "bash",
+          "code": "pip install fastapi \"uvicorn[standard]\"",
+          "tags": ["web", "api"],
+          "variants": {
+            "uv": { "code": "uv add fastapi \"uvicorn[standard]\"" },
+            "poetry": { "code": "poetry add fastapi \"uvicorn[standard]\"" }
+          }
+        },
+        {
+          "id": "py-lib-pandas",
+          "title": "pandas",
+          "description": "Análisis y manipulación de datos tabulares",
+          "language": "bash",
+          "code": "pip install pandas",
+          "tags": ["datos"],
+          "variants": {
+            "uv": { "code": "uv add pandas" },
+            "poetry": { "code": "poetry add pandas" }
+          }
+        },
+        {
+          "id": "py-lib-numpy",
+          "title": "numpy",
+          "description": "Cálculo numérico y arrays multidimensionales",
+          "language": "bash",
+          "code": "pip install numpy",
+          "tags": ["datos"],
+          "variants": {
+            "uv": { "code": "uv add numpy" },
+            "poetry": { "code": "poetry add numpy" }
+          }
+        },
+        {
+          "id": "py-lib-pydantic",
+          "title": "pydantic",
+          "description": "Validación de datos con tipado",
+          "language": "bash",
+          "code": "pip install pydantic",
+          "tags": ["validación"],
+          "variants": {
+            "uv": { "code": "uv add pydantic" },
+            "poetry": { "code": "poetry add pydantic" }
+          }
+        },
+        {
+          "id": "py-lib-pytest",
+          "title": "pytest",
+          "description": "Framework de testing, el estándar de facto",
+          "language": "bash",
+          "code": "pip install pytest",
+          "tags": ["testing"],
+          "variants": {
+            "uv": { "code": "uv add pytest --dev" },
+            "poetry": { "code": "poetry add pytest --group dev" }
+          }
+        },
+        {
+          "id": "py-lib-black-ruff",
+          "title": "black + ruff",
+          "description": "Formateador de código y linter ultrarrápido",
+          "language": "bash",
+          "code": "pip install black ruff",
+          "tags": ["calidad"],
+          "variants": {
+            "uv": { "code": "uv add black ruff --dev" },
+            "poetry": { "code": "poetry add black ruff --group dev" }
+          }
+        },
+        {
+          "id": "py-lib-dotenv",
+          "title": "python-dotenv",
+          "description": "Carga variables de entorno desde un .env",
+          "language": "bash",
+          "code": "pip install python-dotenv",
+          "tags": ["config"],
+          "variants": {
+            "uv": { "code": "uv add python-dotenv" },
+            "poetry": { "code": "poetry add python-dotenv" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "importar",
+      "name": "Importar módulos",
+      "snippets": [
+        {
+          "id": "py-import-basico",
+          "title": "Importar un módulo",
+          "description": "Trae un módulo completo",
+          "language": "python",
+          "code": "import math\n\nmath.sqrt(16)",
+          "tags": ["import"]
+        },
+        {
+          "id": "py-import-from",
+          "title": "Importar elementos concretos",
+          "description": "Trae solo lo que necesitas de un módulo",
+          "language": "python",
+          "code": "from datetime import datetime, timedelta",
+          "tags": ["import"]
+        },
+        {
+          "id": "py-import-alias",
+          "title": "Importar con alias",
+          "description": "Renombra el módulo al importarlo",
+          "language": "python",
+          "code": "import numpy as np\nimport pandas as pd",
+          "tags": ["import"]
+        },
+        {
+          "id": "py-import-relativo",
+          "title": "Import relativo entre módulos propios",
+          "description": "Importa desde otro archivo del mismo paquete",
+          "language": "python",
+          "code": "from .utils import formatear_fecha\nfrom ..core import config",
+          "tags": ["import", "paquetes"]
+        }
+      ]
+    },
+    {
+      "id": "tipos-de-datos",
+      "name": "Tipos de datos",
+      "snippets": [
+        {
+          "id": "py-tipos-numeros",
+          "title": "Números",
+          "description": "int, float y operaciones básicas",
+          "language": "python",
+          "code": "entero = 10\ndecimal = 3.14\nsuma = entero + decimal  # 13.14",
+          "tags": ["tipos"]
+        },
+        {
+          "id": "py-tipos-strings",
+          "title": "Strings",
+          "description": "Texto, f-strings y métodos comunes",
+          "language": "python",
+          "code": "nombre = \"Polo\"\nsaludo = f\"Hola, {nombre}!\"\nnombre.upper()  # 'POLO'",
+          "tags": ["tipos", "texto"]
+        },
+        {
+          "id": "py-tipos-listas",
+          "title": "Listas",
+          "description": "Colección ordenada y mutable",
+          "language": "python",
+          "code": "numeros = [1, 2, 3]\nnumeros.append(4)\nnumeros[0]  # 1",
+          "tags": ["tipos", "colecciones"]
+        },
+        {
+          "id": "py-tipos-tuplas",
+          "title": "Tuplas",
+          "description": "Colección ordenada e inmutable",
+          "language": "python",
+          "code": "coordenada = (10.0, 20.0)\nx, y = coordenada",
+          "tags": ["tipos", "colecciones"]
+        },
+        {
+          "id": "py-tipos-diccionarios",
+          "title": "Diccionarios",
+          "description": "Pares clave-valor",
+          "language": "python",
+          "code": "usuario = {\"nombre\": \"Polo\", \"edad\": 30}\nusuario[\"email\"] = \"polo@mail.com\"",
+          "tags": ["tipos", "colecciones"]
+        },
+        {
+          "id": "py-tipos-sets",
+          "title": "Sets",
+          "description": "Colección sin orden ni duplicados",
+          "language": "python",
+          "code": "unicos = {1, 2, 2, 3}  # {1, 2, 3}",
+          "tags": ["tipos", "colecciones"]
+        },
+        {
+          "id": "py-tipos-booleanos",
+          "title": "Booleanos y None",
+          "description": "Verdadero/falso y ausencia de valor",
+          "language": "python",
+          "code": "activo = True\nresultado = None",
+          "tags": ["tipos"]
+        }
+      ]
+    },
+    {
+      "id": "ciclos",
+      "name": "Ciclos y control de flujo",
+      "snippets": [
+        {
+          "id": "py-for",
+          "title": "Ciclo for",
+          "description": "Recorre cualquier iterable",
+          "language": "python",
+          "code": "for fruta in [\"manzana\", \"pera\"]:\n    print(fruta)",
+          "tags": ["ciclos"]
+        },
+        {
+          "id": "py-while",
+          "title": "Ciclo while",
+          "description": "Se repite mientras la condición sea verdadera",
+          "language": "python",
+          "code": "contador = 0\nwhile contador < 5:\n    contador += 1",
+          "tags": ["ciclos"]
+        },
+        {
+          "id": "py-range",
+          "title": "range()",
+          "description": "Genera una secuencia de números",
+          "language": "python",
+          "code": "for i in range(5):\n    print(i)  # 0 1 2 3 4",
+          "tags": ["ciclos"]
+        },
+        {
+          "id": "py-enumerate",
+          "title": "enumerate()",
+          "description": "Itera con índice y valor a la vez",
+          "language": "python",
+          "code": "for i, valor in enumerate([\"a\", \"b\"]):\n    print(i, valor)",
+          "tags": ["ciclos"]
+        },
+        {
+          "id": "py-list-comprehension",
+          "title": "List comprehension",
+          "description": "Crea listas de forma compacta",
+          "language": "python",
+          "code": "pares = [n for n in range(10) if n % 2 == 0]",
+          "tags": ["ciclos", "idiomas"]
+        },
+        {
+          "id": "py-if-elif-else",
+          "title": "Condicionales",
+          "description": "if / elif / else",
+          "language": "python",
+          "code": "if edad < 18:\n    print(\"menor\")\nelif edad < 65:\n    print(\"adulto\")\nelse:\n    print(\"senior\")",
+          "tags": ["control de flujo"]
+        }
+      ]
+    },
+    {
+      "id": "funciones",
+      "name": "Funciones",
+      "snippets": [
+        {
+          "id": "py-funcion-basica",
+          "title": "Función básica",
+          "description": "Definición con parámetros y valor por defecto",
+          "language": "python",
+          "code": "def saludar(nombre, saludo=\"Hola\"):\n    return f\"{saludo}, {nombre}!\"",
+          "tags": ["funciones"]
+        },
+        {
+          "id": "py-args-kwargs",
+          "title": "*args y **kwargs",
+          "description": "Argumentos posicionales y nombrados variables",
+          "language": "python",
+          "code": "def resumen(*args, **kwargs):\n    print(args, kwargs)\n\nresumen(1, 2, clave=\"valor\")",
+          "tags": ["funciones"]
+        },
+        {
+          "id": "py-lambda",
+          "title": "Función lambda",
+          "description": "Función anónima de una sola expresión",
+          "language": "python",
+          "code": "cuadrado = lambda x: x ** 2",
+          "tags": ["funciones"]
+        },
+        {
+          "id": "py-decorador",
+          "title": "Decorador básico",
+          "description": "Envuelve una función para extender su comportamiento",
+          "language": "python",
+          "code": "def con_log(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Llamando a {func.__name__}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@con_log\ndef sumar(a, b):\n    return a + b",
+          "tags": ["funciones", "decoradores"]
+        }
+      ]
+    },
+    {
+      "id": "manejo-errores",
+      "name": "Manejo de errores",
+      "snippets": [
+        {
+          "id": "py-try-except",
+          "title": "try / except",
+          "description": "Captura y maneja excepciones",
+          "language": "python",
+          "code": "try:\n    resultado = 10 / 0\nexcept ZeroDivisionError as e:\n    print(f\"Error: {e}\")",
+          "tags": ["errores"]
+        },
+        {
+          "id": "py-finally",
+          "title": "finally",
+          "description": "Se ejecuta siempre, haya error o no",
+          "language": "python",
+          "code": "try:\n    abrir_archivo()\nfinally:\n    cerrar_conexion()",
+          "tags": ["errores"]
+        },
+        {
+          "id": "py-raise",
+          "title": "Lanzar una excepción",
+          "description": "Crea y lanza un error propio",
+          "language": "python",
+          "code": "if edad < 0:\n    raise ValueError(\"La edad no puede ser negativa\")",
+          "tags": ["errores"]
+        },
+        {
+          "id": "py-excepcion-custom",
+          "title": "Excepción personalizada",
+          "description": "Define tu propia clase de error",
+          "language": "python",
+          "code": "class SaldoInsuficienteError(Exception):\n    pass\n\nraise SaldoInsuficienteError(\"No hay fondos\")",
+          "tags": ["errores"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "id": "terraform",
+  "name": "Terraform",
+  "icon": "🏗️",
+  "color": "#7B42BC",
+  "topics": [
+    {
+      "id": "tf-comandos-basicos",
+      "name": "Comandos básicos",
+      "snippets": [
+        {
+          "id": "tf-init",
+          "title": "Inicializar el proyecto",
+          "description": "Descarga providers y configura el backend",
+          "language": "bash",
+          "code": "terraform init",
+          "tags": ["setup"]
+        },
+        {
+          "id": "tf-plan",
+          "title": "Ver los cambios antes de aplicarlos",
+          "description": "Muestra qué se va a crear/modificar/borrar",
+          "language": "bash",
+          "code": "terraform plan",
+          "tags": ["plan"]
+        },
+        {
+          "id": "tf-apply",
+          "title": "Aplicar los cambios",
+          "description": "Pide confirmación antes de ejecutar",
+          "language": "bash",
+          "code": "terraform apply",
+          "tags": ["apply"]
+        },
+        {
+          "id": "tf-destroy",
+          "title": "Destruir toda la infraestructura",
+          "description": "Cuidado: elimina todo lo declarado en el estado",
+          "language": "bash",
+          "code": "terraform destroy",
+          "tags": ["destroy"]
+        },
+        {
+          "id": "tf-fmt-validate",
+          "title": "Formatear y validar",
+          "description": "Ordena la sintaxis y revisa errores antes de aplicar",
+          "language": "bash",
+          "code": "terraform fmt -recursive\nterraform validate",
+          "tags": ["calidad"]
+        }
+      ]
+    },
+    {
+      "id": "tf-estructura",
+      "name": "Estructura de un proyecto",
+      "snippets": [
+        {
+          "id": "tf-estructura-carpetas",
+          "title": "Layout típico de un proyecto",
+          "description": "Separar variables, outputs y recursos facilita mantenerlo",
+          "language": "text",
+          "code": "mi-infra/\n├── main.tf          # recursos principales\n├── variables.tf     # declaración de variables\n├── outputs.tf       # valores que expone el módulo\n├── providers.tf     # configuración de providers\n├── terraform.tfvars # valores reales (no se sube a git)\n└── modules/\n    └── red/\n        ├── main.tf\n        ├── variables.tf\n        └── outputs.tf",
+          "tags": ["estructura"]
+        },
+        {
+          "id": "tf-provider-gcp",
+          "title": "Declarar el provider de GCP",
+          "description": "Va en providers.tf",
+          "language": "text",
+          "code": "terraform {\n  required_providers {\n    google = {\n      source  = \"hashicorp/google\"\n      version = \"~> 5.0\"\n    }\n  }\n}\n\nprovider \"google\" {\n  project = var.project_id\n  region  = var.region\n}",
+          "tags": ["gcp", "provider"]
+        }
+      ]
+    },
+    {
+      "id": "tf-variables-outputs",
+      "name": "Variables y outputs",
+      "snippets": [
+        {
+          "id": "tf-variable-block",
+          "title": "Declarar una variable",
+          "description": "Con tipo, descripción y valor por defecto opcional",
+          "language": "text",
+          "code": "variable \"project_id\" {\n  type        = string\n  description = \"ID del proyecto de GCP\"\n}\n\nvariable \"region\" {\n  type    = string\n  default = \"us-central1\"\n}",
+          "tags": ["variables"]
+        },
+        {
+          "id": "tf-output-block",
+          "title": "Declarar un output",
+          "description": "Expone un valor tras aplicar (ej. una URL o IP)",
+          "language": "text",
+          "code": "output \"url_servicio\" {\n  value = google_cloud_run_service.app.status[0].url\n}",
+          "tags": ["outputs"]
+        },
+        {
+          "id": "tf-tfvars",
+          "title": "terraform.tfvars",
+          "description": "Valores reales — nunca se sube al repo",
+          "language": "text",
+          "code": "project_id = \"mi-proyecto-gcp\"\nregion     = \"us-central1\"",
+          "tags": ["variables"]
+        },
+        {
+          "id": "tf-apply-var",
+          "title": "Pasar una variable por línea de comandos",
+          "description": "Sin necesidad de un archivo .tfvars",
+          "language": "bash",
+          "code": "terraform apply -var=\"region=europe-west1\"",
+          "tags": ["variables"]
+        }
+      ]
+    },
+    {
+      "id": "tf-state-modulos",
+      "name": "State, módulos y workspaces",
+      "snippets": [
+        {
+          "id": "tf-state-list",
+          "title": "Ver recursos en el estado",
+          "description": "Todo lo que Terraform está gestionando",
+          "language": "bash",
+          "code": "terraform state list",
+          "tags": ["state"]
+        },
+        {
+          "id": "tf-import",
+          "title": "Importar un recurso existente",
+          "description": "Para que Terraform empiece a gestionar algo creado manualmente",
+          "language": "bash",
+          "code": "terraform import google_storage_bucket.mi_bucket mi-bucket-existente",
+          "tags": ["state"]
+        },
+        {
+          "id": "tf-module-block",
+          "title": "Usar un módulo",
+          "description": "Reutiliza un bloque de infraestructura",
+          "language": "text",
+          "code": "module \"red\" {\n  source = \"./modules/red\"\n  region = var.region\n}",
+          "tags": ["módulos"]
+        },
+        {
+          "id": "tf-workspace",
+          "title": "Workspaces (entornos separados)",
+          "description": "Un mismo código para dev/staging/prod",
+          "language": "bash",
+          "code": "terraform workspace new staging\nterraform workspace select staging",
+          "tags": ["workspaces"]
+        }
+      ]
+    }
+  ]
+}

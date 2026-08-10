@@ -1,0 +1,240 @@
+{
+  "id": "linux",
+  "name": "Linux / Terminal",
+  "icon": "🐧",
+  "color": "#FCC624",
+  "topics": [
+    {
+      "id": "linux-archivos",
+      "name": "Archivos y carpetas",
+      "snippets": [
+        {
+          "id": "lx-ls",
+          "title": "Listar archivos",
+          "description": "-l detalle, -a incluye ocultos, -h tamaños legibles",
+          "language": "bash",
+          "code": "ls -lah",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-cp",
+          "title": "Copiar",
+          "description": "-r para copiar carpetas completas",
+          "language": "bash",
+          "code": "cp archivo.txt copia.txt\ncp -r carpeta/ destino/",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-mv",
+          "title": "Mover / renombrar",
+          "language": "bash",
+          "description": "También sirve para renombrar",
+          "code": "mv origen.txt destino.txt",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-rm",
+          "title": "Eliminar",
+          "description": "-r recursivo, -f sin confirmar (cuidado)",
+          "language": "bash",
+          "code": "rm archivo.txt\nrm -rf carpeta/",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-mkdir",
+          "title": "Crear carpetas",
+          "description": "-p crea carpetas intermedias si no existen",
+          "language": "bash",
+          "code": "mkdir -p ruta/anidada/nueva",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-find",
+          "title": "Buscar archivos",
+          "description": "Por nombre, dentro de un árbol de carpetas",
+          "language": "bash",
+          "code": "find . -name \"*.log\"",
+          "tags": ["búsqueda"]
+        },
+        {
+          "id": "lx-symlink",
+          "title": "Crear un enlace simbólico",
+          "description": "Como un acceso directo de Unix",
+          "language": "bash",
+          "code": "ln -s /ruta/origen /ruta/enlace",
+          "tags": ["archivos"]
+        },
+        {
+          "id": "lx-tar",
+          "title": "Comprimir / descomprimir",
+          "description": "-c crear, -x extraer, -z gzip, -v ver progreso, -f archivo",
+          "language": "bash",
+          "code": "tar -czvf archivo.tar.gz carpeta/\ntar -xzvf archivo.tar.gz",
+          "tags": ["compresión"]
+        }
+      ]
+    },
+    {
+      "id": "linux-permisos",
+      "name": "Permisos y usuarios",
+      "snippets": [
+        {
+          "id": "lx-chmod",
+          "title": "Cambiar permisos",
+          "description": "755 = rwx dueño, rx grupo y otros",
+          "language": "bash",
+          "code": "chmod 755 script.sh\nchmod +x script.sh",
+          "tags": ["permisos"]
+        },
+        {
+          "id": "lx-chown",
+          "title": "Cambiar dueño",
+          "description": "Usuario y grupo de un archivo/carpeta",
+          "language": "bash",
+          "code": "sudo chown usuario:grupo archivo.txt",
+          "tags": ["permisos"]
+        },
+        {
+          "id": "lx-whoami",
+          "title": "Ver usuario actual",
+          "language": "bash",
+          "description": "Y a qué grupos pertenece",
+          "code": "whoami\ngroups",
+          "tags": ["usuarios"]
+        },
+        {
+          "id": "lx-sudo",
+          "title": "Ejecutar como administrador",
+          "description": "Un solo comando con privilegios elevados",
+          "language": "bash",
+          "code": "sudo comando",
+          "tags": ["permisos"]
+        }
+      ]
+    },
+    {
+      "id": "linux-texto-busqueda",
+      "name": "Texto y búsqueda",
+      "snippets": [
+        {
+          "id": "lx-cat",
+          "title": "Ver contenido de un archivo",
+          "language": "bash",
+          "description": "Lo imprime completo en la terminal",
+          "code": "cat archivo.txt",
+          "tags": ["texto"]
+        },
+        {
+          "id": "lx-less",
+          "title": "Ver archivo con paginado",
+          "description": "Para archivos largos; q para salir",
+          "language": "bash",
+          "code": "less archivo.log",
+          "tags": ["texto"]
+        },
+        {
+          "id": "lx-head-tail",
+          "title": "Primeras/últimas líneas",
+          "description": "-f en tail sigue el archivo en vivo (logs)",
+          "language": "bash",
+          "code": "head -n 20 archivo.log\ntail -f archivo.log",
+          "tags": ["texto", "logs"]
+        },
+        {
+          "id": "lx-grep",
+          "title": "Buscar texto dentro de archivos",
+          "description": "-r recursivo, -i insensible a mayúsculas, -n muestra línea",
+          "language": "bash",
+          "code": "grep -rni \"error\" ./logs",
+          "tags": ["búsqueda"]
+        },
+        {
+          "id": "lx-wc",
+          "title": "Contar líneas/palabras",
+          "description": "-l solo líneas",
+          "language": "bash",
+          "code": "wc -l archivo.txt",
+          "tags": ["texto"]
+        },
+        {
+          "id": "lx-diff",
+          "title": "Comparar dos archivos",
+          "language": "bash",
+          "description": "Muestra las diferencias línea a línea",
+          "code": "diff archivo1.txt archivo2.txt",
+          "tags": ["texto"]
+        }
+      ]
+    },
+    {
+      "id": "linux-procesos-red",
+      "name": "Procesos, disco y red",
+      "snippets": [
+        {
+          "id": "lx-ps",
+          "title": "Ver procesos en ejecución",
+          "description": "aux = todos los procesos, formato detallado",
+          "language": "bash",
+          "code": "ps aux",
+          "tags": ["procesos"]
+        },
+        {
+          "id": "lx-kill",
+          "title": "Terminar un proceso",
+          "description": "Por PID; -9 fuerza el cierre",
+          "language": "bash",
+          "code": "kill 1234\nkill -9 1234",
+          "tags": ["procesos"]
+        },
+        {
+          "id": "lx-top",
+          "title": "Monitor de procesos en vivo",
+          "description": "CPU y memoria en tiempo real (q para salir)",
+          "language": "bash",
+          "code": "top",
+          "tags": ["procesos"]
+        },
+        {
+          "id": "lx-df-du",
+          "title": "Espacio en disco",
+          "description": "df: por volumen; du: por carpeta (-sh resumen legible)",
+          "language": "bash",
+          "code": "df -h\ndu -sh carpeta/",
+          "tags": ["disco"]
+        },
+        {
+          "id": "lx-curl",
+          "title": "Hacer una petición HTTP",
+          "description": "-I solo headers, -o guarda a archivo",
+          "language": "bash",
+          "code": "curl -I https://example.com\ncurl -o archivo.zip https://example.com/archivo.zip",
+          "tags": ["red"]
+        },
+        {
+          "id": "lx-ssh",
+          "title": "Conectarse por SSH",
+          "description": "A un servidor remoto",
+          "language": "bash",
+          "code": "ssh usuario@servidor.com",
+          "tags": ["red"]
+        },
+        {
+          "id": "lx-scp",
+          "title": "Copiar archivos por SSH",
+          "description": "Entre tu máquina y un servidor remoto",
+          "language": "bash",
+          "code": "scp archivo.txt usuario@servidor.com:/ruta/destino/",
+          "tags": ["red"]
+        },
+        {
+          "id": "lx-env",
+          "title": "Variables de entorno",
+          "description": "Ver todas, o definir una para la sesión",
+          "language": "bash",
+          "code": "env\nexport MI_VARIABLE=valor",
+          "tags": ["shell"]
+        }
+      ]
+    }
+  ]
+}

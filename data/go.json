@@ -1,0 +1,144 @@
+{
+  "id": "go",
+  "name": "Go",
+  "icon": "🐹",
+  "color": "#00ADD8",
+  "topics": [
+    {
+      "id": "go-iniciar-proyecto",
+      "name": "Iniciar un proyecto",
+      "snippets": [
+        {
+          "id": "go-mod-init",
+          "title": "Iniciar un módulo",
+          "description": "Crea go.mod — equivalente a package.json",
+          "language": "bash",
+          "code": "go mod init github.com/usuario/mi-proyecto",
+          "tags": ["setup"]
+        },
+        {
+          "id": "go-estructura",
+          "title": "Estructura básica de proyecto",
+          "description": "Layout estándar recomendado por la comunidad",
+          "language": "text",
+          "code": "mi-proyecto/\n├── go.mod\n├── go.sum\n├── main.go\n├── cmd/\n│   └── servidor/\n│       └── main.go\n├── internal/\n│   └── negocio/\n└── pkg/",
+          "tags": ["estructura"]
+        },
+        {
+          "id": "go-hello-world",
+          "title": "Programa mínimo",
+          "description": "main.go de arranque",
+          "language": "text",
+          "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hola, Go!\")\n}",
+          "tags": ["básico"]
+        }
+      ]
+    },
+    {
+      "id": "go-comandos",
+      "name": "Comandos básicos",
+      "snippets": [
+        {
+          "id": "go-run",
+          "title": "Ejecutar sin compilar a binario",
+          "description": "Ideal durante desarrollo",
+          "language": "bash",
+          "code": "go run main.go",
+          "tags": ["dev"]
+        },
+        {
+          "id": "go-build",
+          "title": "Compilar a binario",
+          "description": "Genera un ejecutable nativo",
+          "language": "bash",
+          "code": "go build -o bin/servidor ./cmd/servidor",
+          "tags": ["build"]
+        },
+        {
+          "id": "go-test",
+          "title": "Correr los tests",
+          "description": "-v modo detallado, ./... incluye subcarpetas",
+          "language": "bash",
+          "code": "go test ./... -v",
+          "tags": ["testing"]
+        },
+        {
+          "id": "go-fmt-vet",
+          "title": "Formatear y revisar el código",
+          "description": "gofmt ordena el estilo; vet detecta errores comunes",
+          "language": "bash",
+          "code": "go fmt ./...\ngo vet ./...",
+          "tags": ["calidad"]
+        }
+      ]
+    },
+    {
+      "id": "go-dependencias",
+      "name": "Dependencias",
+      "snippets": [
+        {
+          "id": "go-get",
+          "title": "Agregar una dependencia",
+          "description": "La suma a go.mod",
+          "language": "bash",
+          "code": "go get github.com/gin-gonic/gin",
+          "tags": ["dependencias"]
+        },
+        {
+          "id": "go-mod-tidy",
+          "title": "Limpiar dependencias",
+          "description": "Agrega las que faltan y quita las que no se usan",
+          "language": "bash",
+          "code": "go mod tidy",
+          "tags": ["dependencias"]
+        },
+        {
+          "id": "go-mod-download",
+          "title": "Descargar dependencias declaradas",
+          "description": "Sin compilar nada todavía",
+          "language": "bash",
+          "code": "go mod download",
+          "tags": ["dependencias"]
+        }
+      ]
+    },
+    {
+      "id": "go-sintaxis",
+      "name": "Tipos y sintaxis básica",
+      "snippets": [
+        {
+          "id": "go-variables",
+          "title": "Variables y tipos",
+          "description": "Declaración corta con := o explícita con var",
+          "language": "text",
+          "code": "nombre := \"Polo\"\nvar edad int = 30\nconst Version = \"1.0\"",
+          "tags": ["tipos"]
+        },
+        {
+          "id": "go-struct",
+          "title": "Structs",
+          "description": "El equivalente a clases/objetos simples",
+          "language": "text",
+          "code": "type Usuario struct {\n\tNombre string\n\tEdad   int\n}\n\nu := Usuario{Nombre: \"Polo\", Edad: 30}",
+          "tags": ["tipos"]
+        },
+        {
+          "id": "go-error-handling",
+          "title": "Manejo de errores",
+          "description": "El patrón idiomático de Go: retornar (valor, error)",
+          "language": "text",
+          "code": "func dividir(a, b float64) (float64, error) {\n\tif b == 0 {\n\t\treturn 0, fmt.Errorf(\"no se puede dividir por cero\")\n\t}\n\treturn a / b, nil\n}\n\nresultado, err := dividir(10, 0)\nif err != nil {\n\tlog.Fatal(err)\n}",
+          "tags": ["errores"]
+        },
+        {
+          "id": "go-goroutine",
+          "title": "Goroutine + channel",
+          "description": "Concurrencia ligera, comunicación por canales",
+          "language": "text",
+          "code": "canal := make(chan string)\n\ngo func() {\n\tcanal <- \"listo\"\n}()\n\nresultado := <-canal\nfmt.Println(resultado)",
+          "tags": ["concurrencia"]
+        }
+      ]
+    }
+  ]
+}

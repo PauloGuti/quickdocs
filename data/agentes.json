@@ -1,0 +1,158 @@
+{
+  "id": "agentes",
+  "name": "Desarrollo de Agentes",
+  "icon": "🧠",
+  "color": "#8B5CF6",
+  "topics": [
+    {
+      "id": "ag-estructura",
+      "name": "Estructura de carpetas (multi-agente)",
+      "snippets": [
+        {
+          "id": "ag-estructura-basica",
+          "title": "Layout típico de un proyecto de agentes",
+          "description": "Separar agentes, tools, prompts y memoria facilita escalar",
+          "language": "text",
+          "code": "mi-agente/\n├── agents/\n│   ├── orquestador.py      # decide a qué sub-agente derivar\n│   ├── agente_ventas.py\n│   └── agente_soporte.py\n├── tools/\n│   ├── buscar_producto.py\n│   └── crear_ticket.py\n├── prompts/\n│   ├── system_orquestador.md\n│   └── system_ventas.md\n├── memory/\n│   └── store.py            # persistencia de contexto/historial\n├── evals/\n│   └── casos_prueba.jsonl  # ejemplos para medir calidad\n└── main.py",
+          "tags": ["estructura", "multi-agente"]
+        },
+        {
+          "id": "ag-single-vs-multi",
+          "title": "¿Un agente o varios?",
+          "description": "Regla práctica antes de dividir en sub-agentes",
+          "language": "text",
+          "code": "Empieza con UN solo agente y una lista de tools.\n\nDivide en sub-agentes recién cuando:\n- el system prompt se vuelve gigante con instrucciones que se pisan entre sí\n- necesitas distintos modelos/costos según la tarea\n- hay dominios claramente separables (ventas vs. soporte vs. facturación)",
+          "tags": ["arquitectura"]
+        }
+      ]
+    },
+    {
+      "id": "ag-system-prompts",
+      "name": "System prompts",
+      "snippets": [
+        {
+          "id": "ag-prompt-template",
+          "title": "Plantilla de system prompt",
+          "description": "Rol, objetivo, restricciones y formato de salida, en ese orden",
+          "language": "text",
+          "code": "# Rol\nEres [rol específico], especializado en [dominio].\n\n# Objetivo\nTu tarea es [qué debe lograr en cada interacción].\n\n# Herramientas disponibles\n- herramienta_x: para qué sirve y cuándo usarla\n- herramienta_y: para qué sirve y cuándo usarla\n\n# Restricciones\n- Nunca [acción prohibida].\n- Si falta información, pregunta antes de asumir.\n\n# Formato de salida\nResponde en [formato esperado: texto breve, JSON, markdown, etc.]",
+          "tags": ["prompts"]
+        },
+        {
+          "id": "ag-prompt-vs-instrucciones",
+          "title": "System prompt vs. instrucciones de tarea",
+          "description": "No mezclar lo estable con lo que cambia en cada llamada",
+          "language": "text",
+          "code": "System prompt: quién es el agente, sus reglas y herramientas.\n  → cambia poco, se cachea, va una sola vez.\n\nMensaje de usuario / tarea: el pedido concreto de esa interacción.\n  → cambia siempre, no debería redefinir el rol del agente.",
+          "tags": ["prompts", "arquitectura"]
+        },
+        {
+          "id": "ag-prompt-pocos-ejemplos",
+          "title": "Few-shot: ejemplos dentro del prompt",
+          "description": "2-3 ejemplos concretos valen más que párrafos de reglas",
+          "language": "text",
+          "code": "# Ejemplos\n\nEntrada: \"cancela mi pedido #4521\"\nSalida: {\"accion\": \"cancelar_pedido\", \"id\": \"4521\"}\n\nEntrada: \"¿cuándo llega mi pedido?\"\nSalida: {\"accion\": \"consultar_estado\", \"id\": null}",
+          "tags": ["prompts", "few-shot"]
+        }
+      ]
+    },
+    {
+      "id": "ag-skills-tools",
+      "name": "Skills y Tools",
+      "snippets": [
+        {
+          "id": "ag-tool-schema",
+          "title": "Definición de una tool (function calling)",
+          "description": "El modelo decide llamarla según nombre y descripción",
+          "language": "json",
+          "code": "{\n  \"name\": \"buscar_producto\",\n  \"description\": \"Busca productos en el catálogo por nombre o categoría\",\n  \"parameters\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"query\": { \"type\": \"string\", \"description\": \"Término de búsqueda\" },\n      \"categoria\": { \"type\": \"string\", \"description\": \"Opcional, filtra por categoría\" }\n    },\n    \"required\": [\"query\"]\n  }\n}",
+          "tags": ["tools"]
+        },
+        {
+          "id": "ag-tool-naming",
+          "title": "Buenas prácticas para nombrar tools",
+          "description": "El modelo elige la tool leyendo esto — sé explícito",
+          "language": "text",
+          "code": "✓ verbo_sustantivo claro: crear_ticket, buscar_cliente, enviar_email\n✗ nombres genéricos: procesar, manejar, hacer_cosa\n\nLa descripción debe decir QUÉ HACE y CUÁNDO USARLA,\nno cómo está implementada por dentro.",
+          "tags": ["tools", "buenas-prácticas"]
+        },
+        {
+          "id": "ag-skill-vs-tool",
+          "title": "Skill vs. Tool",
+          "description": "Distinción útil al organizar capacidades del agente",
+          "language": "text",
+          "code": "Tool: una función puntual (una llamada, una respuesta).\n  → buscar_producto(), enviar_email()\n\nSkill: un conjunto de tools + instrucciones + contexto\npara resolver una tarea completa de varios pasos.\n  → \"gestionar_devolucion\" puede usar buscar_pedido,\n    verificar_politica y crear_reembolso en secuencia.",
+          "tags": ["skills", "tools"]
+        }
+      ]
+    },
+    {
+      "id": "ag-memoria",
+      "name": "Memoria y contexto",
+      "snippets": [
+        {
+          "id": "ag-memoria-tipos",
+          "title": "Tipos de memoria de un agente",
+          "description": "No todo necesita una base de datos vectorial",
+          "language": "text",
+          "code": "Corto plazo: el historial de la conversación actual.\n  → se manda entero (o resumido) en cada llamada al modelo.\n\nLargo plazo: hechos que deben persistir entre sesiones.\n  → key-value simple (preferencias) o vector store (búsqueda semántica).\n\nEpisódica: registro de qué hizo el agente y por qué.\n  → útil para debugging y para que el agente \"recuerde\" acciones pasadas.",
+          "tags": ["memoria"]
+        },
+        {
+          "id": "ag-memoria-resumen",
+          "title": "Resumir en vez de acumular todo",
+          "description": "Evita que el contexto crezca sin límite en conversaciones largas",
+          "language": "text",
+          "code": "Cada N turnos: resume los mensajes viejos en 2-3 líneas\ny reemplázalos por ese resumen en el historial.\n\nMantén siempre completos los últimos 2-3 turnos\n(el modelo necesita el detalle reciente, no el viejo).",
+          "tags": ["memoria"]
+        },
+        {
+          "id": "ag-memoria-registro",
+          "title": "Estructura simple de un registro de memoria",
+          "description": "Suficiente para empezar, sin infraestructura extra",
+          "language": "json",
+          "code": "{\n  \"usuario_id\": \"u_123\",\n  \"hechos\": [\n    { \"clave\": \"idioma_preferido\", \"valor\": \"es\" },\n    { \"clave\": \"plan\", \"valor\": \"pro\" }\n  ],\n  \"actualizado_en\": \"2026-08-10T10:00:00Z\"\n}",
+          "tags": ["memoria"]
+        }
+      ]
+    },
+    {
+      "id": "ag-orquestacion",
+      "name": "Orquestación multi-agente",
+      "snippets": [
+        {
+          "id": "ag-patron-supervisor",
+          "title": "Patrón: supervisor + sub-agentes",
+          "description": "Un agente enrutador decide a quién delegar",
+          "language": "text",
+          "code": "Usuario → Agente supervisor\n              │\n   ┌──────────┼──────────┐\n   ▼          ▼          ▼\nVentas    Soporte    Facturación\n\nEl supervisor NO resuelve la tarea: solo interpreta\nla intención y delega al sub-agente especializado.",
+          "tags": ["orquestación", "patrones"]
+        },
+        {
+          "id": "ag-patron-pipeline",
+          "title": "Patrón: pipeline secuencial",
+          "description": "Cada agente hace un paso y pasa el resultado al siguiente",
+          "language": "text",
+          "code": "Investigar → Redactar → Revisar → Publicar\n\nÚtil cuando la tarea tiene etapas claras y cada una\nse beneficia de un prompt/modelo distinto y enfocado.",
+          "tags": ["orquestación", "patrones"]
+        },
+        {
+          "id": "ag-router-pseudocodigo",
+          "title": "Router de intención (pseudo-código)",
+          "description": "Versión mínima de un supervisor",
+          "language": "python",
+          "code": "def enrutar(mensaje):\n    intencion = clasificar_intencion(mensaje)  # llamada al modelo\n    agentes = {\n        \"venta\": agente_ventas,\n        \"soporte\": agente_soporte,\n        \"facturacion\": agente_facturacion,\n    }\n    agente = agentes.get(intencion, agente_general)\n    return agente.responder(mensaje)",
+          "tags": ["orquestación", "código"]
+        },
+        {
+          "id": "ag-cuando-no-multiagente",
+          "title": "Cuándo NO conviene multi-agente",
+          "description": "Más agentes = más latencia y más superficie de error",
+          "language": "text",
+          "code": "Evita dividir en sub-agentes si:\n- la tarea es simple y un solo prompt bien escrito alcanza\n- necesitas baja latencia (cada salto de agente suma tiempo)\n- el equipo aún no tiene forma de evaluar/depurar el sistema\n\nMulti-agente resuelve problemas de organización del prompt,\nno hace al sistema más \"inteligente\" por sí solo.",
+          "tags": ["orquestación", "buenas-prácticas"]
+        }
+      ]
+    }
+  ]
+}
