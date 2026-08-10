@@ -39,6 +39,24 @@ npm start
 npm run dist:win      # genera dist/QuickDocs Setup <version>.exe (instalador NSIS)
 ```
 
+**⚠️ En Mac con Apple Silicon (M1/M2/M3/M4) este comando falla en local**
+con `Cannot spawn .../makensis: ... Unknown system error -86`: el
+`makensis` que usa electron-builder para armar el NSIS es un binario
+Intel, y sin Rosetta 2 no corre. Dos salidas:
+
+1. **Recomendado — compilarlo en un Windows real vía GitHub Actions**: el
+   repo ya trae `.github/workflows/build.yml`, que compila el `.exe` en un
+   runner `windows-latest` (cero problemas de cross-compilación) y el
+   `.dmg` en un runner mac aparte. Se dispara manual
+   (`gh workflow run build.yml`, o Actions → Build → Run workflow en la
+   web) o automático al pushear un tag `vX.Y.Z` (además crea un Release
+   con ambos instaladores adjuntos). Ver el paso a paso en
+   [`COMPARTIR_E_INSTALAR.md`](COMPARTIR_E_INSTALAR.md).
+2. **Instalar Rosetta 2** (`softwareupdate --install-rosetta
+   --agree-to-license`) y compilar en local como cualquier otro target.
+   Más rápido para una prueba puntual, pero sigue siendo una build
+   cross-compilada nunca corrida en un Windows de verdad.
+
 El proyecto está preparado a nivel de código (blur nativo vía
 `backgroundMaterial` en vez de `vibrancy`, iconos `.ico` generados junto a
 los `.icns`, atajo `CommandOrControl+Shift+9` que en Windows se traduce a
