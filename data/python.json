@@ -367,6 +367,268 @@
           "language": "python",
           "code": "activo = True\nresultado = None",
           "tags": ["tipos"]
+        },
+        {
+          "id": "py-type-hints",
+          "title": "Type hints (tipado)",
+          "description": "Anotaciones de tipo, opcionales pero muy recomendadas",
+          "language": "python",
+          "code": "def saludar(nombre: str, edad: int = 0) -> str:\n    return f\"{nombre} tiene {edad} años\"\n\nfrom typing import Optional\nemail: Optional[str] = None",
+          "tags": ["tipos", "typing"]
+        }
+      ]
+    },
+    {
+      "id": "condicionales-operadores",
+      "name": "Condicionales y operadores",
+      "snippets": [
+        {
+          "id": "py-if-elif-else-2",
+          "title": "if / elif / else",
+          "description": "Estructura condicional básica",
+          "language": "python",
+          "code": "if edad < 18:\n    categoria = \"menor\"\nelif edad < 65:\n    categoria = \"adulto\"\nelse:\n    categoria = \"senior\"",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "py-ternario",
+          "title": "Operador ternario",
+          "description": "if/else en una sola línea, para asignaciones simples",
+          "language": "python",
+          "code": "estado = \"activo\" if usuario.esta_activo else \"inactivo\"",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "py-match-case",
+          "title": "match / case",
+          "description": "Pattern matching (Python 3.10+), alternativa a if/elif largos",
+          "language": "python",
+          "code": "match comando:\n    case \"iniciar\":\n        print(\"Iniciando...\")\n    case \"detener\" | \"parar\":\n        print(\"Deteniendo...\")\n    case _:\n        print(\"Comando desconocido\")",
+          "tags": ["condicionales", "match"]
+        },
+        {
+          "id": "py-operadores-logicos",
+          "title": "Operadores lógicos",
+          "description": "and, or, not — se evalúan de forma perezosa (short-circuit)",
+          "language": "python",
+          "code": "if usuario.activo and usuario.tiene_permiso:\n    permitir_acceso()\n\nnombre = nombre_usuario or \"invitado\"",
+          "tags": ["condicionales", "operadores"]
+        },
+        {
+          "id": "py-in-is",
+          "title": "in / is",
+          "description": "\"in\" busca pertenencia; \"is\" compara identidad (útil con None)",
+          "language": "python",
+          "code": "if \"admin\" in roles:\n    ...\n\nif resultado is None:\n    ...",
+          "tags": ["condicionales", "operadores"]
+        }
+      ]
+    },
+    {
+      "id": "funciones-asincronas",
+      "name": "Funciones asíncronas (asyncio)",
+      "snippets": [
+        {
+          "id": "py-async-basico",
+          "title": "async def / await",
+          "description": "Define y llama una función asíncrona",
+          "language": "python",
+          "code": "import asyncio\n\nasync def saludar():\n    await asyncio.sleep(1)\n    print(\"Hola!\")\n\nasyncio.run(saludar())",
+          "tags": ["async", "asyncio"]
+        },
+        {
+          "id": "py-async-gather",
+          "title": "Ejecutar varias tareas en paralelo",
+          "description": "asyncio.gather espera a que todas terminen",
+          "language": "python",
+          "code": "async def main():\n    resultados = await asyncio.gather(\n        obtener_usuario(1),\n        obtener_usuario(2),\n        obtener_usuario(3),\n    )\n    return resultados",
+          "tags": ["async", "asyncio"]
+        },
+        {
+          "id": "py-async-httpx",
+          "title": "Petición HTTP asíncrona",
+          "description": "Como \"fetch\" pero en Python — con httpx",
+          "language": "python",
+          "code": "import httpx\n\nasync def obtener_datos(url: str):\n    async with httpx.AsyncClient() as client:\n        respuesta = await client.get(url)\n        return respuesta.json()",
+          "tags": ["async", "http", "fetch"]
+        },
+        {
+          "id": "py-async-tareas",
+          "title": "Crear una tarea en segundo plano",
+          "description": "No bloquea, se ejecuta \"al mismo tiempo\"",
+          "language": "python",
+          "code": "tarea = asyncio.create_task(procesar_en_fondo())\n# ... seguir haciendo otras cosas ...\nawait tarea",
+          "tags": ["async", "asyncio"]
+        }
+      ]
+    },
+    {
+      "id": "pandas-dataframes",
+      "name": "Pandas — DataFrames",
+      "snippets": [
+        {
+          "id": "py-df-crear",
+          "title": "Crear un DataFrame",
+          "description": "Desde un diccionario de listas",
+          "language": "python",
+          "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"nombre\": [\"Ana\", \"Luis\"],\n    \"edad\": [28, 34],\n})",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-leer-csv",
+          "title": "Leer un CSV",
+          "description": "Carga un archivo a un DataFrame",
+          "language": "python",
+          "code": "df = pd.read_csv(\"datos.csv\")",
+          "tags": ["pandas", "df", "io"]
+        },
+        {
+          "id": "py-df-seleccionar",
+          "title": "Seleccionar columnas y filas",
+          "description": "loc por etiqueta, iloc por posición",
+          "language": "python",
+          "code": "df[\"edad\"]                 # una columna\ndf[[\"nombre\", \"edad\"]]      # varias columnas\ndf.loc[0]                   # fila por índice\ndf.iloc[0:3]                # primeras 3 filas",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-filtrar",
+          "title": "Filtrar filas por condición",
+          "description": "Como un WHERE de SQL",
+          "language": "python",
+          "code": "mayores = df[df[\"edad\"] >= 30]\nmayores_activos = df[(df[\"edad\"] >= 30) & (df[\"activo\"])]",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-nueva-columna",
+          "title": "Agregar o modificar una columna",
+          "description": "Se puede calcular a partir de otras columnas",
+          "language": "python",
+          "code": "df[\"edad_en_meses\"] = df[\"edad\"] * 12",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-groupby",
+          "title": "Agrupar y agregar (groupby)",
+          "description": "Como GROUP BY + agregación en SQL",
+          "language": "python",
+          "code": "df.groupby(\"categoria\")[\"ventas\"].sum()\ndf.groupby(\"categoria\").agg({\"ventas\": \"sum\", \"edad\": \"mean\"})",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-ordenar",
+          "title": "Ordenar filas",
+          "description": "ascending=False para descendente",
+          "language": "python",
+          "code": "df.sort_values(\"edad\", ascending=False)",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-df-guardar-csv",
+          "title": "Guardar a CSV",
+          "description": "index=False para no guardar el índice numérico",
+          "language": "python",
+          "code": "df.to_csv(\"salida.csv\", index=False)",
+          "tags": ["pandas", "df", "io"]
+        },
+        {
+          "id": "py-df-info-describe",
+          "title": "Vista rápida del DataFrame",
+          "description": "info() para tipos/nulos, describe() para estadísticas",
+          "language": "python",
+          "code": "df.info()\ndf.describe()\ndf.head()",
+          "tags": ["pandas", "df"]
+        }
+      ]
+    },
+    {
+      "id": "analisis-datos",
+      "name": "Análisis de datos",
+      "snippets": [
+        {
+          "id": "py-numpy-stats",
+          "title": "Estadísticas básicas con numpy",
+          "description": "Sobre arrays o columnas de un DataFrame",
+          "language": "python",
+          "code": "import numpy as np\n\nnp.mean(valores)\nnp.std(valores)\nnp.sum(valores)\nnp.median(valores)",
+          "tags": ["numpy", "estadística"]
+        },
+        {
+          "id": "py-value-counts",
+          "title": "Contar valores únicos",
+          "description": "Cuántas veces aparece cada valor en una columna",
+          "language": "python",
+          "code": "df[\"categoria\"].value_counts()",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-nulos",
+          "title": "Manejo de valores nulos",
+          "description": "Detectar, eliminar o rellenar",
+          "language": "python",
+          "code": "df.isna().sum()          # cuántos nulos por columna\ndf.dropna()               # elimina filas con nulos\ndf.fillna(0)               # rellena nulos con un valor",
+          "tags": ["pandas", "df", "limpieza"]
+        },
+        {
+          "id": "py-apply",
+          "title": "Aplicar una función propia a cada fila",
+          "description": "Cuando una operación no existe ya en pandas",
+          "language": "python",
+          "code": "def clasificar(edad):\n    return \"adulto\" if edad >= 18 else \"menor\"\n\ndf[\"categoria\"] = df[\"edad\"].apply(clasificar)",
+          "tags": ["pandas", "df"]
+        },
+        {
+          "id": "py-pivot-table",
+          "title": "Tabla dinámica (pivot_table)",
+          "description": "Resume datos cruzando dos dimensiones",
+          "language": "python",
+          "code": "df.pivot_table(values=\"ventas\", index=\"region\", columns=\"mes\", aggfunc=\"sum\")",
+          "tags": ["pandas", "df"]
+        }
+      ]
+    },
+    {
+      "id": "ia-machine-learning",
+      "name": "IA / Machine Learning",
+      "snippets": [
+        {
+          "id": "py-ia-instalar",
+          "title": "Instalar librerías de IA más usadas",
+          "description": "SDKs de modelos + scikit-learn para ML clásico",
+          "language": "bash",
+          "code": "pip install openai anthropic scikit-learn numpy",
+          "tags": ["ia", "setup"]
+        },
+        {
+          "id": "py-ia-openai",
+          "title": "Llamar a la API de OpenAI",
+          "description": "Chat completion básico",
+          "language": "python",
+          "code": "from openai import OpenAI\n\nclient = OpenAI()  # lee OPENAI_API_KEY del entorno\nrespuesta = client.chat.completions.create(\n    model=\"gpt-4o-mini\",\n    messages=[{\"role\": \"user\", \"content\": \"Hola!\"}],\n)\nprint(respuesta.choices[0].message.content)",
+          "tags": ["ia", "openai"]
+        },
+        {
+          "id": "py-ia-anthropic",
+          "title": "Llamar a la API de Anthropic (Claude)",
+          "description": "Mensaje simple con el SDK oficial",
+          "language": "python",
+          "code": "import anthropic\n\nclient = anthropic.Anthropic()  # lee ANTHROPIC_API_KEY del entorno\nmensaje = client.messages.create(\n    model=\"claude-sonnet-4-5\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": \"Hola!\"}],\n)\nprint(mensaje.content[0].text)",
+          "tags": ["ia", "anthropic", "claude"]
+        },
+        {
+          "id": "py-ia-train-test-split",
+          "title": "Separar datos de entrenamiento y prueba",
+          "description": "Paso previo casi obligatorio antes de entrenar un modelo",
+          "language": "python",
+          "code": "from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)",
+          "tags": ["ia", "scikit-learn", "ml"]
+        },
+        {
+          "id": "py-ia-entrenar-modelo",
+          "title": "Entrenar y predecir con un modelo simple",
+          "description": "Patrón fit/predict, común a casi todos los modelos de sklearn",
+          "language": "python",
+          "code": "from sklearn.linear_model import LogisticRegression\n\nmodelo = LogisticRegression()\nmodelo.fit(X_train, y_train)\npredicciones = modelo.predict(X_test)",
+          "tags": ["ia", "scikit-learn", "ml"]
         }
       ]
     },

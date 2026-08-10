@@ -84,16 +84,26 @@ class LocalJsonStorage extends StorageProvider {
   }
 
   // Se corre en cada arranque (no solo el primero): si esta versión de
-  // QuickDocs trae categorías semilla nuevas que el usuario todavía no
-  // tiene, se agregan solas. Nunca toca categorías que ya existen, así que
-  // jamás pisa ediciones propias del usuario.
+  // QuickDocs trae categorías o TEMAS semilla nuevos que el usuario todavía
+  // no tiene, se agregan solos — tanto categorías completas nuevas como
+  // temas nuevos dentro de una categoría que ya existía. Nunca toca ni
+  // sobrescribe una categoría/tema/snippet que ya existe, así que jamás
+  // pisa ediciones propias del usuario.
   _mergeNewSeedCategories() {
-    const existingIds = new Set(this.library.categories.map((c) => c.id));
     let added = false;
-    for (const category of this._loadSeedCategories()) {
-      if (!existingIds.has(category.id)) {
-        this.library.categories.push(category);
+    for (const seedCategory of this._loadSeedCategories()) {
+      const existingCategory = this.library.categories.find((c) => c.id === seedCategory.id);
+      if (!existingCategory) {
+        this.library.categories.push(seedCategory);
         added = true;
+        continue;
+      }
+      const existingTopicIds = new Set(existingCategory.topics.map((t) => t.id));
+      for (const seedTopic of seedCategory.topics || []) {
+        if (!existingTopicIds.has(seedTopic.id)) {
+          existingCategory.topics.push(seedTopic);
+          added = true;
+        }
       }
     }
     if (added) this._persistLibrary();

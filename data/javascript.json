@@ -165,6 +165,244 @@
           "tags": ["estado"]
         }
       ]
+    },
+    {
+      "id": "js-condicionales",
+      "name": "Condicionales y operadores",
+      "snippets": [
+        {
+          "id": "js-if-else",
+          "title": "if / else",
+          "description": "Condicional básico",
+          "language": "javascript",
+          "code": "if (edad < 18) {\n  categoria = 'menor';\n} else if (edad < 65) {\n  categoria = 'adulto';\n} else {\n  categoria = 'senior';\n}",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "js-ternario",
+          "title": "Operador ternario",
+          "description": "if/else en una expresión, ideal para asignaciones",
+          "language": "javascript",
+          "code": "const estado = usuario.activo ? 'activo' : 'inactivo';",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "js-switch",
+          "title": "switch",
+          "description": "Alternativa a muchos else-if encadenados",
+          "language": "javascript",
+          "code": "switch (comando) {\n  case 'iniciar':\n    console.log('Iniciando...');\n    break;\n  case 'detener':\n  case 'parar':\n    console.log('Deteniendo...');\n    break;\n  default:\n    console.log('Comando desconocido');\n}",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "js-optional-chaining",
+          "title": "Optional chaining (?.)",
+          "description": "Accede a propiedades anidadas sin que explote si algo es undefined",
+          "language": "javascript",
+          "code": "const ciudad = usuario?.direccion?.ciudad;\nconst resultado = objeto?.metodo?.();",
+          "tags": ["operadores"]
+        },
+        {
+          "id": "js-nullish-coalescing",
+          "title": "Nullish coalescing (??)",
+          "description": "Valor por defecto solo si es null o undefined (a diferencia de ||)",
+          "language": "javascript",
+          "code": "const puerto = config.puerto ?? 3000;\n// 0 y '' NO activan el default, a diferencia de ||",
+          "tags": ["operadores"]
+        },
+        {
+          "id": "js-short-circuit",
+          "title": "Short-circuit con && y ||",
+          "description": "Ejecuta condicionalmente sin escribir un if",
+          "language": "javascript",
+          "code": "usuario.esAdmin && mostrarPanelAdmin();\nconst nombre = usuario.nombre || 'invitado';",
+          "tags": ["operadores"]
+        }
+      ]
+    },
+    {
+      "id": "js-tipos-datos",
+      "name": "Tipos de datos",
+      "snippets": [
+        {
+          "id": "js-tipos-primitivos",
+          "title": "Tipos primitivos",
+          "description": "string, number, boolean, null, undefined",
+          "language": "javascript",
+          "code": "const nombre = 'Polo';\nconst edad = 30;\nconst activo = true;\nlet resultado = null;\nlet sinDefinir;",
+          "tags": ["tipos"]
+        },
+        {
+          "id": "js-arrays-metodos",
+          "title": "Arrays: map, filter, reduce",
+          "description": "Los tres métodos que más se usan para transformar datos",
+          "language": "javascript",
+          "code": "const precios = [10, 20, 30];\nconst conIva = precios.map((p) => p * 1.19);\nconst caros = precios.filter((p) => p > 15);\nconst total = precios.reduce((acc, p) => acc + p, 0);",
+          "tags": ["tipos", "arrays"]
+        },
+        {
+          "id": "js-objetos",
+          "title": "Objetos",
+          "description": "Pares clave-valor, con destructuring y spread",
+          "language": "javascript",
+          "code": "const usuario = { nombre: 'Polo', edad: 30 };\nconst { nombre, edad } = usuario;\nconst actualizado = { ...usuario, edad: 31 };",
+          "tags": ["tipos"]
+        },
+        {
+          "id": "ts-type-alias",
+          "title": "Type alias (TypeScript)",
+          "description": "Define la forma de un dato",
+          "language": "typescript",
+          "code": "type Usuario = {\n  nombre: string;\n  edad: number;\n  email?: string; // opcional\n};",
+          "tags": ["tipos", "typescript"]
+        },
+        {
+          "id": "ts-interface",
+          "title": "Interface (TypeScript)",
+          "description": "Similar a \"type\", pero se puede extender con \"extends\"",
+          "language": "typescript",
+          "code": "interface Usuario {\n  nombre: string;\n  edad: number;\n}\n\ninterface Admin extends Usuario {\n  permisos: string[];\n}",
+          "tags": ["tipos", "typescript"]
+        },
+        {
+          "id": "ts-union-types",
+          "title": "Union types",
+          "description": "Una variable que puede ser de más de un tipo",
+          "language": "typescript",
+          "code": "type Estado = 'cargando' | 'listo' | 'error';\nfunction procesar(valor: string | number) { ... }",
+          "tags": ["tipos", "typescript"]
+        }
+      ]
+    },
+    {
+      "id": "js-async",
+      "name": "Funciones asíncronas",
+      "snippets": [
+        {
+          "id": "js-async-await",
+          "title": "async / await",
+          "description": "La forma más legible de trabajar con promesas",
+          "language": "javascript",
+          "code": "async function obtenerUsuario(id) {\n  const respuesta = await fetch(`/api/usuarios/${id}`);\n  const datos = await respuesta.json();\n  return datos;\n}",
+          "tags": ["async"]
+        },
+        {
+          "id": "js-promise-manual",
+          "title": "Crear una Promise",
+          "description": "Envuelve código asíncrono/con callback en una promesa",
+          "language": "javascript",
+          "code": "function esperar(ms) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\nawait esperar(1000);",
+          "tags": ["async", "promises"]
+        },
+        {
+          "id": "js-promise-all",
+          "title": "Ejecutar promesas en paralelo",
+          "description": "Promise.all espera a que todas terminen (falla si alguna falla)",
+          "language": "javascript",
+          "code": "const [usuarios, pedidos] = await Promise.all([\n  obtenerUsuarios(),\n  obtenerPedidos(),\n]);",
+          "tags": ["async", "promises"]
+        },
+        {
+          "id": "js-promise-allsettled",
+          "title": "Promise.allSettled",
+          "description": "Como Promise.all, pero no falla si alguna promesa rechaza",
+          "language": "javascript",
+          "code": "const resultados = await Promise.allSettled([tarea1(), tarea2()]);\nresultados.forEach((r) => console.log(r.status));",
+          "tags": ["async", "promises"]
+        },
+        {
+          "id": "js-try-catch-async",
+          "title": "Manejo de errores con async/await",
+          "description": "try/catch envuelve el await, igual que código síncrono",
+          "language": "javascript",
+          "code": "try {\n  const datos = await obtenerDatos();\n} catch (error) {\n  console.error('Falló la petición:', error);\n}",
+          "tags": ["async", "errores"]
+        }
+      ]
+    },
+    {
+      "id": "js-fetch-http",
+      "name": "Fetch / HTTP",
+      "snippets": [
+        {
+          "id": "js-fetch-get",
+          "title": "GET con fetch",
+          "description": "La forma nativa de hacer peticiones HTTP en JS",
+          "language": "javascript",
+          "code": "const respuesta = await fetch('https://api.example.com/usuarios');\nconst datos = await respuesta.json();",
+          "tags": ["fetch", "http"]
+        },
+        {
+          "id": "js-fetch-post",
+          "title": "POST con JSON",
+          "description": "Envía un body y define el content-type",
+          "language": "javascript",
+          "code": "const respuesta = await fetch('https://api.example.com/usuarios', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ nombre: 'Polo' }),\n});\nconst creado = await respuesta.json();",
+          "tags": ["fetch", "http"]
+        },
+        {
+          "id": "js-fetch-errores",
+          "title": "Manejar errores de status HTTP",
+          "description": "fetch NO lanza error en 404/500 — hay que revisar response.ok",
+          "language": "javascript",
+          "code": "const respuesta = await fetch(url);\nif (!respuesta.ok) {\n  throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);\n}\nconst datos = await respuesta.json();",
+          "tags": ["fetch", "http", "errores"]
+        },
+        {
+          "id": "js-fetch-headers-auth",
+          "title": "Headers y autenticación",
+          "description": "Token en el header Authorization",
+          "language": "javascript",
+          "code": "await fetch(url, {\n  headers: { Authorization: `Bearer ${token}` },\n});",
+          "tags": ["fetch", "http", "auth"]
+        },
+        {
+          "id": "js-fetch-abort",
+          "title": "Cancelar una petición (timeout)",
+          "description": "AbortController corta el fetch si tarda demasiado",
+          "language": "javascript",
+          "code": "const controller = new AbortController();\nsetTimeout(() => controller.abort(), 5000);\n\nawait fetch(url, { signal: controller.signal });",
+          "tags": ["fetch", "http"]
+        }
+      ]
+    },
+    {
+      "id": "js-ia-datos",
+      "name": "IA y análisis de datos",
+      "snippets": [
+        {
+          "id": "js-array-analisis",
+          "title": "Encadenar map/filter/reduce",
+          "description": "El equivalente en JS a transformaciones de datos tipo pandas",
+          "language": "javascript",
+          "code": "const totalPorCategoria = ventas\n  .filter((v) => v.activo)\n  .reduce((acc, v) => {\n    acc[v.categoria] = (acc[v.categoria] ?? 0) + v.monto;\n    return acc;\n  }, {});",
+          "tags": ["análisis", "arrays"]
+        },
+        {
+          "id": "js-json-parse-stringify",
+          "title": "JSON.parse / JSON.stringify",
+          "description": "Convertir entre texto y objetos JS",
+          "language": "javascript",
+          "code": "const objeto = JSON.parse(texto);\nconst texto2 = JSON.stringify(objeto, null, 2); // \"null, 2\" = formateado",
+          "tags": ["datos", "json"]
+        },
+        {
+          "id": "js-ia-openai-sdk",
+          "title": "Llamar a la API de OpenAI (Node)",
+          "description": "Con el SDK oficial",
+          "language": "javascript",
+          "code": "import OpenAI from 'openai';\n\nconst client = new OpenAI(); // lee OPENAI_API_KEY del entorno\nconst respuesta = await client.chat.completions.create({\n  model: 'gpt-4o-mini',\n  messages: [{ role: 'user', content: 'Hola!' }],\n});\nconsole.log(respuesta.choices[0].message.content);",
+          "tags": ["ia", "openai"]
+        },
+        {
+          "id": "js-ia-vercel-sdk",
+          "title": "Vercel AI SDK — generateText",
+          "description": "API unificada para distintos proveedores de modelos",
+          "language": "javascript",
+          "code": "import { generateText } from 'ai';\n\nconst { text } = await generateText({\n  model: 'anthropic/claude-sonnet-4-5',\n  prompt: 'Hola!',\n});\nconsole.log(text);",
+          "tags": ["ia", "vercel"]
+        }
+      ]
     }
   ]
 }
