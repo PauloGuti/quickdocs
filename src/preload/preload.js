@@ -22,6 +22,9 @@ contextBridge.exposeInMainWorld('quickdocs', {
     get: () => ipcRenderer.invoke('settings:get'),
     set: (patch) => ipcRenderer.invoke('settings:set', patch),
   },
+  shortcut: {
+    set: (accelerator) => ipcRenderer.invoke('shortcut:set', accelerator),
+  },
   auth: {
     getCurrentUser: () => ipcRenderer.invoke('auth:getCurrentUser'),
     signIn: () => ipcRenderer.invoke('auth:signIn'),

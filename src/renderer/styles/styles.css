@@ -871,3 +871,34 @@ html, body {
   color: var(--text-tertiary);
   padding: 4px 0;
 }
+
+/* --- grabador de atajo global (Configuración) --- */
+.shortcut-recorder {
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid var(--card-border);
+  background: var(--control-bg);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 9px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  text-align: center;
+}
+.shortcut-recorder:hover {
+  background: var(--control-bg-hover);
+}
+.shortcut-recorder.recording {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: shortcut-pulse 1.4s ease-in-out infinite;
+}
+@keyframes shortcut-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+#shortcut-status.status-ok { color: #30d158; }
+#shortcut-status.status-error { color: #ff453a; }

@@ -5,6 +5,7 @@ const OfflineAuthProvider = require('./auth/local');
 const { createPopupWindow, getPopupWindow, togglePopupWindow } = require('./window');
 const { createTray } = require('./tray');
 const { registerIpcHandlers } = require('./ipc');
+const { registerShortcut } = require('./shortcut');
 
 // QuickDocs es una app de acceso rápido tipo Spotlight/Raycast: vive en la
 // barra de menú (tray), no en el Dock, y se invoca con un atajo global.
@@ -29,23 +30,27 @@ if (!gotLock) {
     const auth = new OfflineAuthProvider();
 
     createPopupWindow();
-    registerIpcHandlers({ storage, auth, getWindow: getPopupWindow });
+    registerIpcHandlers({ storage, auth, getWindow: getPopupWindow, toggleWindow: togglePopupWindow });
 
     createTray({
       onToggle: togglePopupWindow,
       onQuit: () => app.quit(),
     });
 
-    const registered = globalShortcut.register(config.globalShortcut, togglePopupWindow);
+    // El atajo elegido desde Configuración (guardado en settings.json) manda
+    // sobre el de .env; si el usuario nunca lo cambió en la UI, se usa el de
+    // .env (o el default) tal como antes.
+    const settings = await storage.getSettings();
+    const accelerator = settings.globalShortcut || config.globalShortcut;
+    const registered = registerShortcut(accelerator, togglePopupWindow);
     if (!registered) {
       console.error(
-        `[QuickDocs] No se pudo registrar el atajo global "${config.globalShortcut}". ` +
-          'Puede que otra app lo esté usando ya. Cámbialo en tu .env (GLOBAL_SHORTCUT).'
+        `[QuickDocs] No se pudo registrar el atajo global "${accelerator}". ` +
+          'Puede que otra app lo esté usando ya. Cámbialo desde Configuración o en tu .env (GLOBAL_SHORTCUT).'
       );
     }
 
-    const startAtLogin = (await storage.getSettings()).startAtLogin;
-    app.setLoginItemSettings({ openAtLogin: !!startAtLogin });
+    app.setLoginItemSettings({ openAtLogin: !!settings.startAtLogin });
   });
 
   app.on('will-quit', () => {

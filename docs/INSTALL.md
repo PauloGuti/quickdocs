@@ -61,11 +61,15 @@ xattr -cr /Applications/QuickDocs.app
 
 ## 5. ¿Cambiar el atajo de teclado?
 
-El atajo no se edita desde la interfaz (a propósito: así puedes tener una
-configuración distinta por Mac sin tocar código). Se define en el archivo
-`.env` con el que se construyó esa copia de la app —
-ver `GLOBAL_SHORTCUT` en [`.env.example`](../.env.example) y
-[`DEPLOY.md`](DEPLOY.md) para reconstruir con un valor distinto.
+Desde la propia app: **Configuración (•••) → Atajo global** → clic en el
+botón → presiona la combinación que quieras (debe incluir ⌘, Ctrl o ⌥).
+Se guarda al instante, sin reiniciar la app. Si la combinación ya la usa
+otra app del sistema, QuickDocs avisa y mantiene la anterior funcionando.
+
+El valor con el que arranca por primera vez una copia recién instalada
+sale de `GLOBAL_SHORTCUT` en el `.env` con el que se construyó (ver
+[`.env.example`](../.env.example)) — pero una vez que el usuario lo
+cambia desde Configuración, esa elección manda y queda guardada en su Mac.
 
 ## 6. Desinstalar
 

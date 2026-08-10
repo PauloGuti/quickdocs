@@ -72,10 +72,11 @@ cp .env.example .env
 npm start
 ```
 
-Guía completa para instalarla como app normal (`.dmg`) en tu Mac o en otro
-Mac: [`docs/INSTALL.md`](docs/INSTALL.md).
-Guía de build, distribución y migración a GCP/Firestore:
-[`docs/DEPLOY.md`](docs/DEPLOY.md).
+**Manual rápido para compilar, compartir e instalar** (el flujo completo en
+un solo lugar): [`docs/COMPARTIR_E_INSTALAR.md`](docs/COMPARTIR_E_INSTALAR.md).
+Guías más detalladas: [`docs/INSTALL.md`](docs/INSTALL.md) (solo
+instalación) y [`docs/DEPLOY.md`](docs/DEPLOY.md) (build avanzado, firma,
+migración a GCP/Firestore).
 
 ## Estructura del proyecto
 

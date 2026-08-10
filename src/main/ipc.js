@@ -1,8 +1,9 @@
 const { ipcMain, app, dialog } = require('electron');
 const fs = require('fs');
 const config = require('./config');
+const { registerShortcut, getCurrentAccelerator } = require('./shortcut');
 
-function registerIpcHandlers({ storage, auth, getWindow }) {
+function registerIpcHandlers({ storage, auth, getWindow, toggleWindow }) {
   ipcMain.handle('library:get', async () => storage.getLibrary());
 
   ipcMain.handle('library:addCategory', async (_e, category) => storage.addCategory(category));
@@ -67,10 +68,20 @@ function registerIpcHandlers({ storage, auth, getWindow }) {
 
   ipcMain.handle('app:getConfig', () => ({
     appName: config.appName,
-    globalShortcut: config.globalShortcut,
+    globalShortcut: getCurrentAccelerator() || config.globalShortcut,
     version: app.getVersion(),
     platform: process.platform,
   }));
+
+  // Cambiar el atajo global desde Configuración, sin tocar el .env.
+  // Solo se persiste si el nuevo atajo se pudo registrar de verdad.
+  ipcMain.handle('shortcut:set', async (_e, accelerator) => {
+    const ok = registerShortcut(accelerator, toggleWindow);
+    if (ok) {
+      await storage.setSettings({ globalShortcut: accelerator });
+    }
+    return { success: ok, accelerator: getCurrentAccelerator() };
+  });
 
   ipcMain.handle('auth:getCurrentUser', async () => auth.getCurrentUser());
   ipcMain.handle('auth:signIn', async () => auth.signIn());

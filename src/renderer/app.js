@@ -522,6 +522,7 @@
   }
   function closeModal(id) {
     document.getElementById(id).hidden = true;
+    if (id === 'settings-modal') stopRecordingShortcut();
   }
 
   // ---------------------------------------------------------------------
@@ -765,13 +766,120 @@
 
   function openSettingsModal() {
     applySettingsToUI();
-    document.getElementById('shortcut-display').textContent = prettyShortcut(state.appConfig?.globalShortcut);
+    stopRecordingShortcut();
+    renderShortcutButton();
     document.getElementById('version-label').textContent = state.appConfig?.version
       ? `QuickDocs v${state.appConfig.version}`
       : '';
     renderManageCategories();
     openModal('settings-modal');
   }
+
+  // ---------------------------------------------------------------------
+  // Grabador de atajo global (Configuración → Atajo global)
+  // ---------------------------------------------------------------------
+
+  const shortcutRecorder = document.getElementById('shortcut-recorder');
+  const shortcutStatus = document.getElementById('shortcut-status');
+  const DEFAULT_SHORTCUT_STATUS = 'Haz clic y presiona la combinación que quieras usar';
+  let recordingShortcut = false;
+  let shortcutStatusTimer = null;
+
+  const SHORTCUT_KEY_MAP = {
+    ' ': 'Space',
+    ArrowUp: 'Up',
+    ArrowDown: 'Down',
+    ArrowLeft: 'Left',
+    ArrowRight: 'Right',
+    Tab: 'Tab',
+    Enter: 'Return',
+  };
+
+  function normalizeShortcutKey(key) {
+    if (SHORTCUT_KEY_MAP[key]) return SHORTCUT_KEY_MAP[key];
+    if (/^[a-zA-Z]$/.test(key)) return key.toUpperCase();
+    if (/^[0-9]$/.test(key)) return key;
+    if (/^F(1[0-9]|2[0-4]|[1-9])$/.test(key)) return key;
+    return null;
+  }
+
+  function renderShortcutButton() {
+    shortcutRecorder.textContent = prettyShortcut(state.appConfig?.globalShortcut) || '—';
+  }
+
+  function setShortcutStatus(message, kind) {
+    clearTimeout(shortcutStatusTimer);
+    shortcutStatus.textContent = message;
+    shortcutStatus.classList.toggle('status-ok', kind === 'ok');
+    shortcutStatus.classList.toggle('status-error', kind === 'error');
+    shortcutStatusTimer = setTimeout(() => {
+      shortcutStatus.textContent = DEFAULT_SHORTCUT_STATUS;
+      shortcutStatus.classList.remove('status-ok', 'status-error');
+    }, 3000);
+  }
+
+  function startRecordingShortcut() {
+    recordingShortcut = true;
+    shortcutRecorder.classList.add('recording');
+    shortcutRecorder.textContent = 'Presiona una combinación…';
+    clearTimeout(shortcutStatusTimer);
+    shortcutStatus.textContent = 'Esc para cancelar';
+    shortcutStatus.classList.remove('status-ok', 'status-error');
+  }
+
+  function stopRecordingShortcut() {
+    recordingShortcut = false;
+    shortcutRecorder.classList.remove('recording');
+  }
+
+  shortcutRecorder.addEventListener('click', () => {
+    if (recordingShortcut) {
+      stopRecordingShortcut();
+      renderShortcutButton();
+    } else {
+      startRecordingShortcut();
+    }
+  });
+
+  shortcutRecorder.addEventListener('keydown', async (evt) => {
+    if (!recordingShortcut) return;
+    evt.preventDefault();
+    evt.stopPropagation(); // no debe llegarle al handler global de Esc
+
+    if (evt.key === 'Escape') {
+      stopRecordingShortcut();
+      renderShortcutButton();
+      return;
+    }
+
+    const modifiers = [];
+    if (evt.metaKey) modifiers.push('Command');
+    if (evt.ctrlKey) modifiers.push('Control');
+    if (evt.altKey) modifiers.push('Alt');
+    if (evt.shiftKey) modifiers.push('Shift');
+
+    const key = normalizeShortcutKey(evt.key);
+    if (!key) return; // tecla no soportada como atajo (esperar otra)
+    if (!modifiers.some((m) => m === 'Command' || m === 'Control' || m === 'Alt')) {
+      // Exige ⌘/Ctrl/⌥ para no capturar accidentalmente teclas normales de escritura.
+      setShortcutStatus('Debe incluir ⌘, Ctrl o ⌥', 'error');
+      return;
+    }
+
+    const accelerator = [...modifiers, key].join('+');
+    stopRecordingShortcut();
+    shortcutRecorder.textContent = 'Guardando…';
+
+    const result = await window.quickdocs.shortcut.set(accelerator);
+    if (result.success) {
+      state.appConfig.globalShortcut = result.accelerator;
+      el.shortcutHint.textContent = prettyShortcut(result.accelerator);
+      setShortcutStatus('Guardado ✓', 'ok');
+    } else {
+      setShortcutStatus('Esa combinación no se pudo usar (puede estar ocupada por otra app)', 'error');
+    }
+    renderShortcutButton();
+  });
 
   function renderManageCategories() {
     const categories = state.library.categories;
