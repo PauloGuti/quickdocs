@@ -8,11 +8,15 @@ function registerIpcHandlers({ storage, auth, getWindow, toggleWindow }) {
 
   ipcMain.handle('library:addCategory', async (_e, category) => storage.addCategory(category));
   ipcMain.handle('library:deleteCategory', async (_e, categoryId) => storage.deleteCategory(categoryId));
+  ipcMain.handle('library:reorderCategories', async (_e, orderedIds) => storage.reorderCategories(orderedIds));
   ipcMain.handle('library:addTopic', async (_e, { categoryId, topic }) =>
     storage.addTopic(categoryId, topic)
   );
   ipcMain.handle('library:deleteTopic', async (_e, { categoryId, topicId }) =>
     storage.deleteTopic(categoryId, topicId)
+  );
+  ipcMain.handle('library:reorderTopics', async (_e, { categoryId, orderedIds }) =>
+    storage.reorderTopics(categoryId, orderedIds)
   );
   ipcMain.handle('library:addSnippet', async (_e, { categoryId, topicId, snippet }) =>
     storage.addSnippet(categoryId, topicId, snippet)
@@ -22,6 +26,9 @@ function registerIpcHandlers({ storage, auth, getWindow, toggleWindow }) {
   );
   ipcMain.handle('library:deleteSnippet', async (_e, { categoryId, topicId, snippetId }) =>
     storage.deleteSnippet(categoryId, topicId, snippetId)
+  );
+  ipcMain.handle('library:reorderSnippets', async (_e, { categoryId, topicId, orderedIds }) =>
+    storage.reorderSnippets(categoryId, topicId, orderedIds)
   );
 
   // Exportar/importar: para compartir tu documentación con un compañero de

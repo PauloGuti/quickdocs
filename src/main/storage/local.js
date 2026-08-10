@@ -141,9 +141,24 @@ class LocalJsonStorage extends StorageProvider {
     return true;
   }
 
+  // orderedIds: los ids de todas las categorías en el orden final deseado
+  // (viene de arrastrar y soltar en la UI).
+  async reorderCategories(orderedIds) {
+    this.library.categories = reorderByIds(this.library.categories, orderedIds);
+    this._persistLibrary();
+    return true;
+  }
+
   async deleteTopic(categoryId, topicId) {
     const category = this._findCategory(categoryId);
     category.topics = category.topics.filter((t) => t.id !== topicId);
+    this._persistLibrary();
+    return true;
+  }
+
+  async reorderTopics(categoryId, orderedIds) {
+    const category = this._findCategory(categoryId);
+    category.topics = reorderByIds(category.topics, orderedIds);
     this._persistLibrary();
     return true;
   }
@@ -188,6 +203,13 @@ class LocalJsonStorage extends StorageProvider {
   async deleteSnippet(categoryId, topicId, snippetId) {
     const topic = this._findTopic(categoryId, topicId);
     topic.snippets = topic.snippets.filter((s) => s.id !== snippetId);
+    this._persistLibrary();
+    return true;
+  }
+
+  async reorderSnippets(categoryId, topicId, orderedIds) {
+    const topic = this._findTopic(categoryId, topicId);
+    topic.snippets = reorderByIds(topic.snippets, orderedIds);
     this._persistLibrary();
     return true;
   }
@@ -273,6 +295,18 @@ class LocalJsonStorage extends StorageProvider {
     if (!topic) throw new Error(`Tema "${topicId}" no encontrado`);
     return topic;
   }
+}
+
+// Reordena "items" (categorías, temas o snippets) según orderedIds, que
+// viene de la UI tras arrastrar y soltar. Cualquier item que por alguna
+// razón no esté en orderedIds se agrega al final, para no perder datos.
+function reorderByIds(items, orderedIds) {
+  const byId = new Map(items.map((item) => [item.id, item]));
+  const reordered = orderedIds.map((id) => byId.get(id)).filter(Boolean);
+  for (const item of items) {
+    if (!orderedIds.includes(item.id)) reordered.push(item);
+  }
+  return reordered;
 }
 
 function slugify(value) {

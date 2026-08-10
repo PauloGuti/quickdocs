@@ -214,6 +214,7 @@
           subtitle: `${count} comando${count === 1 ? '' : 's'}`,
           onClickAttr: `data-goto-category="${escapeAttr(cat.id)}"`,
           deleteAttr: `data-delete-category="${escapeAttr(cat.id)}"`,
+          dragId: cat.id,
         });
       })
       .join('');
@@ -227,6 +228,11 @@
         evt.stopPropagation();
         deleteCategoryFlow(btn.dataset.deleteCategory);
       });
+    });
+    enableDragReorder(el.content.querySelector('.list'), async (orderedIds) => {
+      await window.quickdocs.library.reorderCategories(orderedIds);
+      state.library = await window.quickdocs.library.get();
+      render();
     });
   }
 
@@ -263,6 +269,7 @@
           subtitle: `${topic.snippets.length} comando${topic.snippets.length === 1 ? '' : 's'}`,
           onClickAttr: `data-goto-topic="${escapeAttr(topic.id)}"`,
           deleteAttr: `data-delete-topic="${escapeAttr(topic.id)}"`,
+          dragId: topic.id,
         })
       )
       .join('');
@@ -282,6 +289,11 @@
         render();
       });
     });
+    enableDragReorder(el.content.querySelector('.list'), async (orderedIds) => {
+      await window.quickdocs.library.reorderTopics(state.categoryId, orderedIds);
+      state.library = await window.quickdocs.library.get();
+      render();
+    });
   }
 
   function renderSnippets() {
@@ -294,10 +306,21 @@
     }
     const tool = getActiveTool(category);
     el.content.innerHTML = `<div class="snippet-list">${topic.snippets
-      .map((s) => snippetCardHTML(resolveVariant(s, tool), { categoryId: state.categoryId, topicId: state.topicId }))
+      .map((s) =>
+        snippetCardHTML(resolveVariant(s, tool), {
+          categoryId: state.categoryId,
+          topicId: state.topicId,
+          draggable: true,
+        })
+      )
       .join('')}</div>`;
     wireSnippetCards();
     highlightAll();
+    enableDragReorder(el.content.querySelector('.snippet-list'), async (orderedIds) => {
+      await window.quickdocs.library.reorderSnippets(state.categoryId, state.topicId, orderedIds);
+      state.library = await window.quickdocs.library.get();
+      render();
+    });
   }
 
   function renderSearchResults() {
@@ -341,9 +364,10 @@
   // HTML helpers
   // ---------------------------------------------------------------------
 
-  function listItemHTML({ icon, title, subtitle, onClickAttr, deleteAttr }) {
+  function listItemHTML({ icon, title, subtitle, onClickAttr, deleteAttr, dragId }) {
     return `
-      <div class="list-item" ${onClickAttr}>
+      <div class="list-item" ${dragId ? `data-drag-id="${escapeAttr(dragId)}"` : ''} ${onClickAttr}>
+        ${dragId ? `<span class="drag-handle" data-drag-handle title="Arrastra para reordenar">⠿</span>` : ''}
         <span class="item-icon">${icon}</span>
         <span class="item-text">
           <div class="item-title">${escapeHTML(title)}</div>
@@ -355,11 +379,12 @@
   }
 
   function snippetCardHTML(snippet, opts = {}) {
-    const { breadcrumbLabel, categoryId, topicId } = opts;
+    const { breadcrumbLabel, categoryId, topicId, draggable } = opts;
     const loc = `data-category-id="${escapeAttr(categoryId)}" data-topic-id="${escapeAttr(topicId)}" data-snippet-id="${escapeAttr(snippet.id)}"`;
     return `
-      <div class="snippet-card">
+      <div class="snippet-card" ${draggable ? `data-drag-id="${escapeAttr(snippet.id)}"` : ''}>
         <div class="snippet-header">
+          ${draggable ? `<span class="drag-handle" data-drag-handle title="Arrastra para reordenar">⠿</span>` : ''}
           <div class="snippet-title-wrap">
             ${breadcrumbLabel ? `<div class="snippet-breadcrumb">${escapeHTML(breadcrumbLabel)}</div>` : ''}
             <div class="snippet-title">${escapeHTML(snippet.title)}</div>
@@ -376,6 +401,50 @@
           <pre><code class="language-${escapeAttr(snippet.language || 'text')}">${escapeHTML(snippet.code)}</code></pre>
         </div>
       </div>`;
+  }
+
+  // ---------------------------------------------------------------------
+  // Arrastrar y soltar para reordenar (categorías, temas y snippets)
+  // ---------------------------------------------------------------------
+
+  // container: el <div class="list"> o <div class="snippet-list"> ya renderizado.
+  // onReorderComplete(orderedIds): recibe el nuevo orden y persiste el cambio.
+  function enableDragReorder(container, onReorderComplete) {
+    if (!container) return;
+    let draggedEl = null;
+
+    container.querySelectorAll('[data-drag-handle]').forEach((handle) => {
+      handle.setAttribute('draggable', 'true');
+      handle.addEventListener('click', (evt) => evt.stopPropagation());
+      handle.addEventListener('dragstart', (evt) => {
+        draggedEl = handle.closest('[data-drag-id]');
+        if (!draggedEl) return;
+        evt.dataTransfer.effectAllowed = 'move';
+        evt.dataTransfer.setData('text/plain', draggedEl.dataset.dragId);
+        setTimeout(() => draggedEl && draggedEl.classList.add('dragging'), 0);
+      });
+      handle.addEventListener('dragend', () => {
+        if (draggedEl) draggedEl.classList.remove('dragging');
+        draggedEl = null;
+      });
+    });
+
+    container.addEventListener('dragover', (evt) => {
+      if (!draggedEl) return;
+      evt.preventDefault();
+      const overRow = evt.target.closest('[data-drag-id]');
+      if (!overRow || overRow === draggedEl || overRow.parentElement !== container) return;
+      const rect = overRow.getBoundingClientRect();
+      const before = evt.clientY - rect.top < rect.height / 2;
+      container.insertBefore(draggedEl, before ? overRow : overRow.nextSibling);
+    });
+
+    container.addEventListener('drop', (evt) => {
+      if (!draggedEl) return;
+      evt.preventDefault();
+      const orderedIds = Array.from(container.querySelectorAll('[data-drag-id]')).map((n) => n.dataset.dragId);
+      onReorderComplete(orderedIds);
+    });
   }
 
   function emptyStateHTML(icon, title, body) {

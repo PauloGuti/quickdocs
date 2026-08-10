@@ -49,6 +49,9 @@ Todo editable, exportable e importable desde la propia app (botón **•••**
 - **Editar / eliminar un comando**: botones directamente en su tarjeta.
 - **Eliminar una categoría o un tema completo**: botón 🗑 en su fila (lista
   de categorías/temas), o desde Configuración → *Gestionar documentación*.
+- **Reordenar arrastrando**: agarra el icono ⠿ de cualquier categoría, tema
+  o comando y arrástralo a la posición que quieras (por ejemplo, BigQuery
+  arriba de Python). El orden se guarda solo.
 - **Exportar / importar**: ••• → *Exportar* genera un `.json` que puedes
   mandarle a un compañero de equipo; con *Importar* él lo suma a su propia
   librería (nunca sobrescribe lo que ya tiene, solo agrega lo nuevo).

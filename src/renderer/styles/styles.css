@@ -378,6 +378,23 @@ html, body {
 .list-item:active {
   transform: scale(0.985);
 }
+.list-item.dragging,
+.snippet-card.dragging {
+  opacity: 0.4;
+}
+
+.drag-handle {
+  flex-shrink: 0;
+  cursor: grab;
+  color: var(--text-tertiary);
+  font-size: 15px;
+  line-height: 1;
+  padding: 2px 2px;
+  touch-action: none;
+  user-select: none;
+}
+.drag-handle:hover { color: var(--text-secondary); }
+.drag-handle:active { cursor: grabbing; }
 
 .item-icon {
   width: 38px;
@@ -453,8 +470,11 @@ html, body {
   gap: 8px;
   margin-bottom: 4px;
 }
+.snippet-header .drag-handle {
+  align-self: center;
+}
 
-.snippet-title-wrap { min-width: 0; }
+.snippet-title-wrap { min-width: 0; flex: 1; }
 
 .snippet-title {
   font-size: 14.5px;

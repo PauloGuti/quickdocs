@@ -25,12 +25,21 @@ class StorageProvider {
     throw new Error('deleteCategory() no implementado');
   }
 
+  /** orderedIds: ids de todas las categorías en el orden final (drag & drop en la UI). */
+  async reorderCategories(orderedIds) {
+    throw new Error('reorderCategories() no implementado');
+  }
+
   async addTopic(categoryId, topic) {
     throw new Error('addTopic() no implementado');
   }
 
   async deleteTopic(categoryId, topicId) {
     throw new Error('deleteTopic() no implementado');
+  }
+
+  async reorderTopics(categoryId, orderedIds) {
+    throw new Error('reorderTopics() no implementado');
   }
 
   /** Fusiona una librería importada con la actual. Ver local.js para el contrato de retorno. */
@@ -48,6 +57,10 @@ class StorageProvider {
 
   async deleteSnippet(categoryId, topicId, snippetId) {
     throw new Error('deleteSnippet() no implementado');
+  }
+
+  async reorderSnippets(categoryId, topicId, orderedIds) {
+    throw new Error('reorderSnippets() no implementado');
   }
 
   async getSettings() {
