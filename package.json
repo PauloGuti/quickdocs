@@ -11,9 +11,9 @@
     "start": "electron .",
     "dev": "NODE_ENV=development electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "dist:mac": "electron-builder --mac --universal",
-    "dist:win": "electron-builder --win",
+    "dist": "electron-builder --publish never",
+    "dist:mac": "electron-builder --mac --universal --publish never",
+    "dist:win": "electron-builder --win --publish never",
     "build:icon": "node scripts/build-icon.js",
     "build:vendor": "node scripts/build-vendor.js",
     "build:assets": "node scripts/build-icon.js && node scripts/build-vendor.js",
@@ -34,6 +34,7 @@
   "build": {
     "appId": "com.polo.quickdocs",
     "productName": "QuickDocs",
+    "publish": null,
     "files": [
       "src/**/*",
       "data/**/*"
