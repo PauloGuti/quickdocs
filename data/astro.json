@@ -1,0 +1,174 @@
+{
+  "id": "astro",
+  "name": "Astro",
+  "icon": "🚀",
+  "color": "#FF5D01",
+  "topics": [
+    {
+      "id": "astro-proyecto",
+      "name": "Crear proyecto",
+      "snippets": [
+        {
+          "id": "astro-create",
+          "title": "Crear proyecto",
+          "description": "El instalador ofrece plantillas, TypeScript y git init",
+          "language": "bash",
+          "code": "npm create astro@latest mi-sitio\ncd mi-sitio\nnpm run dev",
+          "tags": ["setup"]
+        },
+        {
+          "id": "astro-add-integracion",
+          "title": "Agregar una integración",
+          "description": "astro add configura el paquete y astro.config solo",
+          "language": "bash",
+          "code": "npx astro add react\nnpx astro add tailwind",
+          "tags": ["integraciones"]
+        },
+        {
+          "id": "astro-config",
+          "title": "astro.config.mjs",
+          "description": "Ahí se registran integraciones, adapter de despliegue y output",
+          "language": "javascript",
+          "code": "import { defineConfig } from 'astro/config';\nimport react from '@astrojs/react';\n\nexport default defineConfig({\n  integrations: [react()],\n  output: 'static', // o 'server' para SSR\n});",
+          "tags": ["config"]
+        },
+        {
+          "id": "astro-estructura",
+          "title": "Estructura de carpetas",
+          "description": "src/pages define las rutas automáticamente por el nombre del archivo",
+          "language": "text",
+          "code": "src/\n  pages/\n    index.astro       # ruta \"/\"\n    blog/[slug].astro  # ruta dinámica \"/blog/:slug\"\n  components/\n  layouts/\n  content/             # Content Collections\npublic/                # assets estáticos, se sirven tal cual",
+          "tags": ["estructura"]
+        }
+      ]
+    },
+    {
+      "id": "astro-componentes",
+      "name": "Componentes .astro",
+      "snippets": [
+        {
+          "id": "astro-componente-basico",
+          "title": "Componente básico",
+          "description": "El frontmatter (entre ---) corre en el servidor, nunca llega al navegador",
+          "language": "text",
+          "code": "---\nconst saludo = 'Hola desde Astro';\n---\n\n<h1>{saludo}</h1>",
+          "tags": ["componentes"]
+        },
+        {
+          "id": "astro-props",
+          "title": "Recibir props",
+          "description": "Astro.props trae lo que le pasás al usar el componente",
+          "language": "text",
+          "code": "---\ninterface Props {\n  titulo: string;\n}\nconst { titulo } = Astro.props;\n---\n\n<h2>{titulo}</h2>",
+          "tags": ["props"]
+        },
+        {
+          "id": "astro-slots",
+          "title": "Slots",
+          "description": "Permite inyectar contenido HTML dentro de un componente, como children",
+          "language": "text",
+          "code": "---\n// Card.astro\n---\n<div class=\"card\">\n  <slot />\n</div>\n\n<!-- uso -->\n<Card><p>Contenido dentro de la card</p></Card>",
+          "tags": ["slots"]
+        },
+        {
+          "id": "astro-fetch-frontmatter",
+          "title": "Fetch de datos en el frontmatter",
+          "description": "Se ejecuta en build/servidor; el HTML ya llega con los datos listos",
+          "language": "text",
+          "code": "---\nconst res = await fetch('https://api.ejemplo.com/productos');\nconst productos = await res.json();\n---\n\n<ul>\n  {productos.map((p) => <li>{p.nombre}</li>)}\n</ul>",
+          "tags": ["fetch"]
+        }
+      ]
+    },
+    {
+      "id": "astro-islands",
+      "name": "Islas de interactividad",
+      "snippets": [
+        {
+          "id": "astro-client-load",
+          "title": "client:load",
+          "description": "Hidrata el componente apenas carga la página (para lo crítico)",
+          "language": "text",
+          "code": "---\nimport Contador from '../components/Contador.jsx';\n---\n\n<Contador client:load />",
+          "tags": ["islands"]
+        },
+        {
+          "id": "astro-client-visible",
+          "title": "client:visible",
+          "description": "Hidrata solo cuando el componente entra en el viewport",
+          "language": "text",
+          "code": "<CarruselPesado client:visible />",
+          "tags": ["islands", "performance"]
+        },
+        {
+          "id": "astro-client-idle-media",
+          "title": "client:idle y client:media",
+          "description": "idle espera a que el navegador esté libre; media hidrata bajo una media query",
+          "language": "text",
+          "code": "<Widget client:idle />\n<MenuMobile client:media=\"(max-width: 768px)\" />",
+          "tags": ["islands"]
+        },
+        {
+          "id": "astro-client-only",
+          "title": "client:only",
+          "description": "Se salta el renderizado en servidor; útil si el componente usa APIs solo del navegador",
+          "language": "text",
+          "code": "<MapaInteractivo client:only=\"react\" />",
+          "tags": ["islands"]
+        }
+      ]
+    },
+    {
+      "id": "astro-content-collections",
+      "name": "Content Collections",
+      "snippets": [
+        {
+          "id": "astro-content-config",
+          "title": "Definir una colección con schema",
+          "description": "src/content/config.ts valida el frontmatter de cada .md con zod",
+          "language": "typescript",
+          "code": "import { defineCollection, z } from 'astro:content';\n\nconst blog = defineCollection({\n  type: 'content',\n  schema: z.object({\n    title: z.string(),\n    fecha: z.date(),\n    tags: z.array(z.string()).default([]),\n  }),\n});\n\nexport const collections = { blog };",
+          "tags": ["content-collections"]
+        },
+        {
+          "id": "astro-get-collection",
+          "title": "Consultar la colección",
+          "description": "getCollection trae todas las entradas ya tipadas y validadas",
+          "language": "typescript",
+          "code": "---\nimport { getCollection } from 'astro:content';\nconst posts = await getCollection('blog');\n---\n\n<ul>\n  {posts.map((post) => <li>{post.data.title}</li>)}\n</ul>",
+          "tags": ["content-collections"]
+        },
+        {
+          "id": "astro-render-entry",
+          "title": "Renderizar el contenido de una entrada",
+          "description": "render() devuelve el <Content /> ya compilado desde el Markdown",
+          "language": "typescript",
+          "code": "---\nimport { getEntry, render } from 'astro:content';\nconst post = await getEntry('blog', 'mi-primer-post');\nconst { Content } = await render(post);\n---\n\n<Content />",
+          "tags": ["content-collections"]
+        }
+      ]
+    },
+    {
+      "id": "astro-routing",
+      "name": "Rutas dinámicas",
+      "snippets": [
+        {
+          "id": "astro-get-static-paths",
+          "title": "getStaticPaths",
+          "description": "Obligatorio en modo static para rutas dinámicas: le dice a Astro qué páginas generar",
+          "language": "typescript",
+          "code": "---\nimport { getCollection } from 'astro:content';\n\nexport async function getStaticPaths() {\n  const posts = await getCollection('blog');\n  return posts.map((post) => ({\n    params: { slug: post.slug },\n    props: { post },\n  }));\n}\n\nconst { post } = Astro.props;\n---\n\n<h1>{post.data.title}</h1>",
+          "tags": ["rutas", "ssg"]
+        },
+        {
+          "id": "astro-ssr-params",
+          "title": "Ruta dinámica en modo server (SSR)",
+          "description": "Con output: 'server' no hace falta getStaticPaths, se lee Astro.params",
+          "language": "typescript",
+          "code": "---\nconst { slug } = Astro.params;\nconst post = await db.post.findUnique({ where: { slug } });\n---\n\n<h1>{post.title}</h1>",
+          "tags": ["rutas", "ssr"]
+        }
+      ]
+    }
+  ]
+}

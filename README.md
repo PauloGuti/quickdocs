@@ -25,6 +25,21 @@ comandos) para no abrumar.</em></p>
   **JSX / TSX**.
 - **Node.js** — proyecto y dependencias, workspaces/monorepo, comandos del
   runtime, publicar un paquete. Selector **npm / pnpm / Yarn**.
+- **Next.js** (App Router) — crear proyecto, rutas y layouts, data fetching,
+  Server Actions, Route Handlers, Client Components, deploy en Vercel.
+- **Astro** — crear proyecto e integraciones, componentes `.astro`, islas de
+  interactividad (`client:*`), Content Collections, rutas dinámicas.
+- **Tailwind CSS** — instalación (v4), layout/espaciado, flexbox/grid,
+  colores y tipografía, estados y responsive, dark mode, `@apply`.
+- **CSS** — selectores, box model, flexbox, grid, variables (custom
+  properties), transiciones/animaciones, responsive.
+- **Markdown** — sintaxis básica, enlaces e imágenes, código, tablas,
+  extendido (checklists, footnotes), frontmatter.
+- **Google Sheets** — fórmulas básicas, búsqueda (BUSCARV/XBUSCAR/INDICE),
+  texto y fechas, arrays y filtros (QUERY, FILTRAR), formato/validación,
+  Apps Script.
+- **AppSheet** — crear la app desde una hoja, tipos de columna, expresiones,
+  vistas, acciones, seguridad (security filter/roles), automatización (bots).
 - **Google ADK** (Agent Development Kit) — instalación, crear agentes,
   ejecutar, multi-agente, despliegue.
 - **Desarrollo de Agentes** — guía conceptual (framework-agnóstica): estructura
@@ -101,7 +116,7 @@ src/
     main.js, window.js, tray.js, ipc.js, config.js
   preload/          puente seguro entre main y renderer (contextBridge)
   renderer/         interfaz (HTML/CSS/JS vanilla, sin framework)
-data/               documentación semilla (Python, JS/React, ADK, GitHub, gcloud, macOS, Linux, Seguridad) en JSON
+data/               documentación semilla (Python, JS/React, Next.js, Astro, Tailwind, CSS, Markdown, ADK, GitHub, gcloud, Google Sheets, AppSheet, macOS, Linux, Seguridad) en JSON
 scripts/            generación de iconos y del bundle de resaltado de sintaxis
 docs/               guías de instalación y despliegue
 ```

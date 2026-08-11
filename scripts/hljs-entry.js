@@ -10,6 +10,9 @@ import json from 'highlight.js/lib/languages/json';
 import yaml from 'highlight.js/lib/languages/yaml';
 import sql from 'highlight.js/lib/languages/sql';
 import plaintext from 'highlight.js/lib/languages/plaintext';
+import css from 'highlight.js/lib/languages/css';
+import markdown from 'highlight.js/lib/languages/markdown';
+import xml from 'highlight.js/lib/languages/xml';
 
 hljs.registerLanguage('python', python);
 hljs.registerLanguage('bash', bash);
@@ -21,5 +24,8 @@ hljs.registerLanguage('yaml', yaml);
 hljs.registerLanguage('sql', sql);
 hljs.registerLanguage('plaintext', plaintext);
 hljs.registerLanguage('text', plaintext);
+hljs.registerLanguage('css', css);
+hljs.registerLanguage('markdown', markdown);
+hljs.registerLanguage('xml', xml); // registra también el alias "html"
 
 window.hljs = hljs;

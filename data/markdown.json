@@ -1,0 +1,180 @@
+{
+  "id": "markdown",
+  "name": "Markdown",
+  "icon": "📝",
+  "color": "#212121",
+  "topics": [
+    {
+      "id": "md-basico",
+      "name": "Sintaxis básica",
+      "snippets": [
+        {
+          "id": "md-encabezados",
+          "title": "Encabezados",
+          "description": "De # (h1) a ###### (h6)",
+          "language": "markdown",
+          "code": "# Título principal\n## Subtítulo\n### Sección",
+          "tags": ["encabezados"]
+        },
+        {
+          "id": "md-negrita-cursiva",
+          "title": "Negrita, cursiva y tachado",
+          "description": "** o __ para negrita, * o _ para cursiva, ~~ para tachado",
+          "language": "markdown",
+          "code": "**negrita** o __negrita__\n*cursiva* o _cursiva_\n~~tachado~~\n**_negrita y cursiva_**",
+          "tags": ["énfasis"]
+        },
+        {
+          "id": "md-listas",
+          "title": "Listas",
+          "description": "- o * para listas sin orden; números para listas ordenadas; indentar anida",
+          "language": "markdown",
+          "code": "- Item uno\n- Item dos\n  - Sub-item anidado\n\n1. Primero\n2. Segundo\n3. Tercero",
+          "tags": ["listas"]
+        },
+        {
+          "id": "md-cita",
+          "title": "Cita",
+          "description": "> antepuesto al texto; se puede anidar con >>",
+          "language": "markdown",
+          "code": "> Esto es una cita.\n>> Cita anidada dentro de otra.",
+          "tags": ["citas"]
+        },
+        {
+          "id": "md-linea-horizontal",
+          "title": "Línea horizontal",
+          "description": "Tres o más guiones, asteriscos o guiones bajos en su propia línea",
+          "language": "markdown",
+          "code": "---",
+          "tags": ["separadores"]
+        }
+      ]
+    },
+    {
+      "id": "md-enlaces-imagenes",
+      "name": "Enlaces e imágenes",
+      "snippets": [
+        {
+          "id": "md-enlace",
+          "title": "Enlace",
+          "description": "El título entre comillas es opcional (aparece como tooltip)",
+          "language": "markdown",
+          "code": "[Texto del enlace](https://ejemplo.com \"Título opcional\")",
+          "tags": ["enlaces"]
+        },
+        {
+          "id": "md-imagen",
+          "title": "Imagen",
+          "description": "Igual que un enlace pero con ! al inicio; el texto es el alt",
+          "language": "markdown",
+          "code": "![Descripción de la imagen](./foto.png)",
+          "tags": ["imágenes"]
+        },
+        {
+          "id": "md-enlace-referencia",
+          "title": "Enlaces de referencia",
+          "description": "Útil para reutilizar la misma URL varias veces sin repetirla",
+          "language": "markdown",
+          "code": "Mirá [la documentación][docs] para más info.\n\n[docs]: https://ejemplo.com/docs",
+          "tags": ["enlaces"]
+        },
+        {
+          "id": "md-autolink",
+          "title": "Autolink",
+          "description": "URLs o emails entre <> se convierten en enlaces clicables",
+          "language": "markdown",
+          "code": "<https://ejemplo.com>\n<contacto@ejemplo.com>",
+          "tags": ["enlaces"]
+        }
+      ]
+    },
+    {
+      "id": "md-codigo",
+      "name": "Código",
+      "snippets": [
+        {
+          "id": "md-codigo-inline",
+          "title": "Código en línea",
+          "description": "Backtick simple envolviendo el texto",
+          "language": "markdown",
+          "code": "Usá el comando `npm install` para instalar.",
+          "tags": ["código"]
+        },
+        {
+          "id": "md-bloque-codigo",
+          "title": "Bloque de código con resaltado",
+          "description": "Tres backticks + el nombre del lenguaje activan el resaltado de sintaxis",
+          "language": "markdown",
+          "code": "```javascript\nfunction saludar() {\n  console.log('Hola');\n}\n```",
+          "tags": ["código"]
+        }
+      ]
+    },
+    {
+      "id": "md-tablas",
+      "name": "Tablas",
+      "snippets": [
+        {
+          "id": "md-tabla-basica",
+          "title": "Tabla básica",
+          "description": "La segunda fila de guiones separa el encabezado del contenido",
+          "language": "markdown",
+          "code": "| Nombre | Edad | Ciudad |\n| ------ | ---- | ------ |\n| Ana    | 28   | Lima   |\n| Juan   | 34   | Bogotá |",
+          "tags": ["tablas"]
+        },
+        {
+          "id": "md-tabla-alineacion",
+          "title": "Alinear columnas",
+          "description": "Los dos puntos en la fila de guiones controlan la alineación",
+          "language": "markdown",
+          "code": "| Izquierda | Centro | Derecha |\n| :-------- | :----: | ------: |\n| a         |   b    |       c |",
+          "tags": ["tablas"]
+        }
+      ]
+    },
+    {
+      "id": "md-extendido",
+      "name": "Markdown extendido",
+      "snippets": [
+        {
+          "id": "md-checklist",
+          "title": "Lista de tareas",
+          "description": "Soportado en GitHub, GitLab y la mayoría de renderers modernos",
+          "language": "markdown",
+          "code": "- [x] Tarea completada\n- [ ] Tarea pendiente\n- [ ] Otra tarea",
+          "tags": ["checklist", "github"]
+        },
+        {
+          "id": "md-footnote",
+          "title": "Nota al pie",
+          "description": "Referencia [^1] en el texto, definición en cualquier parte del documento",
+          "language": "markdown",
+          "code": "Esto necesita una aclaración[^1].\n\n[^1]: Esta es la nota al pie.",
+          "tags": ["footnotes"]
+        },
+        {
+          "id": "md-escape",
+          "title": "Escapar caracteres especiales",
+          "description": "Backslash antes del carácter para que se muestre literal",
+          "language": "markdown",
+          "code": "\\*esto no es cursiva\\*\n\\# esto no es un encabezado",
+          "tags": ["escape"]
+        }
+      ]
+    },
+    {
+      "id": "md-frontmatter",
+      "name": "Frontmatter",
+      "snippets": [
+        {
+          "id": "md-frontmatter-yaml",
+          "title": "Frontmatter YAML",
+          "description": "Metadatos al inicio del archivo, usados por Astro, Hugo, Jekyll y otros",
+          "language": "yaml",
+          "code": "---\ntitle: \"Mi primer post\"\nfecha: 2026-01-15\ntags: [\"markdown\", \"blog\"]\ndraft: false\n---",
+          "tags": ["frontmatter"]
+        }
+      ]
+    }
+  ]
+}

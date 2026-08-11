@@ -1,0 +1,242 @@
+{
+  "id": "appsheet",
+  "name": "AppSheet",
+  "icon": "📱",
+  "color": "#1A73E8",
+  "topics": [
+    {
+      "id": "appsheet-crear",
+      "name": "Crear la app",
+      "snippets": [
+        {
+          "id": "appsheet-crear-desde-sheet",
+          "title": "Crear app desde una Google Sheet",
+          "description": "www.appsheet.com → Create → App → From your own data, eligiendo la hoja",
+          "language": "text",
+          "code": "1. www.appsheet.com → Create → App → From your own data\n2. Elegir la Google Sheet/Excel (cada pestaña se vuelve una \"tabla\")\n3. AppSheet infiere tipos de columna y genera vistas automáticas",
+          "tags": ["setup"]
+        },
+        {
+          "id": "appsheet-estructura",
+          "title": "Cómo se relaciona todo",
+          "description": "Tabla = hoja, columna = tipo de dato, vista = cómo se muestra, acción = qué se puede hacer",
+          "language": "text",
+          "code": "Google Sheet (hojas) → Data > Tables en AppSheet\nCada columna → Data > Columns (tipo, si es requerida, valor inicial)\nUX > Views → cómo se muestra cada tabla\nBehavior > Actions → botones/acciones sobre las filas",
+          "tags": ["estructura"]
+        },
+        {
+          "id": "appsheet-key-column",
+          "title": "Columna clave (Key)",
+          "description": "Identifica cada fila de forma única; ideal un ID generado, no un nombre",
+          "language": "text",
+          "code": "Data > Columns > [columna] > Key: ON\nValor inicial recomendado: UNIQUEID()",
+          "tags": ["columnas"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-columnas",
+      "name": "Tipos de columna",
+      "snippets": [
+        {
+          "id": "appsheet-ref",
+          "title": "Ref (relación entre tablas)",
+          "description": "Apunta a la columna clave de otra tabla, como una foreign key",
+          "language": "text",
+          "code": "Columna: ClienteId\nType: Ref\nReferenced table: Clientes",
+          "tags": ["columnas", "ref"]
+        },
+        {
+          "id": "appsheet-enum",
+          "title": "Enum y EnumList",
+          "description": "Enum = elegir una opción; EnumList = elegir varias",
+          "language": "text",
+          "code": "Columna: Estado\nType: Enum\nValues: Pendiente, En progreso, Completado\nInput mode: Buttons o Dropdown",
+          "tags": ["columnas", "enum"]
+        },
+        {
+          "id": "appsheet-tipos-comunes",
+          "title": "Otros tipos frecuentes",
+          "description": "Image/File suben el archivo a Drive; LatLong guarda coordenadas",
+          "language": "text",
+          "code": "Image      → guarda la foto en una carpeta de Drive\nFile       → adjunta cualquier archivo\nLatLong    → coordenadas, se puede capturar con el GPS del celular\nDate/Time  → fecha y hora, con selector nativo\nEmail/Phone → validan formato y agregan acción de contacto",
+          "tags": ["columnas"]
+        },
+        {
+          "id": "appsheet-columna-virtual",
+          "title": "Columna virtual",
+          "description": "No existe en la hoja; se calcula con una expresión en tiempo real",
+          "language": "text",
+          "code": "Nombre: Total\nType: Decimal\nApp formula: =[Cantidad] * [PrecioUnitario]",
+          "tags": ["columnas", "virtual"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-expresiones",
+      "name": "Expresiones comunes",
+      "snippets": [
+        {
+          "id": "appsheet-hoy-usuario",
+          "title": "Fecha actual y usuario actual",
+          "description": "Muy usadas como valor inicial o en filtros de seguridad",
+          "language": "text",
+          "code": "TODAY()\nNOW()\nUSEREMAIL()",
+          "tags": ["expresiones"]
+        },
+        {
+          "id": "appsheet-if-ifs",
+          "title": "IF e IFS",
+          "description": "IFS evalúa condiciones en orden, sin anidar IF dentro de IF",
+          "language": "text",
+          "code": "IF([Total] > 1000, \"Alto\", \"Bajo\")\nIFS(\n  [Estado] = \"Completado\", \"✅\",\n  [Estado] = \"Vencido\", \"⚠️\",\n  TRUE, \"⏳\"\n)",
+          "tags": ["expresiones", "condicionales"]
+        },
+        {
+          "id": "appsheet-lookup-select",
+          "title": "LOOKUP y SELECT",
+          "description": "LOOKUP trae un valor único; SELECT devuelve una lista filtrada",
+          "language": "text",
+          "code": "LOOKUP([ClienteId], Clientes, ClienteId, Nombre)\nSELECT(Pedidos[Total], [ClienteId] = [_THISROW].[ClienteId])",
+          "tags": ["expresiones", "lookup"]
+        },
+        {
+          "id": "appsheet-concatenate",
+          "title": "CONCATENATE y texto",
+          "description": "Combina texto y valores de columnas en una sola expresión",
+          "language": "text",
+          "code": "CONCATENATE([Nombre], \" \", [Apellido])\nCONCATENATE(\"Pedido #\", [OrderId], \" - \", TEXT([Total], \"$#,##0.00\"))",
+          "tags": ["expresiones", "texto"]
+        },
+        {
+          "id": "appsheet-this-row",
+          "title": "[_THISROW] y contexto de fila",
+          "description": "Referencia a la fila actual, útil dentro de SELECT o expresiones de validación",
+          "language": "text",
+          "code": "IN([_THISROW].[Email], Usuarios[Email])",
+          "tags": ["expresiones"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-vistas",
+      "name": "Vistas",
+      "snippets": [
+        {
+          "id": "appsheet-tipos-vista",
+          "title": "Tipos de vista principales",
+          "description": "Cada tabla puede tener varias vistas a la vez, con distinto propósito",
+          "language": "text",
+          "code": "Table  → lista simple tipo planilla\nDeck   → tarjetas, ideal como vista principal en celular\nGallery → tarjetas grandes con imagen destacada\nDetail → el detalle de un solo registro\nForm   → alta/edición de un registro\nMap / Calendar → si hay columnas LatLong o Date",
+          "tags": ["vistas"]
+        },
+        {
+          "id": "appsheet-vista-condicion-visibilidad",
+          "title": "Mostrar/ocultar columnas en una vista",
+          "description": "Show_If en cada columna de la vista, con una expresión que devuelve TRUE/FALSE",
+          "language": "text",
+          "code": "Show_If: [Estado] = \"Completado\"",
+          "tags": ["vistas"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-acciones",
+      "name": "Acciones",
+      "snippets": [
+        {
+          "id": "appsheet-accion-set-values",
+          "title": "Set the values of some columns",
+          "description": "La acción más común: actualiza columnas de la fila actual sin abrir el form",
+          "language": "text",
+          "code": "Action type: Data: set the values of some columns in this row\nSet columns:\n  Estado = \"Completado\"\n  FechaCompletado = NOW()",
+          "tags": ["acciones"]
+        },
+        {
+          "id": "appsheet-accion-add-row",
+          "title": "Add a new row to another table",
+          "description": "Crea una fila relacionada, por ejemplo un log de auditoría",
+          "language": "text",
+          "code": "Action type: Data: add a new row to another table using values from this row\nTable: Historial\nSet columns: PedidoId = [OrderId], Accion = \"Creado\", Fecha = NOW()",
+          "tags": ["acciones"]
+        },
+        {
+          "id": "appsheet-accion-grouped",
+          "title": "Acción agrupada",
+          "description": "Ejecuta varias acciones con un solo botón, en el orden que definas",
+          "language": "text",
+          "code": "Action type: Grouped: execute a sequence of actions\nActions: MarcarCompletado, NotificarCliente, RegistrarEnHistorial",
+          "tags": ["acciones"]
+        },
+        {
+          "id": "appsheet-accion-externa",
+          "title": "Abrir un link externo o llamar",
+          "description": "App: go to another view, o External: navigate to a URL / phone/email",
+          "language": "text",
+          "code": "Action type: External: navigate to another website\nTarget: CONCATENATE(\"https://wa.me/\", [Telefono])",
+          "tags": ["acciones"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-seguridad",
+      "name": "Seguridad",
+      "snippets": [
+        {
+          "id": "appsheet-security-filter",
+          "title": "Security filter por tabla",
+          "description": "Data > Tables > [tabla] > Security filter — cada usuario solo ve lo que matchea",
+          "language": "text",
+          "code": "[VendedorEmail] = USEREMAIL()",
+          "tags": ["seguridad"]
+        },
+        {
+          "id": "appsheet-roles",
+          "title": "Roles de usuario",
+          "description": "Una tabla de usuarios con su rol controla qué puede editar o ver cada quien",
+          "language": "text",
+          "code": "Columna Role en tabla Usuarios: Admin, Vendedor, Solo lectura\nExpresión en Users: LOOKUP(USEREMAIL(), Usuarios, Email, Role)\nEn cada acción/vista: Only_If_Property_Value = \"Admin\"",
+          "tags": ["seguridad", "roles"]
+        },
+        {
+          "id": "appsheet-editable-if",
+          "title": "Editable_If y Requiere",
+          "description": "Controla a nivel de columna quién puede editarla y cuándo es obligatoria",
+          "language": "text",
+          "code": "Editable_If: CONTEXT(\"UserRole\") = \"Admin\"\nRequired_If: [Estado] = \"Completado\"",
+          "tags": ["seguridad"]
+        }
+      ]
+    },
+    {
+      "id": "appsheet-automatizacion",
+      "name": "Automatización / Bots",
+      "snippets": [
+        {
+          "id": "appsheet-bot-data-change",
+          "title": "Bot disparado por cambio de datos",
+          "description": "Automation > Bots: Event → Data change → Adds a row / Updates a row",
+          "language": "text",
+          "code": "Event: When a row is added to Pedidos\nCondition: [Total] > 1000\nProcess: Send email → notificar a supervisor",
+          "tags": ["automatización", "bots"]
+        },
+        {
+          "id": "appsheet-bot-schedule",
+          "title": "Bot programado",
+          "description": "Se ejecuta en un horario fijo, ideal para recordatorios o resúmenes diarios",
+          "language": "text",
+          "code": "Event: Scheduled → cada día a las 08:00\nProcess: For each row in Pedidos where [Estado] = \"Vencido\"\n  → Send notification al vendedor asignado",
+          "tags": ["automatización", "bots"]
+        },
+        {
+          "id": "appsheet-webhook",
+          "title": "Llamar un webhook externo",
+          "description": "Task type: Call a webhook, útil para integrar con Zapier, Slack o una API propia",
+          "language": "text",
+          "code": "Task type: Call a webhook\nMethod: POST\nUrl: https://hooks.slack.com/services/...\nBody: { \"text\": CONCATENATE(\"Nuevo pedido: \", [OrderId]) }",
+          "tags": ["automatización", "webhook"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "id": "nextjs",
+  "name": "Next.js",
+  "icon": "▲",
+  "color": "#000000",
+  "topics": [
+    {
+      "id": "next-proyecto",
+      "name": "Crear proyecto",
+      "snippets": [
+        {
+          "id": "next-create-app",
+          "title": "Crear proyecto",
+          "description": "El instalador pregunta TypeScript, ESLint, Tailwind, App Router, src/ y alias de import",
+          "language": "bash",
+          "code": "npx create-next-app@latest mi-app\ncd mi-app\nnpm run dev",
+          "tags": ["setup"]
+        },
+        {
+          "id": "next-estructura-app",
+          "title": "Estructura de carpetas (App Router)",
+          "description": "Cada carpeta dentro de app/ es un segmento de ruta",
+          "language": "text",
+          "code": "app/\n  layout.tsx       # layout raíz, envuelve toda la app\n  page.tsx         # ruta \"/\"\n  globals.css\n  productos/\n    page.tsx        # ruta \"/productos\"\n    [id]/\n      page.tsx      # ruta \"/productos/123\" (dinámica)",
+          "tags": ["estructura"]
+        },
+        {
+          "id": "next-dev-build-start",
+          "title": "Comandos del día a día",
+          "description": "dev con hot reload, build compila para producción, start la sirve",
+          "language": "bash",
+          "code": "npm run dev\nnpm run build\nnpm run start",
+          "tags": ["cli"]
+        }
+      ]
+    },
+    {
+      "id": "next-rutas-layouts",
+      "name": "Rutas y layouts",
+      "snippets": [
+        {
+          "id": "next-page-basica",
+          "title": "Página básica",
+          "description": "Un Server Component por defecto, sin necesidad de 'use client'",
+          "language": "typescript",
+          "code": "export default function Page() {\n  return <h1>Inicio</h1>;\n}",
+          "tags": ["páginas"]
+        },
+        {
+          "id": "next-layout",
+          "title": "Layout compartido",
+          "description": "Envuelve las páginas de esa carpeta hacia abajo; children es obligatorio",
+          "language": "typescript",
+          "code": "export default function Layout({ children }: { children: React.ReactNode }) {\n  return (\n    <section>\n      <nav>Menú</nav>\n      {children}\n    </section>\n  );\n}",
+          "tags": ["layouts"]
+        },
+        {
+          "id": "next-ruta-dinamica",
+          "title": "Ruta dinámica ([id])",
+          "description": "params llega como Promise desde Next.js 15 en adelante",
+          "language": "typescript",
+          "code": "export default async function Page({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  return <p>Producto {id}</p>;\n}",
+          "tags": ["rutas", "dinámicas"]
+        },
+        {
+          "id": "next-loading-error",
+          "title": "loading.tsx y error.tsx",
+          "description": "Se activan solos: loading mientras carga el segmento, error si algo falla",
+          "language": "typescript",
+          "code": "// app/productos/loading.tsx\nexport default function Loading() {\n  return <p>Cargando…</p>;\n}\n\n// app/productos/error.tsx\n'use client';\nexport default function Error({ error, reset }: { error: Error; reset: () => void }) {\n  return (\n    <div>\n      <p>Algo falló: {error.message}</p>\n      <button onClick={reset}>Reintentar</button>\n    </div>\n  );\n}",
+          "tags": ["loading", "error"]
+        },
+        {
+          "id": "next-not-found",
+          "title": "not-found.tsx",
+          "description": "Se muestra al llamar notFound() o al no matchear ninguna ruta",
+          "language": "typescript",
+          "code": "import { notFound } from 'next/navigation';\n\nexport default async function Page({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  const producto = await getProducto(id);\n  if (!producto) notFound();\n  return <p>{producto.nombre}</p>;\n}",
+          "tags": ["404"]
+        },
+        {
+          "id": "next-link",
+          "title": "Navegación con Link",
+          "description": "Precarga la ruta al entrar en viewport; evita el <a> plano",
+          "language": "typescript",
+          "code": "import Link from 'next/link';\n\n<Link href=\"/productos/123\">Ver producto</Link>;",
+          "tags": ["navegación"]
+        }
+      ]
+    },
+    {
+      "id": "next-data-fetching",
+      "name": "Obtener datos",
+      "snippets": [
+        {
+          "id": "next-fetch-server-component",
+          "title": "Fetch en un Server Component",
+          "description": "Se ejecuta en el servidor; podés usar await directo en el componente",
+          "language": "typescript",
+          "code": "async function getProductos() {\n  const res = await fetch('https://api.ejemplo.com/productos');\n  return res.json();\n}\n\nexport default async function Page() {\n  const productos = await getProductos();\n  return <ul>{productos.map((p) => <li key={p.id}>{p.nombre}</li>)}</ul>;\n}",
+          "tags": ["fetch"]
+        },
+        {
+          "id": "next-fetch-cache",
+          "title": "Cache y revalidación de fetch",
+          "description": "no-store desactiva cache; next.revalidate regenera cada N segundos (ISR)",
+          "language": "typescript",
+          "code": "fetch(url, { cache: 'no-store' });\nfetch(url, { next: { revalidate: 60 } });",
+          "tags": ["cache", "isr"]
+        },
+        {
+          "id": "next-generate-static-params",
+          "title": "generateStaticParams",
+          "description": "Pre-renderiza rutas dinámicas conocidas en build time",
+          "language": "typescript",
+          "code": "export async function generateStaticParams() {\n  const productos = await getProductos();\n  return productos.map((p) => ({ id: p.id }));\n}",
+          "tags": ["ssg"]
+        },
+        {
+          "id": "next-revalidate-tag",
+          "title": "Revalidar por demanda",
+          "description": "Invalida cache manualmente, por ejemplo tras guardar en una Server Action",
+          "language": "typescript",
+          "code": "import { revalidatePath, revalidateTag } from 'next/cache';\n\nrevalidatePath('/productos');\nrevalidateTag('productos');",
+          "tags": ["cache"]
+        }
+      ]
+    },
+    {
+      "id": "next-server-actions",
+      "name": "Server Actions",
+      "snippets": [
+        {
+          "id": "next-server-action-basica",
+          "title": "Server Action básica",
+          "description": "'use server' la marca como función que corre en el servidor",
+          "language": "typescript",
+          "code": "'use server';\n\nexport async function crearProducto(formData: FormData) {\n  const nombre = formData.get('nombre');\n  await db.producto.create({ data: { nombre } });\n}",
+          "tags": ["server-actions"]
+        },
+        {
+          "id": "next-form-action",
+          "title": "Usarla en un formulario",
+          "description": "El form funciona incluso sin JavaScript en el cliente",
+          "language": "typescript",
+          "code": "import { crearProducto } from './actions';\n\nexport default function Form() {\n  return (\n    <form action={crearProducto}>\n      <input name=\"nombre\" />\n      <button type=\"submit\">Guardar</button>\n    </form>\n  );\n}",
+          "tags": ["server-actions", "formularios"]
+        },
+        {
+          "id": "next-use-form-status",
+          "title": "Estado de envío con useFormStatus",
+          "description": "Muestra un loading mientras la Server Action se ejecuta",
+          "language": "typescript",
+          "code": "'use client';\nimport { useFormStatus } from 'react-dom';\n\nfunction BotonEnviar() {\n  const { pending } = useFormStatus();\n  return <button disabled={pending}>{pending ? 'Guardando…' : 'Guardar'}</button>;\n}",
+          "tags": ["server-actions", "hooks"]
+        }
+      ]
+    },
+    {
+      "id": "next-route-handlers",
+      "name": "Route Handlers (API)",
+      "snippets": [
+        {
+          "id": "next-route-get",
+          "title": "GET en app/api/.../route.ts",
+          "description": "Reemplaza a las API Routes de pages/api",
+          "language": "typescript",
+          "code": "import { NextResponse } from 'next/server';\n\nexport async function GET() {\n  const productos = await db.producto.findMany();\n  return NextResponse.json(productos);\n}",
+          "tags": ["api"]
+        },
+        {
+          "id": "next-route-post",
+          "title": "POST leyendo el body",
+          "description": "request.json() parsea el body de la petición",
+          "language": "typescript",
+          "code": "import { NextResponse, type NextRequest } from 'next/server';\n\nexport async function POST(request: NextRequest) {\n  const body = await request.json();\n  const creado = await db.producto.create({ data: body });\n  return NextResponse.json(creado, { status: 201 });\n}",
+          "tags": ["api"]
+        },
+        {
+          "id": "next-route-params",
+          "title": "Route Handler con parámetros dinámicos",
+          "description": "Igual que en las páginas, params llega como Promise",
+          "language": "typescript",
+          "code": "export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  const producto = await db.producto.findUnique({ where: { id } });\n  return Response.json(producto);\n}",
+          "tags": ["api", "dinámicas"]
+        }
+      ]
+    },
+    {
+      "id": "next-client-components",
+      "name": "Client Components",
+      "snippets": [
+        {
+          "id": "next-use-client",
+          "title": "'use client'",
+          "description": "Necesario para usar hooks de estado, eventos o APIs del navegador",
+          "language": "typescript",
+          "code": "'use client';\nimport { useState } from 'react';\n\nexport default function Contador() {\n  const [n, setN] = useState(0);\n  return <button onClick={() => setN(n + 1)}>{n}</button>;\n}",
+          "tags": ["client"]
+        },
+        {
+          "id": "next-use-router",
+          "title": "Navegación programática",
+          "description": "useRouter, usePathname y useSearchParams solo funcionan en Client Components",
+          "language": "typescript",
+          "code": "'use client';\nimport { useRouter } from 'next/navigation';\n\nconst router = useRouter();\nrouter.push('/productos');\nrouter.refresh();",
+          "tags": ["client", "navegación"]
+        },
+        {
+          "id": "next-image",
+          "title": "Optimización de imágenes",
+          "description": "next/image genera tamaños/formatos automáticamente y evita layout shift",
+          "language": "typescript",
+          "code": "import Image from 'next/image';\n\n<Image src=\"/foto.jpg\" alt=\"Descripción\" width={400} height={300} priority />;",
+          "tags": ["imágenes"]
+        },
+        {
+          "id": "next-metadata",
+          "title": "Metadata (SEO)",
+          "description": "Se exporta desde page.tsx o layout.tsx, sin necesidad de <head> manual",
+          "language": "typescript",
+          "code": "import type { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'Mi tienda',\n  description: 'Los mejores productos',\n};",
+          "tags": ["seo"]
+        }
+      ]
+    },
+    {
+      "id": "next-deploy",
+      "name": "Deploy",
+      "snippets": [
+        {
+          "id": "next-vercel-cli",
+          "title": "Deploy con Vercel CLI",
+          "description": "Sin --prod hace un deploy de preview con su propia URL",
+          "language": "bash",
+          "code": "npm install -g vercel\nvercel        # preview\nvercel --prod # producción",
+          "tags": ["vercel", "deploy"]
+        },
+        {
+          "id": "next-env-vars",
+          "title": "Variables de entorno",
+          "description": "El prefijo NEXT_PUBLIC_ las expone al navegador; sin prefijo son solo de servidor",
+          "language": "bash",
+          "code": "DATABASE_URL=postgres://...\nNEXT_PUBLIC_API_URL=https://api.miapp.com",
+          "tags": ["env"]
+        }
+      ]
+    }
+  ]
+}

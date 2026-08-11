@@ -1,0 +1,220 @@
+{
+  "id": "google-sheets",
+  "name": "Google Sheets",
+  "icon": "🧮",
+  "color": "#0F9D58",
+  "topics": [
+    {
+      "id": "sheets-formulas-basicas",
+      "name": "Fórmulas básicas",
+      "snippets": [
+        {
+          "id": "sheets-suma-promedio",
+          "title": "SUMA y PROMEDIO",
+          "description": "Aceptan rangos sueltos o combinados con coma",
+          "language": "text",
+          "code": "=SUMA(A2:A20)\n=PROMEDIO(A2:A20)\n=SUMA(A2:A10, C2:C10)",
+          "tags": ["suma", "promedio"]
+        },
+        {
+          "id": "sheets-contar-si",
+          "title": "CONTAR.SI y SUMAR.SI",
+          "description": "Cuentan o suman solo las celdas que cumplen una condición",
+          "language": "text",
+          "code": "=CONTAR.SI(B2:B100, \"Completado\")\n=SUMAR.SI(C2:C100, \">100\")\n=SUMAR.SI(B2:B100, \"Ventas\", C2:C100)",
+          "tags": ["contar", "condicionales"]
+        },
+        {
+          "id": "sheets-contar-si-conjunto",
+          "title": "CONTAR.SI.CONJUNTO y SUMAR.SI.CONJUNTO",
+          "description": "Igual que las anteriores pero con varias condiciones a la vez",
+          "language": "text",
+          "code": "=CONTAR.SI.CONJUNTO(B2:B100, \"Completado\", C2:C100, \"Alta\")\n=SUMAR.SI.CONJUNTO(D2:D100, B2:B100, \"Ventas\", C2:C100, 2026)",
+          "tags": ["contar", "condicionales"]
+        },
+        {
+          "id": "sheets-si",
+          "title": "SI, Y, O",
+          "description": "SI(condición, valor_si_true, valor_si_false); Y/O combinan condiciones",
+          "language": "text",
+          "code": "=SI(A2>100, \"Alto\", \"Bajo\")\n=SI(Y(A2>0, B2>0), \"Ambos positivos\", \"No\")\n=SI(O(A2=\"Sí\", B2=\"Sí\"), \"Aprobado\", \"Pendiente\")",
+          "tags": ["condicionales"]
+        },
+        {
+          "id": "sheets-siifs",
+          "title": "SI.CONJUNTO (varios casos)",
+          "description": "Evalúa condiciones en orden y devuelve el primer valor que matchea, sin anidar SI",
+          "language": "text",
+          "code": "=SI.CONJUNTO(A2>=90, \"A\", A2>=80, \"B\", A2>=70, \"C\", VERDADERO, \"D\")",
+          "tags": ["condicionales"]
+        }
+      ]
+    },
+    {
+      "id": "sheets-busqueda",
+      "name": "Búsqueda",
+      "snippets": [
+        {
+          "id": "sheets-buscarv",
+          "title": "BUSCARV",
+          "description": "Busca en la primera columna del rango; FALSO exige coincidencia exacta",
+          "language": "text",
+          "code": "=BUSCARV(A2, Productos!A:C, 3, FALSO)",
+          "tags": ["búsqueda", "vlookup"]
+        },
+        {
+          "id": "sheets-xbuscar",
+          "title": "XBUSCAR",
+          "description": "Reemplazo moderno de BUSCARV: busca a izquierda o derecha, sin contar columnas",
+          "language": "text",
+          "code": "=XBUSCAR(A2, Productos!A:A, Productos!C:C, \"No encontrado\")",
+          "tags": ["búsqueda", "xlookup"]
+        },
+        {
+          "id": "sheets-indice-coincidir",
+          "title": "INDICE + COINCIDIR",
+          "description": "Más flexible que BUSCARV: puede buscar a la izquierda y no se rompe si insertás columnas",
+          "language": "text",
+          "code": "=INDICE(Productos!C:C, COINCIDIR(A2, Productos!A:A, 0))",
+          "tags": ["búsqueda", "index-match"]
+        }
+      ]
+    },
+    {
+      "id": "sheets-texto-fechas",
+      "name": "Texto y fechas",
+      "snippets": [
+        {
+          "id": "sheets-concatenar",
+          "title": "CONCATENAR y TEXTJOIN",
+          "description": "TEXTJOIN permite un separador y saltear celdas vacías",
+          "language": "text",
+          "code": "=CONCATENAR(A2, \" \", B2)\n=TEXTJOIN(\", \", VERDADERO, A2:D2)",
+          "tags": ["texto"]
+        },
+        {
+          "id": "sheets-extrae-texto",
+          "title": "IZQUIERDA, DERECHA, EXTRAE",
+          "description": "Recortan parte de un texto por posición",
+          "language": "text",
+          "code": "=IZQUIERDA(A2, 3)\n=DERECHA(A2, 4)\n=EXTRAE(A2, 5, 3)",
+          "tags": ["texto"]
+        },
+        {
+          "id": "sheets-fechas",
+          "title": "HOY, FECHA y diferencia entre fechas",
+          "description": "Restar dos fechas da el número de días entre ellas",
+          "language": "text",
+          "code": "=HOY()\n=FECHA(2026, 12, 31)\n=B2-A2                 // días entre A2 y B2\n=SIFECHA(A2, HOY(), \"M\") // meses completos transcurridos",
+          "tags": ["fechas"]
+        }
+      ]
+    },
+    {
+      "id": "sheets-arrays",
+      "name": "Arrays y filtros",
+      "snippets": [
+        {
+          "id": "sheets-arrayformula",
+          "title": "ARRAYFORMULA",
+          "description": "Aplica una fórmula a todo un rango sin arrastrarla celda por celda",
+          "language": "text",
+          "code": "=ARRAYFORMULA(A2:A100 * B2:B100)",
+          "tags": ["arrays"]
+        },
+        {
+          "id": "sheets-filter",
+          "title": "FILTRAR",
+          "description": "Devuelve solo las filas que cumplen la condición, como un array dinámico",
+          "language": "text",
+          "code": "=FILTRAR(A2:C100, B2:B100 = \"Activo\")\n=FILTRAR(A2:C100, (B2:B100 = \"Activo\") * (C2:C100 > 100))",
+          "tags": ["arrays", "filter"]
+        },
+        {
+          "id": "sheets-query",
+          "title": "QUERY",
+          "description": "Sintaxis parecida a SQL para filtrar, ordenar y agrupar en una sola fórmula",
+          "language": "text",
+          "code": "=QUERY(A1:D100, \"SELECT A, SUM(C) WHERE B = 'Ventas' GROUP BY A ORDER BY SUM(C) DESC\", 1)",
+          "tags": ["query", "sql"]
+        },
+        {
+          "id": "sheets-ordenar-unicos",
+          "title": "ORDENAR y ÚNICOS",
+          "description": "ÚNICOS quita duplicados; ORDENAR reordena un rango completo",
+          "language": "text",
+          "code": "=ÚNICOS(A2:A100)\n=ORDENAR(A2:C100, 3, FALSO)   // ordena por la 3ra columna, descendente",
+          "tags": ["arrays"]
+        }
+      ]
+    },
+    {
+      "id": "sheets-formato-validacion",
+      "name": "Formato y validación",
+      "snippets": [
+        {
+          "id": "sheets-formato-condicional",
+          "title": "Formato condicional con fórmula personalizada",
+          "description": "Formato → Formato condicional → \"La fórmula personalizada es\"",
+          "language": "text",
+          "code": "=$C2 < $D2          // resalta la fila si la columna C es menor que la D\n=Y($B2=\"Vencido\", HOY()>$C2)",
+          "tags": ["formato-condicional"]
+        },
+        {
+          "id": "sheets-validacion-datos",
+          "title": "Validación de datos (lista desplegable)",
+          "description": "Datos → Validación de datos → Lista de elementos, o desde un rango",
+          "language": "text",
+          "code": "Criterio: Lista de un rango → =Config!$A$2:$A$10\nCriterio: Lista de elementos → Pendiente, En progreso, Completado",
+          "tags": ["validación"]
+        },
+        {
+          "id": "sheets-proteger-rango",
+          "title": "Proteger un rango",
+          "description": "Datos → Rangos y hojas protegidos, útil antes de compartir la planilla",
+          "language": "text",
+          "code": "Datos → Rangos y hojas protegidos → Agregar rango\nElegir editores permitidos o \"Solo yo\"",
+          "tags": ["permisos"]
+        }
+      ]
+    },
+    {
+      "id": "sheets-apps-script",
+      "name": "Apps Script",
+      "snippets": [
+        {
+          "id": "sheets-apps-script-basico",
+          "title": "Función básica",
+          "description": "Extensiones → Apps Script; SpreadsheetApp es la API principal",
+          "language": "javascript",
+          "code": "function marcarFecha() {\n  const hoja = SpreadsheetApp.getActiveSheet();\n  hoja.getRange('A1').setValue(new Date());\n}",
+          "tags": ["apps-script"]
+        },
+        {
+          "id": "sheets-apps-script-onedit",
+          "title": "Trigger onEdit",
+          "description": "Se ejecuta solo con este nombre exacto, sin configurar nada más",
+          "language": "javascript",
+          "code": "function onEdit(e) {\n  const rango = e.range;\n  if (rango.getColumn() === 2) {\n    rango.offset(0, 1).setValue(new Date());\n  }\n}",
+          "tags": ["apps-script", "triggers"]
+        },
+        {
+          "id": "sheets-apps-script-leer-escribir",
+          "title": "Leer y escribir un rango",
+          "description": "getValues/setValues trabajan con arrays de arrays (filas x columnas)",
+          "language": "javascript",
+          "code": "const hoja = SpreadsheetApp.getActiveSheet();\nconst datos = hoja.getRange('A2:C10').getValues();\n\nconst filtrados = datos.filter((fila) => fila[2] > 100);\nhoja.getRange(2, 5, filtrados.length, 3).setValues(filtrados);",
+          "tags": ["apps-script"]
+        },
+        {
+          "id": "sheets-apps-script-funcion-personalizada",
+          "title": "Función personalizada usable como fórmula",
+          "description": "Una vez guardada, se usa igual que SUMA() pero con el nombre de la función",
+          "language": "javascript",
+          "code": "/**\n * Convierte un precio a su valor con IVA.\n * @param {number} precio El precio sin IVA.\n * @return {number} El precio con IVA incluido.\n * @customfunction\n */\nfunction CON_IVA(precio) {\n  return precio * 1.21;\n}",
+          "tags": ["apps-script", "custom-function"]
+        }
+      ]
+    }
+  ]
+}

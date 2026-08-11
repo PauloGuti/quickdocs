@@ -1,0 +1,276 @@
+{
+  "id": "tailwind",
+  "name": "Tailwind CSS",
+  "icon": "💨",
+  "color": "#38BDF8",
+  "topics": [
+    {
+      "id": "tw-instalacion",
+      "name": "Instalación",
+      "snippets": [
+        {
+          "id": "tw-instalar-vite",
+          "title": "Instalar en un proyecto Vite",
+          "description": "Tailwind v4: un solo paquete y el plugin oficial de Vite, sin PostCSS manual",
+          "language": "bash",
+          "code": "npm install tailwindcss @tailwindcss/vite",
+          "tags": ["setup", "vite"]
+        },
+        {
+          "id": "tw-vite-config",
+          "title": "Registrar el plugin en vite.config",
+          "description": "Agrega el plugin de Tailwind a la lista de plugins de Vite",
+          "language": "typescript",
+          "code": "import { defineConfig } from 'vite';\nimport tailwindcss from '@tailwindcss/vite';\n\nexport default defineConfig({\n  plugins: [tailwindcss()],\n});",
+          "tags": ["setup", "vite"]
+        },
+        {
+          "id": "tw-instalar-nextjs",
+          "title": "Instalar en Next.js",
+          "description": "Next.js usa PostCSS, no el plugin de Vite",
+          "language": "bash",
+          "code": "npm install tailwindcss @tailwindcss/postcss postcss",
+          "tags": ["setup", "nextjs"]
+        },
+        {
+          "id": "tw-postcss-config",
+          "title": "postcss.config.mjs",
+          "description": "Habilita el plugin de Tailwind dentro de PostCSS",
+          "language": "javascript",
+          "code": "const config = {\n  plugins: {\n    '@tailwindcss/postcss': {},\n  },\n};\n\nexport default config;",
+          "tags": ["setup", "nextjs"]
+        },
+        {
+          "id": "tw-importar-css",
+          "title": "Importar Tailwind en tu CSS",
+          "description": "Reemplaza los @tailwind base/components/utilities de la v3",
+          "language": "css",
+          "code": "@import \"tailwindcss\";",
+          "tags": ["setup"]
+        },
+        {
+          "id": "tw-config-legacy",
+          "title": "tailwind.config.js (proyectos en v3)",
+          "description": "Si tu proyecto sigue en v3, content define qué archivos escanea",
+          "language": "javascript",
+          "code": "/** @type {import('tailwindcss').Config} */\nexport default {\n  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],\n  theme: { extend: {} },\n  plugins: [],\n};",
+          "tags": ["setup", "v3"]
+        }
+      ]
+    },
+    {
+      "id": "tw-layout-espaciado",
+      "name": "Layout y espaciado",
+      "snippets": [
+        {
+          "id": "tw-padding-margin",
+          "title": "Padding y margin",
+          "description": "p/m + t,r,b,l,x,y; la escala va de 0 a 96 en pasos de 0.25rem",
+          "language": "html",
+          "code": "<div class=\"p-4 mt-2 mx-auto\">contenido</div>\n<div class=\"px-6 py-3\">botón con padding horizontal/vertical</div>",
+          "tags": ["espaciado"]
+        },
+        {
+          "id": "tw-width-height",
+          "title": "Ancho y alto",
+          "description": "w-full/h-screen para tamaños comunes, o fracciones como w-1/2",
+          "language": "html",
+          "code": "<div class=\"w-full h-screen\"></div>\n<div class=\"w-1/2 max-w-md min-h-[200px]\"></div>",
+          "tags": ["tamaño"]
+        },
+        {
+          "id": "tw-container",
+          "title": "Contenedor centrado",
+          "description": "container + mx-auto centra el contenido con un ancho máximo por breakpoint",
+          "language": "html",
+          "code": "<div class=\"container mx-auto px-4\">contenido centrado</div>",
+          "tags": ["layout"]
+        },
+        {
+          "id": "tw-position",
+          "title": "Posicionamiento",
+          "description": "relative/absolute/fixed/sticky combinados con top/right/bottom/left",
+          "language": "html",
+          "code": "<div class=\"relative\">\n  <span class=\"absolute top-2 right-2\">badge</span>\n</div>",
+          "tags": ["posicionamiento"]
+        }
+      ]
+    },
+    {
+      "id": "tw-flex-grid",
+      "name": "Flexbox y Grid",
+      "snippets": [
+        {
+          "id": "tw-flex-basico",
+          "title": "Flexbox básico",
+          "description": "justify-* alinea en el eje principal, items-* en el eje cruzado",
+          "language": "html",
+          "code": "<div class=\"flex items-center justify-between gap-4\">\n  <span>Izquierda</span>\n  <span>Derecha</span>\n</div>",
+          "tags": ["flexbox"]
+        },
+        {
+          "id": "tw-flex-wrap-col",
+          "title": "flex-col y flex-wrap",
+          "description": "Cambia la dirección o permite que los items salten de línea",
+          "language": "html",
+          "code": "<div class=\"flex flex-col gap-2 md:flex-row md:flex-wrap\">\n  <div>Item</div>\n  <div>Item</div>\n</div>",
+          "tags": ["flexbox", "responsive"]
+        },
+        {
+          "id": "tw-grid-basico",
+          "title": "Grid básico",
+          "description": "grid-cols-N define columnas iguales; gap el espacio entre celdas",
+          "language": "html",
+          "code": "<div class=\"grid grid-cols-3 gap-4\">\n  <div>1</div>\n  <div>2</div>\n  <div>3</div>\n</div>",
+          "tags": ["grid"]
+        },
+        {
+          "id": "tw-grid-responsive",
+          "title": "Grid responsive",
+          "description": "Cambia el número de columnas según el breakpoint",
+          "language": "html",
+          "code": "<div class=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6\">\n  <div>Card</div>\n</div>",
+          "tags": ["grid", "responsive"]
+        },
+        {
+          "id": "tw-grid-span",
+          "title": "Ocupar varias columnas/filas",
+          "description": "col-span-N y row-span-N para elementos que ocupan más espacio",
+          "language": "html",
+          "code": "<div class=\"grid grid-cols-4 gap-4\">\n  <div class=\"col-span-2\">Ancho doble</div>\n  <div class=\"row-span-2\">Alto doble</div>\n</div>",
+          "tags": ["grid"]
+        }
+      ]
+    },
+    {
+      "id": "tw-colores-tipografia",
+      "name": "Colores y tipografía",
+      "snippets": [
+        {
+          "id": "tw-bg-text-color",
+          "title": "Color de fondo y texto",
+          "description": "Escala de 50 (clarito) a 950 (oscuro) por cada color",
+          "language": "html",
+          "code": "<div class=\"bg-blue-600 text-white\">Botón primario</div>\n<div class=\"bg-slate-100 text-slate-900\">Fondo suave</div>",
+          "tags": ["colores"]
+        },
+        {
+          "id": "tw-opacidad-color",
+          "title": "Opacidad de color",
+          "description": "Se agrega con /N al final de la clase de color",
+          "language": "html",
+          "code": "<div class=\"bg-black/50\">Overlay semitransparente</div>",
+          "tags": ["colores"]
+        },
+        {
+          "id": "tw-tipografia",
+          "title": "Tamaño, peso y interlineado",
+          "description": "text-{size}, font-{weight}, leading-{height}",
+          "language": "html",
+          "code": "<h1 class=\"text-3xl font-bold leading-tight\">Título</h1>\n<p class=\"text-sm text-gray-500 leading-relaxed\">Texto secundario</p>",
+          "tags": ["tipografía"]
+        },
+        {
+          "id": "tw-bordes-sombras",
+          "title": "Bordes, radios y sombras",
+          "description": "rounded-* redondea esquinas, shadow-* agrega sombra",
+          "language": "html",
+          "code": "<div class=\"rounded-xl border border-gray-200 shadow-md p-4\">Card</div>",
+          "tags": ["bordes"]
+        }
+      ]
+    },
+    {
+      "id": "tw-estados-responsive",
+      "name": "Estados y responsive",
+      "snippets": [
+        {
+          "id": "tw-hover-focus",
+          "title": "hover, focus y active",
+          "description": "Se anteponen como prefijo a cualquier utilidad",
+          "language": "html",
+          "code": "<button class=\"bg-blue-600 hover:bg-blue-700 focus:ring-2 active:scale-95\">\n  Enviar\n</button>",
+          "tags": ["estados"]
+        },
+        {
+          "id": "tw-breakpoints",
+          "title": "Breakpoints responsive",
+          "description": "sm(640px) md(768px) lg(1024px) xl(1280px) 2xl(1536px), mobile-first",
+          "language": "html",
+          "code": "<div class=\"text-sm md:text-base lg:text-lg\">\n  Texto que crece con la pantalla\n</div>",
+          "tags": ["responsive"]
+        },
+        {
+          "id": "tw-dark-mode",
+          "title": "Dark mode",
+          "description": "Con estrategia 'class', agrega/quita la clase dark en <html>",
+          "language": "html",
+          "code": "<div class=\"bg-white text-black dark:bg-gray-900 dark:text-white\">\n  Se adapta al tema\n</div>",
+          "tags": ["dark-mode"]
+        },
+        {
+          "id": "tw-dark-mode-config",
+          "title": "Activar dark mode por clase (v3)",
+          "description": "En v4 se hace con @custom-variant en el CSS en vez de config",
+          "language": "css",
+          "code": "@import \"tailwindcss\";\n@custom-variant dark (&:where(.dark, .dark *));",
+          "tags": ["dark-mode", "setup"]
+        },
+        {
+          "id": "tw-group-peer",
+          "title": "group y peer",
+          "description": "Estiliza un elemento según el estado de su padre (group) o hermano (peer)",
+          "language": "html",
+          "code": "<div class=\"group\">\n  <span class=\"opacity-0 group-hover:opacity-100\">Aparece al hacer hover</span>\n</div>\n\n<input class=\"peer\" type=\"checkbox\" />\n<span class=\"hidden peer-checked:block\">Visible si el checkbox está marcado</span>",
+          "tags": ["estados"]
+        }
+      ]
+    },
+    {
+      "id": "tw-reutilizar",
+      "name": "Reutilizar estilos",
+      "snippets": [
+        {
+          "id": "tw-apply",
+          "title": "@apply en CSS",
+          "description": "Agrupa utilidades repetidas en una sola clase, con moderación",
+          "language": "css",
+          "code": ".btn-primario {\n  @apply rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700;\n}",
+          "tags": ["apply", "componentes"]
+        },
+        {
+          "id": "tw-clsx-condicional",
+          "title": "Clases condicionales con clsx",
+          "description": "Combina clases según props sin concatenar strings a mano",
+          "language": "javascript",
+          "code": "import clsx from 'clsx';\n\nfunction Boton({ activo }) {\n  return (\n    <button className={clsx('rounded px-3 py-1', activo ? 'bg-blue-600' : 'bg-gray-300')}>\n      Click\n    </button>\n  );\n}",
+          "tags": ["componentes", "react"]
+        },
+        {
+          "id": "tw-theme-extend",
+          "title": "Extender el theme (v3)",
+          "description": "Agrega colores, fuentes o espaciados propios sin perder los defaults",
+          "language": "javascript",
+          "code": "export default {\n  theme: {\n    extend: {\n      colors: { marca: '#1E3A8A' },\n      fontFamily: { display: ['Poppins', 'sans-serif'] },\n    },\n  },\n};",
+          "tags": ["config", "v3"]
+        },
+        {
+          "id": "tw-theme-css-v4",
+          "title": "Personalizar el theme (v4)",
+          "description": "En v4 el theme se define directo en CSS con @theme",
+          "language": "css",
+          "code": "@import \"tailwindcss\";\n\n@theme {\n  --color-marca: #1e3a8a;\n  --font-display: 'Poppins', sans-serif;\n}",
+          "tags": ["config"]
+        },
+        {
+          "id": "tw-plugin-forms-typography",
+          "title": "Plugins oficiales (forms, typography)",
+          "description": "@tailwindcss/forms mejora inputs; @tailwindcss/typography agrega la clase prose",
+          "language": "bash",
+          "code": "npm install -D @tailwindcss/forms @tailwindcss/typography",
+          "tags": ["plugins"]
+        }
+      ]
+    }
+  ]
+}

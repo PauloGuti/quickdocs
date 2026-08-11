@@ -24,6 +24,13 @@ const SEED_MANIFEST = [
   'terraform.json',
   'go.json',
   'bigquery.json',
+  'tailwind.json',
+  'nextjs.json',
+  'astro.json',
+  'markdown.json',
+  'css.json',
+  'google-sheets.json',
+  'appsheet.json',
 ];
 
 /**

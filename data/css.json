@@ -1,0 +1,234 @@
+{
+  "id": "css",
+  "name": "CSS",
+  "icon": "🎨",
+  "color": "#264DE4",
+  "topics": [
+    {
+      "id": "css-selectores",
+      "name": "Selectores",
+      "snippets": [
+        {
+          "id": "css-selectores-basicos",
+          "title": "Selectores básicos",
+          "description": "Etiqueta, clase (.) e id (#)",
+          "language": "css",
+          "code": "p { color: gray; }\n.tarjeta { padding: 1rem; }\n#header { position: sticky; }",
+          "tags": ["selectores"]
+        },
+        {
+          "id": "css-combinadores",
+          "title": "Combinadores",
+          "description": "Descendiente (espacio), hijo directo (>), hermano adyacente (+), hermano general (~)",
+          "language": "css",
+          "code": "ul li { color: blue; }        /* cualquier li dentro de ul */\nul > li { color: red; }       /* solo li hijos directos */\nh2 + p { margin-top: 0; }     /* p justo después de un h2 */\nh2 ~ p { color: gray; }       /* todos los p hermanos después de h2 */",
+          "tags": ["selectores"]
+        },
+        {
+          "id": "css-pseudo-clases",
+          "title": "Pseudo-clases",
+          "description": "Estados o posición del elemento: hover, focus, nth-child, not",
+          "language": "css",
+          "code": "a:hover { text-decoration: underline; }\ninput:focus { outline: 2px solid blue; }\nli:nth-child(2n) { background: #f5f5f5; }\nbutton:not(.disabled) { cursor: pointer; }",
+          "tags": ["pseudo-clases"]
+        },
+        {
+          "id": "css-pseudo-elementos",
+          "title": "Pseudo-elementos",
+          "description": "::before y ::after generan contenido; ::placeholder estiliza el placeholder",
+          "language": "css",
+          "code": ".card::before {\n  content: \"★\";\n  margin-right: 0.5rem;\n}\ninput::placeholder {\n  color: #999;\n}",
+          "tags": ["pseudo-elementos"]
+        },
+        {
+          "id": "css-selector-atributo",
+          "title": "Selector por atributo",
+          "description": "Matchea elementos según un atributo HTML y su valor",
+          "language": "css",
+          "code": "input[type=\"email\"] { border-color: blue; }\na[href^=\"https\"] { color: green; }\na[href$=\".pdf\"] { color: red; }",
+          "tags": ["selectores", "atributos"]
+        }
+      ]
+    },
+    {
+      "id": "css-box-model",
+      "name": "Box model",
+      "snippets": [
+        {
+          "id": "css-box-sizing",
+          "title": "box-sizing: border-box",
+          "description": "Hace que padding y border se incluyan en el width/height declarado",
+          "language": "css",
+          "code": "*, *::before, *::after {\n  box-sizing: border-box;\n}",
+          "tags": ["box-model"]
+        },
+        {
+          "id": "css-padding-margin",
+          "title": "Padding y margin",
+          "description": "Orden abreviado: arriba derecha abajo izquierda (sentido horario)",
+          "language": "css",
+          "code": ".caja {\n  padding: 1rem 2rem;       /* vertical horizontal */\n  margin: 0 auto;           /* centra horizontalmente si tiene ancho fijo */\n  border: 1px solid #ddd;\n}",
+          "tags": ["box-model"]
+        },
+        {
+          "id": "css-margin-auto-centrado",
+          "title": "Centrar un bloque con margin auto",
+          "description": "Requiere que el elemento tenga un ancho definido",
+          "language": "css",
+          "code": ".contenedor {\n  width: 800px;\n  max-width: 100%;\n  margin-inline: auto;\n}",
+          "tags": ["box-model", "centrado"]
+        }
+      ]
+    },
+    {
+      "id": "css-flexbox",
+      "name": "Flexbox",
+      "snippets": [
+        {
+          "id": "css-flex-container",
+          "title": "Contenedor flex básico",
+          "description": "justify-content alinea en el eje principal, align-items en el eje cruzado",
+          "language": "css",
+          "code": ".contenedor {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 1rem;\n}",
+          "tags": ["flexbox"]
+        },
+        {
+          "id": "css-flex-item",
+          "title": "Controlar un item flex",
+          "description": "flex-grow/shrink/basis abreviados en flex; order cambia la posición visual",
+          "language": "css",
+          "code": ".item-principal {\n  flex: 1;          /* crece para ocupar el espacio disponible */\n}\n.item-fijo {\n  flex: 0 0 200px;  /* no crece, no encoge, 200px de base */\n}",
+          "tags": ["flexbox"]
+        },
+        {
+          "id": "css-flex-wrap-direction",
+          "title": "flex-wrap y flex-direction",
+          "description": "wrap permite saltar de línea; direction cambia el eje principal",
+          "language": "css",
+          "code": ".contenedor {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n}",
+          "tags": ["flexbox"]
+        }
+      ]
+    },
+    {
+      "id": "css-grid",
+      "name": "Grid",
+      "snippets": [
+        {
+          "id": "css-grid-basico",
+          "title": "Grid con columnas fijas",
+          "description": "grid-template-columns define el número y tamaño de columnas",
+          "language": "css",
+          "code": ".grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 1.5rem;\n}",
+          "tags": ["grid"]
+        },
+        {
+          "id": "css-grid-auto-fit",
+          "title": "Grid responsive sin media queries",
+          "description": "auto-fit + minmax crea columnas que se ajustan solas al ancho disponible",
+          "language": "css",
+          "code": ".grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 1rem;\n}",
+          "tags": ["grid", "responsive"]
+        },
+        {
+          "id": "css-grid-areas",
+          "title": "Grid areas nombradas",
+          "description": "Define el layout visualmente con nombres en vez de calcular filas/columnas",
+          "language": "css",
+          "code": ".layout {\n  display: grid;\n  grid-template-columns: 200px 1fr;\n  grid-template-areas:\n    \"sidebar header\"\n    \"sidebar contenido\";\n}\n.sidebar { grid-area: sidebar; }\n.header  { grid-area: header; }",
+          "tags": ["grid"]
+        }
+      ]
+    },
+    {
+      "id": "css-variables",
+      "name": "Variables CSS",
+      "snippets": [
+        {
+          "id": "css-custom-properties",
+          "title": "Definir y usar custom properties",
+          "description": "Se declaran con -- y se leen con var(); heredan como cualquier propiedad",
+          "language": "css",
+          "code": ":root {\n  --color-primario: #2563eb;\n  --espaciado-base: 1rem;\n}\n\n.boton {\n  background: var(--color-primario);\n  padding: var(--espaciado-base);\n}",
+          "tags": ["variables"]
+        },
+        {
+          "id": "css-variables-fallback",
+          "title": "Valor por defecto con var()",
+          "description": "El segundo argumento de var() se usa si la variable no está definida",
+          "language": "css",
+          "code": ".texto {\n  color: var(--color-texto, #333);\n}",
+          "tags": ["variables"]
+        },
+        {
+          "id": "css-variables-dark-mode",
+          "title": "Variables para dark mode",
+          "description": "Redefinir las mismas variables dentro de un selector cambia el tema entero",
+          "language": "css",
+          "code": ":root {\n  --bg: #ffffff;\n  --text: #111111;\n}\n\n[data-theme=\"dark\"] {\n  --bg: #111111;\n  --text: #f5f5f5;\n}\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n}",
+          "tags": ["variables", "dark-mode"]
+        }
+      ]
+    },
+    {
+      "id": "css-animaciones",
+      "name": "Transiciones y animaciones",
+      "snippets": [
+        {
+          "id": "css-transition",
+          "title": "Transición simple",
+          "description": "Anima el cambio entre dos estados (por ejemplo, en hover)",
+          "language": "css",
+          "code": ".boton {\n  background: #2563eb;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.boton:hover {\n  background: #1d4ed8;\n  transform: translateY(-2px);\n}",
+          "tags": ["transiciones"]
+        },
+        {
+          "id": "css-keyframes",
+          "title": "Animación con @keyframes",
+          "description": "Define los pasos intermedios; animation la aplica al elemento",
+          "language": "css",
+          "code": "@keyframes fade-in {\n  from { opacity: 0; transform: translateY(8px); }\n  to   { opacity: 1; transform: translateY(0); }\n}\n\n.tarjeta {\n  animation: fade-in 0.4s ease-out;\n}",
+          "tags": ["animaciones"]
+        },
+        {
+          "id": "css-reduced-motion",
+          "title": "Respetar prefers-reduced-motion",
+          "description": "Desactiva o reduce animaciones para usuarios que lo piden en su sistema",
+          "language": "css",
+          "code": "@media (prefers-reduced-motion: reduce) {\n  * {\n    animation-duration: 0.001ms !important;\n    transition-duration: 0.001ms !important;\n  }\n}",
+          "tags": ["accesibilidad", "animaciones"]
+        }
+      ]
+    },
+    {
+      "id": "css-responsive",
+      "name": "Responsive",
+      "snippets": [
+        {
+          "id": "css-media-query",
+          "title": "Media query básica",
+          "description": "Mobile-first: se escribe el estilo base y se sobreescribe desde min-width",
+          "language": "css",
+          "code": ".columna {\n  width: 100%;\n}\n\n@media (min-width: 768px) {\n  .columna {\n    width: 50%;\n  }\n}",
+          "tags": ["responsive", "media-queries"]
+        },
+        {
+          "id": "css-unidades-relativas",
+          "title": "Unidades relativas",
+          "description": "rem relativo al root, % relativo al padre, vw/vh relativo al viewport",
+          "language": "css",
+          "code": ".titulo {\n  font-size: 2rem;      /* relativo al font-size del <html> */\n  width: 90%;           /* relativo al contenedor padre */\n  min-height: 50vh;     /* mitad de la altura de la ventana */\n}",
+          "tags": ["responsive", "unidades"]
+        },
+        {
+          "id": "css-clamp",
+          "title": "clamp() para tipografía fluida",
+          "description": "clamp(mínimo, preferido, máximo): crece con el viewport dentro de un rango",
+          "language": "css",
+          "code": ".titulo {\n  font-size: clamp(1.5rem, 4vw, 3rem);\n}",
+          "tags": ["responsive", "tipografía"]
+        }
+      ]
+    }
+  ]
+}
