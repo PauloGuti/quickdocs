@@ -57,8 +57,16 @@ if (!gotLock) {
     globalShortcut.unregisterAll();
   });
 
-  // App de menú de estado: no debe salir al cerrar su única ventana.
+  // "Salir de QuickDocs" (tray) llama a app.quit(), lo que dispara
+  // 'before-quit' ANTES de cerrar/destruir la ventana. Usamos esa señal para
+  // distinguir un quit real de un cierre accidental de la ventana: si no es
+  // un quit intencional, prevenimos el cierre total (app de menú de estado,
+  // no debe salir al perder su única ventana).
+  let isQuitting = false;
+  app.on('before-quit', () => {
+    isQuitting = true;
+  });
   app.on('window-all-closed', (event) => {
-    event.preventDefault();
+    if (!isQuitting) event.preventDefault();
   });
 }

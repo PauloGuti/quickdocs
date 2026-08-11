@@ -56,6 +56,13 @@ function createPopupWindow() {
   popupWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   popupWindow.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
 
+  // Si la ventana se destruye (quit real, crash del renderer, etc.) hay que
+  // limpiar la referencia: si no, togglePopupWindow() la sigue viendo como
+  // "existente" y explota con "Object has been destroyed" al usarla.
+  popupWindow.on('closed', () => {
+    popupWindow = null;
+  });
+
   // A propósito NO se oculta al perder el foco: es un panel persistente tipo
   // widget, no un Spotlight transitorio. Se abre/cierra solo con el atajo
   // global o con el botón "cerrar" del propio panel (ver panel:close en ipc.js).
@@ -68,7 +75,7 @@ function getPopupWindow() {
 }
 
 function togglePopupWindow() {
-  if (!popupWindow) return;
+  if (!popupWindow || popupWindow.isDestroyed()) return;
   if (popupWindow.isVisible()) {
     popupWindow.hide();
   } else {
