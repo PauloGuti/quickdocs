@@ -14,7 +14,9 @@
           "description": "Agent Development Kit de Google para Python",
           "language": "bash",
           "code": "pip install google-adk",
-          "tags": ["setup"]
+          "tags": [
+            "setup"
+          ]
         },
         {
           "id": "adk-version",
@@ -22,7 +24,9 @@
           "description": "Comprueba la versión instalada",
           "language": "bash",
           "code": "adk --version",
-          "tags": ["setup"]
+          "tags": [
+            "setup"
+          ]
         },
         {
           "id": "adk-credenciales",
@@ -30,7 +34,10 @@
           "description": "API key de Google AI Studio vía variable de entorno",
           "language": "bash",
           "code": "export GOOGLE_API_KEY=\"tu-api-key\"\nexport GOOGLE_GENAI_USE_VERTEXAI=FALSE",
-          "tags": ["auth", "config"]
+          "tags": [
+            "auth",
+            "config"
+          ]
         },
         {
           "id": "adk-credenciales-vertex",
@@ -38,7 +45,93 @@
           "description": "Usa un proyecto de GCP en vez de una API key suelta",
           "language": "bash",
           "code": "export GOOGLE_GENAI_USE_VERTEXAI=TRUE\nexport GOOGLE_CLOUD_PROJECT=\"mi-proyecto\"\nexport GOOGLE_CLOUD_LOCATION=\"us-central1\"",
-          "tags": ["auth", "vertex"]
+          "tags": [
+            "auth",
+            "vertex"
+          ]
+        },
+        {
+          "id": "adk-skills-agents-cli-instalar",
+          "title": "Instalar Agents CLI",
+          "description": "Instala el conjunto de herramientas Agents CLI y configura las habilidades (skills) de desarrollo de ADK en tu editor de IA (Antigravity, Claude Code, Cursor, etc.)",
+          "language": "bash",
+          "code": "uvx google-agents-cli setup",
+          "tags": [
+            "cli",
+            "setup",
+            "skills"
+          ]
+        },
+        {
+          "id": "adk-skills-agents-cli-que-incluye",
+          "title": "Qué habilita Agents CLI",
+          "description": "Habilidades que suma a tu entorno de codificación con IA una vez instalado",
+          "language": "text",
+          "code": "- Ciclo de vida del desarrollo y directrices de codificación\n- Andamiaje del proyecto (scaffolding)\n- Metodología de evaluación y puntuación (eval)\n- Implementación: Agent Runtime, Cloud Run y GKE\n- Publicación de agentes en Gemini Enterprise\n- Rastreo, registro (logging) e integraciones\n- Índice de referencia rápida y documentación de la API de Python",
+          "tags": [
+            "cli",
+            "skills",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-skills-mcp-claude-code",
+          "title": "Servidor MCP de docs ADK — Claude Code",
+          "description": "Conecta Claude Code a la documentación de ADK vía un servidor MCP (mcpdoc), para que busque y lea la doc directamente",
+          "language": "bash",
+          "code": "claude mcp add adk-docs --transport stdio -- uvx --from mcpdoc mcpdoc --urls AgentDevelopmentKit:https://adk.dev/llms.txt --transport stdio",
+          "tags": [
+            "mcp",
+            "claude code",
+            "docs"
+          ]
+        },
+        {
+          "id": "adk-skills-mcp-cursor",
+          "title": "Servidor MCP de docs ADK — Cursor",
+          "description": "Cursor → Settings → pestaña Tools & MCP → New MCP Server (abre mcp.json). Requiere uv instalado",
+          "language": "json",
+          "code": "{\n  \"mcpServers\": {\n    \"adk-docs-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"--from\",\n        \"mcpdoc\",\n        \"mcpdoc\",\n        \"--urls\",\n        \"AgentDevelopmentKit:https://adk.dev/llms.txt\",\n        \"--transport\",\n        \"stdio\"\n      ]\n    }\n  }\n}",
+          "tags": [
+            "mcp",
+            "cursor",
+            "docs"
+          ]
+        },
+        {
+          "id": "adk-skills-mcp-antigravity",
+          "title": "Servidor MCP de docs ADK — Antigravity",
+          "description": "Menú ... (más) del panel del agente → Manage MCP servers → View raw config (mcp_config.json). Requiere uv instalado",
+          "language": "json",
+          "code": "{\n  \"mcpServers\": {\n    \"adk-docs-mcp\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"--from\",\n        \"mcpdoc\",\n        \"mcpdoc\",\n        \"--urls\",\n        \"AgentDevelopmentKit:https://adk.dev/llms.txt\",\n        \"--transport\",\n        \"stdio\"\n      ]\n    }\n  }\n}",
+          "tags": [
+            "mcp",
+            "antigravity",
+            "docs"
+          ]
+        },
+        {
+          "id": "adk-skills-mcp-otras-herramientas",
+          "title": "Servidor MCP de docs ADK — otras herramientas",
+          "description": "Cualquier editor compatible con servidores MCP puede usar la misma configuración de arriba; solo adapta el JSON al archivo de config MCP propio de esa herramienta",
+          "language": "text",
+          "code": "Config MCP genérica (mismo bloque \"mcpServers\" de Cursor/Antigravity):\n\ncommand: uvx\nargs: --from mcpdoc mcpdoc --urls AgentDevelopmentKit:https://adk.dev/llms.txt --transport stdio",
+          "tags": [
+            "mcp",
+            "docs"
+          ]
+        },
+        {
+          "id": "adk-skills-llms-txt",
+          "title": "Índice de documentación (llms.txt)",
+          "description": "Documentación de ADK en archivos legibles por máquina (estándar llms.txt), regenerados en cada actualización de la doc",
+          "language": "text",
+          "code": "# Índice de documentación con enlaces\nhttps://adk.dev/llms.txt\n\n# Documentación completa en un solo archivo\nhttps://adk.dev/llms-full.txt",
+          "tags": [
+            "docs",
+            "llms.txt",
+            "referencia"
+          ]
         }
       ]
     },
@@ -52,7 +145,9 @@
           "description": "Crea el andamiaje base con adk create",
           "language": "bash",
           "code": "adk create mi_agente",
-          "tags": ["scaffold"]
+          "tags": [
+            "scaffold"
+          ]
         },
         {
           "id": "adk-agente-basico",
@@ -60,7 +155,9 @@
           "description": "Definición típica en agent.py",
           "language": "python",
           "code": "from google.adk.agents import Agent\n\nroot_agent = Agent(\n    name=\"asistente\",\n    model=\"gemini-2.0-flash\",\n    description=\"Asistente de propósito general\",\n    instruction=\"Responde de forma breve y clara.\",\n)",
-          "tags": ["agente"]
+          "tags": [
+            "agente"
+          ]
         },
         {
           "id": "adk-agente-con-tool",
@@ -68,7 +165,10 @@
           "description": "Le da al agente una función Python invocable",
           "language": "python",
           "code": "from google.adk.agents import Agent\n\ndef obtener_clima(ciudad: str) -> dict:\n    \"\"\"Devuelve el clima actual de una ciudad.\"\"\"\n    return {\"ciudad\": ciudad, \"clima\": \"soleado\"}\n\nroot_agent = Agent(\n    name=\"agente_clima\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Usa la herramienta para responder sobre el clima.\",\n    tools=[obtener_clima],\n)",
-          "tags": ["agente", "tools"]
+          "tags": [
+            "agente",
+            "tools"
+          ]
         }
       ]
     },
@@ -82,7 +182,9 @@
           "description": "Chat interactivo en la consola",
           "language": "bash",
           "code": "adk run mi_agente",
-          "tags": ["dev"]
+          "tags": [
+            "dev"
+          ]
         },
         {
           "id": "adk-web",
@@ -90,7 +192,10 @@
           "description": "Abre una UI local de desarrollo para probar el agente",
           "language": "bash",
           "code": "adk web",
-          "tags": ["dev", "ui"]
+          "tags": [
+            "dev",
+            "ui"
+          ]
         },
         {
           "id": "adk-api-server",
@@ -98,7 +203,10 @@
           "description": "Expone el agente vía HTTP/FastAPI",
           "language": "bash",
           "code": "adk api_server mi_agente",
-          "tags": ["dev", "api"]
+          "tags": [
+            "dev",
+            "api"
+          ]
         }
       ]
     },
@@ -112,7 +220,9 @@
           "description": "Delega tareas a agentes especializados",
           "language": "python",
           "code": "from google.adk.agents import Agent\n\nagente_reservas = Agent(\n    name=\"reservas\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Gestiona reservas de vuelos.\",\n)\n\nroot_agent = Agent(\n    name=\"coordinador\",\n    model=\"gemini-2.0-flash\",\n    instruction=\"Deriva las tareas de vuelos al sub-agente adecuado.\",\n    sub_agents=[agente_reservas],\n)",
-          "tags": ["multi-agente"]
+          "tags": [
+            "multi-agente"
+          ]
         },
         {
           "id": "adk-session-service",
@@ -120,7 +230,9 @@
           "description": "Guarda el historial de conversación durante la ejecución",
           "language": "python",
           "code": "from google.adk.sessions import InMemorySessionService\n\nsession_service = InMemorySessionService()",
-          "tags": ["sesiones"]
+          "tags": [
+            "sesiones"
+          ]
         }
       ]
     },
@@ -134,7 +246,10 @@
           "description": "Publica el agente como servicio administrado",
           "language": "bash",
           "code": "adk deploy cloud_run \\\n  --project=mi-proyecto \\\n  --region=us-central1 \\\n  mi_agente",
-          "tags": ["deploy", "cloud run"]
+          "tags": [
+            "deploy",
+            "cloud run"
+          ]
         },
         {
           "id": "adk-deploy-agent-engine",
@@ -142,7 +257,819 @@
           "description": "Publica el agente en el runtime administrado de Vertex AI",
           "language": "bash",
           "code": "adk deploy agent_engine \\\n  --project=mi-proyecto \\\n  --region=us-central1 \\\n  mi_agente",
-          "tags": ["deploy", "vertex"]
+          "tags": [
+            "deploy",
+            "vertex"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-uv",
+      "name": "Instalación con uv",
+      "snippets": [
+        {
+          "id": "adk-uv-init",
+          "title": "Crear proyecto con uv",
+          "description": "Inicializa un proyecto Python nuevo (crea pyproject.toml y .venv)",
+          "language": "bash",
+          "code": "uv init mi_agente\ncd mi_agente",
+          "tags": [
+            "uv",
+            "setup",
+            "scaffold"
+          ]
+        },
+        {
+          "id": "adk-uv-add",
+          "title": "Instalar el ADK con uv",
+          "description": "Agrega google-adk como dependencia del proyecto (equivalente a pip install)",
+          "language": "bash",
+          "code": "uv add google-adk",
+          "tags": [
+            "uv",
+            "setup"
+          ]
+        },
+        {
+          "id": "adk-uv-run",
+          "title": "Ejecutar comandos adk con uv",
+          "description": "uv run resuelve el entorno virtual automáticamente, sin activar nada a mano",
+          "language": "bash",
+          "code": "uv run adk --version\nuv run adk web\nuv run adk run mi_agente",
+          "tags": [
+            "uv",
+            "dev"
+          ]
+        },
+        {
+          "id": "adk-uv-venv-manual",
+          "title": "Alternativa: venv manual + pip",
+          "description": "Forma clásica (oficial) si preferís no usar uv",
+          "language": "bash",
+          "code": "python3 -m venv .venv\nsource .venv/bin/activate   # Windows: .venv\\Scripts\\activate\npip install google-adk\npip show google-adk",
+          "tags": [
+            "pip",
+            "venv",
+            "setup"
+          ]
+        },
+        {
+          "id": "adk-uv-sync",
+          "title": "Sincronizar dependencias del equipo",
+          "description": "Reinstala exactamente lo que hay en pyproject.toml/uv.lock (para clonar el repo en otra máquina)",
+          "language": "bash",
+          "code": "uv sync",
+          "tags": [
+            "uv",
+            "setup"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-conceptos-agente",
+      "name": "Conceptos de LlmAgent",
+      "snippets": [
+        {
+          "id": "adk-llmagent-basico",
+          "title": "Parámetros esenciales de LlmAgent",
+          "description": "name, model e instruction son obligatorios; description es opcional pero clave para multi-agente",
+          "language": "python",
+          "code": "from google.adk.agents import LlmAgent\n\ncapital_agent = LlmAgent(\n    model=\"gemini-flash-latest\",\n    name=\"capital_agent\",\n    description=\"Responde la capital de un país (la usan otros agentes para enrutar).\",\n    instruction=\"\"\"Eres un agente que da la capital de un país.\n1. Identifica el país en la consulta del usuario.\n2. Usa la tool `get_capital_city` para buscarla.\n3. Responde de forma clara, ej: \"La capital de Francia es París.\"\n\"\"\",\n    tools=[get_capital_city],\n)",
+          "tags": [
+            "agente",
+            "básico"
+          ]
+        },
+        {
+          "id": "adk-llmagent-output-key",
+          "title": "Guardar la respuesta en el estado (output_key)",
+          "description": "output_key guarda automáticamente el texto de salida del agente en session.state, para que otro agente lo use",
+          "language": "python",
+          "code": "greeting_agent = LlmAgent(\n    name=\"Greeter\",\n    model=\"gemini-flash-latest\",\n    instruction=\"Genera un saludo breve y amable.\",\n    output_key=\"last_greeting\",  # queda disponible como {last_greeting}\n)",
+          "tags": [
+            "agente",
+            "estado"
+          ]
+        },
+        {
+          "id": "adk-llmagent-output-schema",
+          "title": "Forzar salida estructurada (output_schema)",
+          "description": "output_schema valida la respuesta contra un modelo Pydantic. OJO: combinar output_schema con tools en la misma llamada solo lo soportan modelos como Gemini 3.0; si tu modelo no lo soporta, separa en un sub-agente aparte",
+          "language": "python",
+          "code": "from pydantic import BaseModel, Field\nfrom google.adk.agents import LlmAgent\n\nclass CapitalOutput(BaseModel):\n    capital: str = Field(description=\"La capital del país.\")\n\nstructured_agent = LlmAgent(\n    model=\"gemini-flash-latest\",\n    name=\"structured_agent\",\n    instruction='Responde SOLO con JSON: {\"capital\": \"nombre\"}',\n    output_schema=CapitalOutput,\n    output_key=\"found_capital\",\n)",
+          "tags": [
+            "agente",
+            "structured output"
+          ]
+        },
+        {
+          "id": "adk-llmagent-config",
+          "title": "Ajustar parámetros del modelo",
+          "description": "generate_content_config controla temperatura, máximo de tokens, safety settings, etc.",
+          "language": "python",
+          "code": "from google.genai import types\nfrom google.adk.agents import LlmAgent\n\nagent = LlmAgent(\n    model=\"gemini-flash-latest\",\n    name=\"deterministic_agent\",\n    generate_content_config=types.GenerateContentConfig(\n        temperature=0.2,\n        max_output_tokens=250,\n    ),\n)",
+          "tags": [
+            "agente",
+            "config"
+          ]
+        },
+        {
+          "id": "adk-instruction-buenas-practicas",
+          "title": "Buenas prácticas al escribir instruction",
+          "description": "El instruction es lo que más moldea el comportamiento del agente",
+          "language": "text",
+          "code": "- Sé explícito: di claramente qué acción y qué resultado esperás.\n- Usa markdown para que sea legible (listas, negritas).\n- Incluí ejemplos (few-shot) si la tarea es compleja.\n- Explicá CUÁNDO y POR QUÉ usar cada tool, no solo listarlas.\n- Podés inyectar variables de estado con {nombre_variable} dentro del texto.",
+          "tags": [
+            "buenas prácticas",
+            "instruction"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-agent-config",
+      "name": "Agentes sin código (YAML)",
+      "snippets": [
+        {
+          "id": "adk-config-create",
+          "title": "Crear proyecto basado en config",
+          "description": "Genera un agente definido en YAML en vez de Python",
+          "language": "bash",
+          "code": "adk create --type=config mi_agente",
+          "tags": [
+            "config",
+            "scaffold"
+          ]
+        },
+        {
+          "id": "adk-config-yaml",
+          "title": "root_agent.yaml mínimo",
+          "description": "Misma estructura que un LlmAgent, pero declarativa",
+          "language": "yaml",
+          "code": "name: assistant_agent\nmodel: gemini-flash-latest\ndescription: Agente que ayuda a responder preguntas.\ninstruction: Sos un agente que ayuda a responder preguntas de los usuarios.",
+          "tags": [
+            "config",
+            "yaml"
+          ]
+        },
+        {
+          "id": "adk-config-load-python",
+          "title": "Cargar un config YAML desde Python",
+          "description": "Útil si querés combinar agentes YAML con lógica Python",
+          "language": "python",
+          "code": "import asyncio\nfrom google.adk.agents import config_agent_utils\n\nasync def main():\n    agent = config_agent_utils.from_config(\"mi_agente/root_agent.yaml\")",
+          "tags": [
+            "config",
+            "python"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-tools-funciones",
+      "name": "Herramientas: function tools",
+      "snippets": [
+        {
+          "id": "adk-tool-docstring",
+          "title": "El docstring ES la descripción para el LLM",
+          "description": "ADK envía el docstring de la función al modelo tal cual, así que tiene que explicar bien qué hace, sus parámetros y qué devuelve",
+          "language": "python",
+          "code": "def get_weather(city: str, unit: str) -> dict:\n    \"\"\"Obtiene el clima de una ciudad en la unidad indicada.\n\n    Args:\n        city (str): nombre de la ciudad.\n        unit (str): 'Celsius' o 'Fahrenheit'.\n\n    Returns:\n        dict: status y report, o status y error_message.\n    \"\"\"\n    return {\"status\": \"success\", \"report\": f\"En {city} hace sol, 25 grados.\"}",
+          "tags": [
+            "tools",
+            "buenas prácticas"
+          ]
+        },
+        {
+          "id": "adk-tool-context",
+          "title": "Acceder a estado y control del agente (ToolContext)",
+          "description": "ToolContext se inyecta automáticamente si lo pedís como parámetro; da acceso a session.state y a acciones del agente",
+          "language": "python",
+          "code": "from google.adk.tools import ToolContext\n\ndef mi_tool(arg1: str, tool_context: ToolContext) -> dict:\n    user_id = tool_context.state.get(\"user_id\")\n    tool_context.state[\"temp:last_call\"] = arg1\n    # tool_context.actions.transfer_to_agent = \"otro_agente\"\n    return {\"status\": \"success\", \"user_id\": user_id}",
+          "tags": [
+            "tools",
+            "estado"
+          ]
+        },
+        {
+          "id": "adk-tool-diseno",
+          "title": "Reglas de diseño de tools",
+          "description": "Checklist para que el LLM las use bien y con buen rendimiento",
+          "language": "text",
+          "code": "- Minimizá la cantidad de parámetros.\n- Usá tipos primitivos (str, int, bool) en vez de objetos complejos.\n- Nombres de función y parámetros descriptivos.\n- Devolvé siempre un dict con una clave \"status\" (\"success\" / \"error\").\n- Si hace I/O (red, disco), hacela async para no bloquear al resto del agente.",
+          "tags": [
+            "tools",
+            "buenas prácticas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-tools-mcp",
+      "name": "Herramientas: MCP",
+      "snippets": [
+        {
+          "id": "adk-mcp-cliente-stdio",
+          "title": "Agente que consume un servidor MCP local (stdio)",
+          "description": "Ejemplo: darle al agente acceso al sistema de archivos vía el MCP server oficial de filesystem",
+          "language": "python",
+          "code": "import os\nfrom google.adk.agents import LlmAgent\nfrom google.adk.tools.mcp_tool import McpToolset\nfrom google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams\nfrom mcp import StdioServerParameters\n\nroot_agent = LlmAgent(\n    model=\"gemini-flash-latest\",\n    name=\"filesystem_assistant_agent\",\n    instruction=\"Ayuda al usuario a listar y leer archivos.\",\n    tools=[\n        McpToolset(\n            connection_params=StdioConnectionParams(\n                server_params=StdioServerParameters(\n                    command=\"npx\",\n                    args=[\"-y\", \"@modelcontextprotocol/server-filesystem\", \"/ruta/a/tu/carpeta\"],\n                ),\n            ),\n        )\n    ],\n)",
+          "tags": [
+            "mcp",
+            "tools"
+          ]
+        },
+        {
+          "id": "adk-mcp-cliente-http",
+          "title": "Agente que consume un servidor MCP remoto (HTTP)",
+          "description": "Igual que arriba pero contra un endpoint MCP remoto con headers de auth",
+          "language": "python",
+          "code": "import os\nfrom google.adk.agents import Agent\nfrom google.adk.tools.mcp_tool import McpToolset\nfrom google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams\n\nAPI_KEY = os.getenv(\"MI_API_KEY\")\n\nroot_agent = Agent(\n    model=\"gemini-flash-latest\",\n    name=\"travel_planner_agent\",\n    description=\"Asistente para planear rutas de viaje.\",\n    tools=[\n        McpToolset(\n            connection_params=StreamableHTTPConnectionParams(\n                url=\"https://ejemplo.com/mcp\",\n                headers={\"X-Api-Key\": API_KEY},\n            )\n        )\n    ],\n)",
+          "tags": [
+            "mcp",
+            "tools"
+          ]
+        },
+        {
+          "id": "adk-mcp-servidor-exponer",
+          "title": "Exponer una tool de ADK como servidor MCP",
+          "description": "Convierte una FunctionTool de ADK en un servidor MCP que cualquier cliente MCP puede consumir",
+          "language": "python",
+          "code": "from mcp import types as mcp_types\nfrom mcp.server.lowlevel import Server\nimport mcp.server.stdio\nfrom google.adk.tools.function_tool import FunctionTool\nfrom google.adk.tools.mcp_tool.conversion_utils import adk_to_mcp_tool_type\n\nmi_tool = FunctionTool(mi_funcion)\napp = Server(\"adk-tool-mcp-server\")\n\n@app.list_tools()\nasync def list_mcp_tools():\n    return [adk_to_mcp_tool_type(mi_tool)]\n\n@app.call_tool()\nasync def call_mcp_tool(name: str, arguments: dict):\n    result = await mi_tool.run_async(args=arguments, tool_context=None)\n    return [mcp_types.TextContent(type=\"text\", text=str(result))]",
+          "tags": [
+            "mcp",
+            "servidor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-tools-auth",
+      "name": "Herramientas: autenticación",
+      "snippets": [
+        {
+          "id": "adk-auth-tipos",
+          "title": "Tipos de auth soportados",
+          "description": "AuthScheme define cómo la API espera las credenciales; AuthCredential guarda los datos iniciales",
+          "language": "text",
+          "code": "- API_KEY: clave simple.\n- HTTP: Basic Auth o Bearer token.\n- OAUTH2: flujo estándar con consentimiento del usuario.\n- OPEN_ID_CONNECT.\n- SERVICE_ACCOUNT: credenciales de cuenta de servicio de GCP.",
+          "tags": [
+            "auth",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-auth-apikey",
+          "title": "OpenAPI tool con API key",
+          "description": "Forma rápida de autenticar un OpenAPIToolset con una clave simple",
+          "language": "python",
+          "code": "from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import OpenAPIToolset\nfrom google.adk.tools.openapi_tool.auth.auth_helpers import token_to_scheme_credential\n\nauth_scheme, auth_credential = token_to_scheme_credential(\n    \"apikey\", \"query\", \"apikey\", \"TU_API_KEY\"\n)\n\ntoolset = OpenAPIToolset(\n    spec_str=openapi_spec,\n    spec_str_type=\"yaml\",\n    auth_scheme=auth_scheme,\n    auth_credential=auth_credential,\n)",
+          "tags": [
+            "auth",
+            "openapi"
+          ]
+        },
+        {
+          "id": "adk-auth-oauth2",
+          "title": "OpenAPI tool con OAuth2",
+          "description": "Para APIs que requieren login del usuario (ej. Google Calendar)",
+          "language": "python",
+          "code": "from fastapi.openapi.models import OAuth2, OAuthFlowAuthorizationCode, OAuthFlows\nfrom google.adk.auth import AuthCredential, AuthCredentialTypes, OAuth2Auth\nfrom google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import OpenAPIToolset\n\nauth_scheme = OAuth2(\n    flows=OAuthFlows(\n        authorizationCode=OAuthFlowAuthorizationCode(\n            authorizationUrl=\"https://accounts.google.com/o/oauth2/auth\",\n            tokenUrl=\"https://oauth2.googleapis.com/token\",\n            scopes={\"https://www.googleapis.com/auth/calendar\": \"calendar\"},\n        )\n    )\n)\nauth_credential = AuthCredential(\n    auth_type=AuthCredentialTypes.OAUTH2,\n    oauth2=OAuth2Auth(client_id=\"ID\", client_secret=\"SECRET\"),\n)\n\ntoolset = OpenAPIToolset(\n    spec_str=openapi_spec, spec_str_type=\"yaml\",\n    auth_scheme=auth_scheme, auth_credential=auth_credential,\n)",
+          "tags": [
+            "auth",
+            "oauth2"
+          ]
+        },
+        {
+          "id": "adk-auth-custom-tool",
+          "title": "Autenticación dentro de una function tool propia",
+          "description": "Patrón para pedir/cachear credenciales manualmente vía ToolContext",
+          "language": "python",
+          "code": "from google.adk.tools import FunctionTool, ToolContext\n\ndef mi_tool_autenticada(param1: str, tool_context: ToolContext) -> dict:\n    cached = tool_context.state.get(\"token_cache_key\")\n    if not cached:\n        tool_context.request_credential(auth_config)\n        return {\"pending\": True, \"message\": \"Esperando autenticación\"}\n    # ... llamada autenticada ...\n    return {\"status\": \"success\", \"data\": \"...\"}\n\ntool = FunctionTool(func=mi_tool_autenticada)",
+          "tags": [
+            "auth",
+            "tools"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-workflow-agents",
+      "name": "Agentes de flujo (Sequential/Parallel/Loop)",
+      "snippets": [
+        {
+          "id": "adk-workflow-overview",
+          "title": "Qué son los workflow agents",
+          "description": "Orquestan sub-agentes de forma determinística, SIN pasar por el LLM para decidir el orden",
+          "language": "text",
+          "code": "- SequentialAgent: ejecuta sub-agentes uno tras otro, en orden fijo.\n- ParallelAgent: ejecuta sub-agentes al mismo tiempo (concurrentes).\n- LoopAgent: repite sus sub-agentes hasta que una condición de salida se cumpla (o max_iterations).",
+          "tags": [
+            "workflow",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-sequential-agent",
+          "title": "SequentialAgent: pipeline paso a paso",
+          "description": "Cada agente usa el output_key del anterior para encadenar el trabajo",
+          "language": "python",
+          "code": "from google.adk.agents import SequentialAgent, LlmAgent\n\nwriter = LlmAgent(\n    name=\"Writer\", model=\"gemini-flash-latest\",\n    instruction=\"Escribe un primer borrador breve sobre el tema pedido.\",\n    output_key=\"draft\",\n)\nreviewer = LlmAgent(\n    name=\"Reviewer\", model=\"gemini-flash-latest\",\n    instruction=\"Revisa este borrador y da feedback:\\n{draft}\",\n    output_key=\"feedback\",\n)\n\nroot_agent = SequentialAgent(\n    name=\"WritePipeline\",\n    sub_agents=[writer, reviewer],\n    description=\"Escribe y luego revisa un texto.\",\n)",
+          "tags": [
+            "workflow",
+            "sequential"
+          ]
+        },
+        {
+          "id": "adk-parallel-agent",
+          "title": "ParallelAgent: correr tareas independientes a la vez",
+          "description": "Combinado con un SequentialAgent para juntar los resultados al final",
+          "language": "python",
+          "code": "from google.adk.agents import ParallelAgent, SequentialAgent, LlmAgent\nfrom google.adk.tools import google_search\n\nresearcher_a = LlmAgent(\n    name=\"ResearcherA\", model=\"gemini-flash-latest\",\n    instruction=\"Investiga el tema A usando Google Search.\",\n    tools=[google_search], output_key=\"result_a\",\n)\nresearcher_b = LlmAgent(\n    name=\"ResearcherB\", model=\"gemini-flash-latest\",\n    instruction=\"Investiga el tema B usando Google Search.\",\n    tools=[google_search], output_key=\"result_b\",\n)\n\nparallel_research = ParallelAgent(\n    name=\"ParallelResearch\",\n    sub_agents=[researcher_a, researcher_b],\n)\n\nmerger = LlmAgent(\n    name=\"Merger\", model=\"gemini-flash-latest\",\n    instruction=\"Combina estos resultados en un solo reporte:\\nA: {result_a}\\nB: {result_b}\",\n)\n\nroot_agent = SequentialAgent(\n    name=\"ResearchAndMerge\",\n    sub_agents=[parallel_research, merger],\n)",
+          "tags": [
+            "workflow",
+            "parallel"
+          ]
+        },
+        {
+          "id": "adk-loop-agent",
+          "title": "LoopAgent: repetir hasta cumplir una condición",
+          "description": "Combina max_iterations (límite duro) con una tool exit_loop que corta antes si ya no hace falta seguir",
+          "language": "python",
+          "code": "from google.adk.agents import LoopAgent, LlmAgent\nfrom google.adk.tools.tool_context import ToolContext\n\ndef exit_loop(tool_context: ToolContext):\n    \"\"\"Llamar SOLO cuando la crítica ya no tenga observaciones.\"\"\"\n    tool_context.actions.escalate = True\n    return {}\n\ncritic = LlmAgent(\n    name=\"Critic\", model=\"gemini-flash-latest\",\n    instruction=\"Critica el texto actual:\\n{current_doc}\\nSi ya está bien, responde exactamente 'OK'.\",\n    output_key=\"criticism\",\n)\nrefiner = LlmAgent(\n    name=\"Refiner\", model=\"gemini-flash-latest\",\n    instruction=\"Si la crítica es 'OK' llama a exit_loop. Si no, mejora el texto:\\n{current_doc}\\nCrítica: {criticism}\",\n    tools=[exit_loop],\n    output_key=\"current_doc\",\n)\n\nroot_agent = LoopAgent(\n    name=\"RefineLoop\",\n    sub_agents=[critic, refiner],\n    max_iterations=5,\n)",
+          "tags": [
+            "workflow",
+            "loop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-delegacion",
+      "name": "Delegación: sub_agents vs AgentTool",
+      "snippets": [
+        {
+          "id": "adk-sub-agents-transfer",
+          "title": "sub_agents: transferir el control por completo",
+          "description": "El agente padre le PASA la conversación al sub-agente elegido; deja de controlar el turno",
+          "language": "python",
+          "code": "from google.adk.agents import LlmAgent\n\nagente_reservas = LlmAgent(\n    name=\"reservas\", model=\"gemini-flash-latest\",\n    instruction=\"Gestiona reservas de vuelos.\",\n)\n\nroot_agent = LlmAgent(\n    name=\"coordinador\", model=\"gemini-flash-latest\",\n    instruction=\"Deriva las consultas de vuelos al sub-agente adecuado.\",\n    sub_agents=[agente_reservas],\n)",
+          "tags": [
+            "multi-agente",
+            "delegación"
+          ]
+        },
+        {
+          "id": "adk-agent-tool",
+          "title": "AgentTool: usar un agente como herramienta",
+          "description": "El agente padre SIGUE teniendo el control: llama al otro agente como si fuera una función más y recibe su resultado",
+          "language": "python",
+          "code": "from google.adk.agents import LlmAgent\nfrom google.adk.tools.agent_tool import AgentTool\n\nbooking_agent = LlmAgent(\n    name=\"booking_agent\", model=\"gemini-flash-latest\",\n    instruction=\"Gestiona reservas de vuelos.\",\n)\n\nroot_agent = LlmAgent(\n    name=\"coordinador\", model=\"gemini-flash-latest\",\n    instruction=\"Usa booking_agent cuando el usuario quiera reservar un vuelo.\",\n    tools=[AgentTool(agent=booking_agent)],\n)",
+          "tags": [
+            "multi-agente",
+            "agent tool"
+          ]
+        },
+        {
+          "id": "adk-delegacion-cuando",
+          "title": "¿Cuál usar?",
+          "description": "Regla rápida para elegir entre sub_agents y AgentTool",
+          "language": "text",
+          "code": "- sub_agents: cuando querés un router/coordinador que DERIVA la conversación entera a un especialista (el usuario sigue chateando con ese especialista).\n- AgentTool: cuando querés que el agente principal use a otro agente como una consulta puntual y siga teniendo el control (ej: \"resumime esto con el agente resumidor\").",
+          "tags": [
+            "multi-agente",
+            "buenas prácticas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-estado",
+      "name": "Sesiones y estado",
+      "snippets": [
+        {
+          "id": "adk-estado-prefijos",
+          "title": "Prefijos de estado (scopes)",
+          "description": "El prefijo de la key determina el alcance del dato guardado",
+          "language": "python",
+          "code": "# Sin prefijo: solo esta sesión\nsession.state['current_intent'] = 'book_flight'\n\n# user: compartido entre todas las sesiones de ese usuario\nsession.state['user:preferred_language'] = 'es'\n\n# app: compartido globalmente, todos los usuarios\nsession.state['app:api_endpoint'] = 'https://api.ejemplo.com'\n\n# temp: solo dura la invocación actual, se descarta después\nsession.state['temp:raw_response'] = {}",
+          "tags": [
+            "estado",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-estado-callback-context",
+          "title": "Forma recomendada de escribir estado: CallbackContext",
+          "description": "Usar el context (no mutar la sesión obtenida a mano) para que el cambio quede registrado como evento",
+          "language": "python",
+          "code": "from google.adk.agents import CallbackContext\n\ndef mi_callback(context: CallbackContext):\n    count = context.state.get(\"user_action_count\", 0)\n    context.state[\"user_action_count\"] = count + 1\n    context.state[\"temp:last_operation_status\"] = \"success\"",
+          "tags": [
+            "estado",
+            "callbacks"
+          ]
+        },
+        {
+          "id": "adk-estado-buenas-practicas",
+          "title": "Buenas prácticas de estado",
+          "description": "Checklist para no romperte la sesión",
+          "language": "text",
+          "code": "- Usá solo tipos serializables: str, número, bool, list, dict. Nada de conexiones ni funciones.\n- Nombres de key descriptivos: 'departure_city', no 'dc'.\n- No mutes una sesión obtenida con get_session() directamente; los cambios no persisten de forma confiable.\n- Preferí output_key (simple) o CallbackContext (dentro de callbacks) para escribir estado.",
+          "tags": [
+            "estado",
+            "buenas prácticas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-memoria",
+      "name": "Memoria",
+      "snippets": [
+        {
+          "id": "adk-memoria-servicio",
+          "title": "Memoria en memoria (para desarrollo)",
+          "description": "InMemoryMemoryService guarda todo en RAM del proceso; para producción hay servicios persistentes",
+          "language": "python",
+          "code": "from google.adk.memory import InMemoryMemoryService\nmemory_service = InMemoryMemoryService()",
+          "tags": [
+            "memoria",
+            "setup"
+          ]
+        },
+        {
+          "id": "adk-memoria-agregar-sesion",
+          "title": "Guardar una sesión terminada en memoria",
+          "description": "Así el contenido de esa sesión queda disponible para búsquedas futuras",
+          "language": "python",
+          "code": "sesion_completa = await runner.session_service.get_session(\n    app_name=APP_NAME, user_id=USER_ID, session_id=session1_id\n)\nawait memory_service.add_session_to_memory(sesion_completa)",
+          "tags": [
+            "memoria"
+          ]
+        },
+        {
+          "id": "adk-memoria-buscar",
+          "title": "Buscar en memoria desde una tool",
+          "description": "Le da al agente la capacidad de recordar conversaciones/documentos pasados",
+          "language": "python",
+          "code": "from google.adk.tools import ToolContext\n\nasync def buscar_conversaciones_previas(query: str, tool_context: ToolContext) -> dict:\n    response = await tool_context.search_memory(query)\n    return {\n        \"resultados\": [\n            part.text\n            for entry in response.memories\n            for part in (entry.content.parts or [])\n            if part.text\n        ]\n    }",
+          "tags": [
+            "memoria",
+            "tools"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-callbacks",
+      "name": "Callbacks",
+      "snippets": [
+        {
+          "id": "adk-callbacks-que-son",
+          "title": "Qué son y para qué sirven",
+          "description": "Se ejecutan en puntos fijos del ciclo del agente para observar, modificar o frenar su comportamiento",
+          "language": "text",
+          "code": "Tipos disponibles: before/after_agent, before/after_model, before/after_tool.\nUsos típicos: guardrails de contenido, logging/monitoreo, caching de respuestas, modificar el request/response antes de enviarlo, saltar pasos condicionalmente, acciones específicas de una tool, manejo de artifacts.",
+          "tags": [
+            "callbacks",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-callbacks-guardrail",
+          "title": "Guardrail dentro de una tool (in-tool)",
+          "description": "Validar contra una política ANTES de ejecutar la acción real, sin depender de que el LLM se porte bien",
+          "language": "python",
+          "code": "def query(query: str, tool_context) -> str | dict:\n    policy = tool_context.invocation_context.session.state.get('query_tool_policy', {})\n    tablas_usadas = explain_query(query)\n\n    if not set(tablas_usadas).issubset(set(policy.get('tables', []))):\n        permitidas = ', '.join(policy.get('tables', ['(ninguna)']))\n        return f\"Error: consulta usa tablas no autorizadas. Permitidas: {permitidas}\"\n\n    if policy.get('select_only', False) and not query.strip().upper().startswith('SELECT'):\n        return \"Error: la política solo permite SELECT.\"\n\n    return {\"status\": \"success\", \"results\": [] }",
+          "tags": [
+            "callbacks",
+            "seguridad"
+          ]
+        },
+        {
+          "id": "adk-callbacks-buenas-practicas",
+          "title": "Buenas prácticas para callbacks",
+          "description": "Checklist",
+          "language": "text",
+          "code": "- Un propósito único y bien definido por callback (no un callback \"todo terreno\").\n- Ojo con el rendimiento: corren de forma síncrona dentro del loop del agente.\n- Usá try/except adentro; logueá errores y decidí si la ejecución debe frenar.\n- Sé deliberado leyendo/escribiendo context.state (usá prefijos si el SessionService es persistente).\n- Si el callback tiene efectos externos (llamadas a APIs), hacelo idempotente.\n- Testealo con mock del context; documentalo con docstring (propósito, cuándo corre, efectos secundarios).",
+          "tags": [
+            "callbacks",
+            "buenas prácticas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-runtime",
+      "name": "CLI y runtime avanzado",
+      "snippets": [
+        {
+          "id": "adk-run-guardar-sesion",
+          "title": "Guardar y reanudar sesiones (solo Python)",
+          "description": "Útil para debugging: correr, guardar el estado, y retomar exactamente ahí",
+          "language": "bash",
+          "code": "adk run --save_session --session_id mi_sesion ruta/a/mi_agente\nadk run --resume ruta/a/mi_agente/mi_sesion.session.json ruta/a/mi_agente",
+          "tags": [
+            "cli",
+            "debug"
+          ]
+        },
+        {
+          "id": "adk-run-replay",
+          "title": "Reproducir una conversación grabada",
+          "description": "Corre el agente contra un input.json ya armado, sin escribir a mano",
+          "language": "bash",
+          "code": "adk run --replay ruta/a/input.json ruta/a/mi_agente",
+          "tags": [
+            "cli",
+            "debug"
+          ]
+        },
+        {
+          "id": "adk-run-session-db",
+          "title": "Persistir sesiones en una base SQLite",
+          "description": "En vez de guardarlas solo en memoria durante la corrida",
+          "language": "bash",
+          "code": "adk run --session_service_uri \"sqlite:///mis_sesiones.db\" ruta/a/mi_agente",
+          "tags": [
+            "cli",
+            "sesiones"
+          ]
+        },
+        {
+          "id": "adk-telemetry",
+          "title": "Telemetría del propio ADK CLI",
+          "description": "Activar/desactivar el envío de telemetría anónima de uso del CLI",
+          "language": "bash",
+          "code": "adk telemetry enable\nadk telemetry disable\nadk telemetry status",
+          "tags": [
+            "cli",
+            "telemetría"
+          ]
+        },
+        {
+          "id": "adk-fast-api-app",
+          "title": "Servir el agente con FastAPI a mano",
+          "description": "Base para desplegar en Cloud Run u otro hosting propio en vez de usar 'adk deploy'",
+          "language": "python",
+          "code": "import os\nimport uvicorn\nfrom fastapi import FastAPI\nfrom google.adk.cli.fast_api import get_fast_api_app\n\nAGENT_DIR = os.path.dirname(os.path.abspath(__file__))\n\napp: FastAPI = get_fast_api_app(\n    agents_dir=AGENT_DIR,\n    session_service_uri=\"sqlite+aiosqlite:///./sessions.db\",\n    allow_origins=[\"*\"],\n    web=True,\n)\n\nif __name__ == \"__main__\":\n    uvicorn.run(app, host=\"0.0.0.0\", port=int(os.environ.get(\"PORT\", 8080)))",
+          "tags": [
+            "runtime",
+            "fastapi",
+            "deploy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-evaluacion",
+      "name": "Evaluación",
+      "snippets": [
+        {
+          "id": "adk-eval-cli",
+          "title": "Correr una evaluación por CLI",
+          "description": "Compara las respuestas del agente contra un set de casos esperados (.evalset.json)",
+          "language": "bash",
+          "code": "adk eval \\\n    ruta/a/mi_agente \\\n    ruta/a/mi_agente/casos.evalset.json \\\n    --print_detailed_results",
+          "tags": [
+            "eval",
+            "cli"
+          ]
+        },
+        {
+          "id": "adk-eval-pytest",
+          "title": "Evaluación programática con pytest",
+          "description": "Para integrar la evaluación al pipeline de tests normal",
+          "language": "python",
+          "code": "from google.adk.evaluation.agent_evaluator import AgentEvaluator\nimport pytest\n\n@pytest.mark.asyncio\nasync def test_agente_basico():\n    \"\"\"Prueba la capacidad básica del agente vía un archivo de sesión.\"\"\"\n    await AgentEvaluator.evaluate(\n        agent_module=\"mi_agente\",\n        eval_dataset_file_path_or_dir=\"tests/integration/fixture/mi_agente/simple_test.test.json\",\n    )",
+          "tags": [
+            "eval",
+            "pytest"
+          ]
+        },
+        {
+          "id": "adk-eval-formato",
+          "title": "Formato de un evalset",
+          "description": "Cada eval_case es una conversación completa (uno o más turnos)",
+          "language": "text",
+          "code": "eval_set_id: id único del set\neval_cases: lista de casos, cada uno con:\n  - conversation: turnos con user_content, final_response esperada\n  - intermediate_data: tool_uses y respuestas intermedias esperadas\n  - session_input: estado inicial de la sesión (app_name, user_id, state)",
+          "tags": [
+            "eval",
+            "referencia"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-observabilidad",
+      "name": "Observabilidad (logging/tracing)",
+      "snippets": [
+        {
+          "id": "adk-logging-basico",
+          "title": "Logging básico de Python",
+          "description": "Nivel DEBUG te muestra el detalle interno del ADK durante desarrollo",
+          "language": "python",
+          "code": "import logging\n\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',\n)",
+          "tags": [
+            "observabilidad",
+            "logging"
+          ]
+        },
+        {
+          "id": "adk-tracing-contenido",
+          "title": "Capturar el contenido de los prompts en las trazas",
+          "description": "Por defecto no se capturan (por privacidad); esto lo habilita",
+          "language": "python",
+          "code": "import os\nos.environ[\"OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT\"] = \"true\"",
+          "tags": [
+            "observabilidad",
+            "tracing"
+          ]
+        },
+        {
+          "id": "adk-tracing-gcp",
+          "title": "Exportar trazas/logs a Google Cloud",
+          "description": "Envía la telemetría directo a Cloud Trace / Cloud Logging",
+          "language": "python",
+          "code": "from google.adk.telemetry.google_cloud import get_gcp_exporters\nfrom google.adk.telemetry.setup import maybe_set_otel_providers\nimport os\n\ngcp_exporters = get_gcp_exporters(enable_cloud_logging=True)\nos.environ[\"OTEL_SERVICE_NAME\"] = \"mi-agente-adk\"\nmaybe_set_otel_providers([gcp_exporters])",
+          "tags": [
+            "observabilidad",
+            "gcp"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-seguridad",
+      "name": "Seguridad y guardrails",
+      "snippets": [
+        {
+          "id": "adk-seguridad-identidad",
+          "title": "Identidad del agente vs identidad del usuario",
+          "description": "Elegí según qué tan distinto es el acceso entre usuarios",
+          "language": "text",
+          "code": "- Agent-auth: el agente usa SU PROPIA identidad (service account) contra el sistema externo. Sirve si todos los usuarios tienen el mismo nivel de acceso. Restringí permisos con IAM y mantené logs de auditoría.\n- User-auth: el agente usa la identidad del usuario que lo controla (típicamente OAuth desde el frontend). Así el agente nunca puede hacer más de lo que el usuario podría hacer solo.",
+          "tags": [
+            "seguridad",
+            "auth"
+          ]
+        },
+        {
+          "id": "adk-seguridad-sandboxing",
+          "title": "Ejecución de código en sandbox",
+          "description": "Nunca ejecutes código generado por el modelo sin aislarlo",
+          "language": "text",
+          "code": "- Usá el Code Executor de ADK con un sandbox (ej. Vertex Code Interpreter Extension) o la ejecución server-side de Gemini Enterprise.\n- Si armás tu propio sandbox: sin conexión a red ni llamadas a APIs (evita exfiltración de datos).\n- Limpiá el entorno por completo entre ejecuciones de distintos usuarios.",
+          "tags": [
+            "seguridad",
+            "code execution"
+          ]
+        },
+        {
+          "id": "adk-seguridad-checklist",
+          "title": "Checklist rápido de seguridad",
+          "description": "Resumen de las recomendaciones oficiales",
+          "language": "text",
+          "code": "- Validá inputs/outputs con guardrails en la propia tool (in-tool guardrails), no confíes solo en el prompt.\n- Usá los filtros de seguridad de Gemini (bloqueo de CSAM/PII no configurable + thresholds de contenido dañino).\n- Escapá todo el contenido generado por el modelo si lo mostrás en un navegador (evita inyección de HTML/JS).\n- Restringí la red del agente con VPC Service Controls si corre en GCP.\n- Evaluá y trazá siempre antes de pasar a producción.",
+          "tags": [
+            "seguridad",
+            "buenas prácticas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-modelos",
+      "name": "Otros modelos (LiteLLM)",
+      "snippets": [
+        {
+          "id": "adk-litellm-instalar",
+          "title": "Instalar soporte LiteLLM",
+          "description": "Necesario para usar modelos que no son Gemini (OpenAI, Claude, Ollama, etc.)",
+          "language": "bash",
+          "code": "uv add \"litellm>=1.84\"\n# o con pip:\npip install \"litellm>=1.84\"",
+          "tags": [
+            "modelos",
+            "setup"
+          ]
+        },
+        {
+          "id": "adk-litellm-openai",
+          "title": "Agente con GPT-4o (OpenAI)",
+          "description": "Requiere OPENAI_API_KEY en el entorno",
+          "language": "python",
+          "code": "from google.adk.agents import LlmAgent\nfrom google.adk.models.lite_llm import LiteLlm\n\nagent_openai = LlmAgent(\n    model=LiteLlm(model=\"openai/gpt-4o\"),\n    name=\"openai_agent\",\n    instruction=\"Sos un asistente útil.\",\n)",
+          "tags": [
+            "modelos",
+            "openai"
+          ]
+        },
+        {
+          "id": "adk-litellm-claude",
+          "title": "Agente con Claude (Anthropic)",
+          "description": "Requiere ANTHROPIC_API_KEY en el entorno. ADK conserva los thinking blocks de Claude entre turnos automáticamente",
+          "language": "python",
+          "code": "from google.adk.agents import LlmAgent\nfrom google.adk.models.lite_llm import LiteLlm\n\nagent_claude = LlmAgent(\n    model=LiteLlm(model=\"anthropic/claude-3-haiku-20240307\"),\n    name=\"claude_agent\",\n    instruction=\"Sos un asistente útil.\",\n)",
+          "tags": [
+            "modelos",
+            "claude",
+            "anthropic"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-skills-agente",
+      "name": "Skills para agentes",
+      "snippets": [
+        {
+          "id": "adk-skills-que-son",
+          "title": "Qué es una Skill (a nivel agente, no editor)",
+          "description": "No confundir con las skills de Agents CLI para tu editor de código — esto es funcionalidad reutilizable que el propio agente carga en tiempo de ejecución",
+          "language": "text",
+          "code": "Una Skill es una unidad autocontenida de funcionalidad: instrucciones + recursos + tools, pensada para cargarse de a poco y no inflar el contexto del agente desde el arranque.",
+          "tags": [
+            "skills",
+            "referencia"
+          ]
+        },
+        {
+          "id": "adk-skills-definir",
+          "title": "Definir una skill",
+          "description": "frontmatter (nombre/descripción), instrucciones y recursos de referencia",
+          "language": "python",
+          "code": "from google.adk.skills import models\n\ngreeting_skill = models.Skill(\n    frontmatter=models.Frontmatter(\n        name=\"greeting-skill\",\n        description=\"Saluda a una persona específica.\",\n    ),\n    instructions=(\n        \"Paso 1: leé 'references/hello_world.txt'. Paso 2: devolvé un saludo basado en eso.\"\n    ),\n    resources=models.Resources(\n        references={\"hello_world.txt\": \"Hola! Qué bueno tenerte por acá!\"},\n    ),\n)",
+          "tags": [
+            "skills"
+          ]
+        },
+        {
+          "id": "adk-skills-usar",
+          "title": "Darle una skill a un agente",
+          "description": "Se cargan desde una carpeta y se exponen como un toolset",
+          "language": "python",
+          "code": "import pathlib\nfrom google.adk import Agent\nfrom google.adk.skills import load_skill_from_dir\nfrom google.adk.tools import skill_toolset\n\nweather_skill = load_skill_from_dir(\n    pathlib.Path(__file__).parent / \"skills\" / \"weather_skill\"\n)\n\nroot_agent = Agent(\n    model=\"gemini-flash-latest\",\n    name=\"skill_user_agent\",\n    instruction=\"Usá las skills disponibles para resolver la tarea.\",\n    tools=[skill_toolset.SkillToolset(skills=[weather_skill])],\n)",
+          "tags": [
+            "skills"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adk-buenas-practicas",
+      "name": "Buenas prácticas generales",
+      "snippets": [
+        {
+          "id": "adk-bp-instruction",
+          "title": "Diseño del instruction",
+          "description": "Lo primero que hay que cuidar",
+          "language": "text",
+          "code": "Explícito y con markdown. Pocos ejemplos (few-shot) para tareas complejas. Explicá cuándo/por qué usar cada tool. Usá {variables} de estado si necesitás inyectar contexto dinámico.",
+          "tags": [
+            "buenas prácticas"
+          ]
+        },
+        {
+          "id": "adk-bp-tools",
+          "title": "Diseño de tools",
+          "description": "El docstring es la descripción que ve el modelo",
+          "language": "text",
+          "code": "Docstrings claros (son la 'descripción' que recibe el LLM). Pocos parámetros, tipos primitivos. Devolvé dict con 'status'. Async si hace I/O. Nombres descriptivos.",
+          "tags": [
+            "buenas prácticas"
+          ]
+        },
+        {
+          "id": "adk-bp-estado",
+          "title": "Manejo de estado",
+          "description": "Evitá corromper la sesión",
+          "language": "text",
+          "code": "Solo tipos serializables. Prefijos user:/app:/temp: según el alcance real del dato. Escribí vía output_key o CallbackContext, nunca mutando una sesión ya obtenida.",
+          "tags": [
+            "buenas prácticas"
+          ]
+        },
+        {
+          "id": "adk-bp-multiagente",
+          "title": "Multi-agente",
+          "description": "Elegir bien el mecanismo de delegación",
+          "language": "text",
+          "code": "sub_agents para derivar la conversación completa a un especialista. AgentTool cuando el agente principal solo necesita 'consultar' a otro agente puntualmente y seguir con el control.",
+          "tags": [
+            "buenas prácticas"
+          ]
+        },
+        {
+          "id": "adk-bp-seguridad-testing",
+          "title": "Seguridad y testing antes de producción",
+          "description": "No te saltees esto",
+          "language": "text",
+          "code": "Guardrails dentro de las tools (in-tool), no solo en el prompt. Sandboxá cualquier ejecución de código. Escapá salidas del modelo si las mostrás en HTML. Escribí evalsets y corré 'adk eval' antes de deployar. Activá logging/tracing en producción.",
+          "tags": [
+            "buenas prácticas",
+            "seguridad"
+          ]
         }
       ]
     }
