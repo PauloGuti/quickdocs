@@ -40,6 +40,12 @@ contextBridge.exposeInMainWorld('quickdocs', {
     getConfig: () => ipcRenderer.invoke('app:getConfig'),
     close: () => ipcRenderer.send('panel:close'),
   },
+  update: {
+    check: () => ipcRenderer.invoke('update:check'),
+    install: () => ipcRenderer.invoke('update:install'),
+    onProgress: (cb) => ipcRenderer.on('update:progress', (_e, p) => cb(p)),
+    onAvailable: (cb) => ipcRenderer.on('update:available', (_e, info) => cb(info)),
+  },
   onPanelShown: (callback) => {
     ipcRenderer.on('panel:shown', callback);
   },

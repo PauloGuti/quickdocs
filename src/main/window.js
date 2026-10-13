@@ -63,6 +63,15 @@ function createPopupWindow() {
     popupWindow = null;
   });
 
+  // Si el renderer se cuelga o crashea, la ventana quedaba "visible" pero
+  // muerta y el atajo parecía no responder. Se recarga sola.
+  popupWindow.webContents.on('render-process-gone', () => {
+    if (popupWindow && !popupWindow.isDestroyed()) popupWindow.reload();
+  });
+  popupWindow.on('unresponsive', () => {
+    if (popupWindow && !popupWindow.isDestroyed()) popupWindow.reload();
+  });
+
   // A propósito NO se oculta al perder el foco: es un panel persistente tipo
   // widget, no un Spotlight transitorio. Se abre/cierra solo con el atajo
   // global o con el botón "cerrar" del propio panel (ver panel:close en ipc.js).
@@ -75,15 +84,25 @@ function getPopupWindow() {
 }
 
 function togglePopupWindow() {
-  if (!popupWindow || popupWindow.isDestroyed()) return;
+  // Si la ventana se destruyó por cualquier motivo, se vuelve a crear en vez
+  // de quedarse sin responder al atajo para siempre.
+  if (!popupWindow || popupWindow.isDestroyed()) {
+    createPopupWindow();
+    popupWindow.webContents.once('did-finish-load', () => showPopupWindow());
+    return;
+  }
   if (popupWindow.isVisible()) {
     popupWindow.hide();
   } else {
-    repositionToActiveDisplay();
-    popupWindow.show();
-    popupWindow.focus();
-    popupWindow.webContents.send('panel:shown');
+    showPopupWindow();
   }
+}
+
+function showPopupWindow() {
+  repositionToActiveDisplay();
+  popupWindow.show();
+  popupWindow.focus();
+  popupWindow.webContents.send('panel:shown');
 }
 
 function repositionToActiveDisplay() {

@@ -1,7 +1,7 @@
 {
   "name": "quickdocs",
   "productName": "QuickDocs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Panel rápido y transparente de comandos y documentación para desarrolladores en macOS.",
   "main": "src/main/main.js",
   "author": "Polo",
@@ -37,7 +37,8 @@
     "publish": null,
     "files": [
       "src/**/*",
-      "data/**/*"
+      "data/**/*",
+      "assets/**/*"
     ],
     "extraResources": [
       {
@@ -49,8 +50,18 @@
       "category": "public.app-category.developer-tools",
       "icon": "build/icon.icns",
       "target": [
-        { "target": "dmg", "arch": ["universal"] },
-        { "target": "zip", "arch": ["universal"] }
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
       ],
       "hardenedRuntime": true,
       "gatekeeperAssess": false
@@ -60,7 +71,15 @@
     },
     "win": {
       "icon": "build/icon.ico",
-      "target": [{ "target": "nsis", "arch": ["x64", "arm64"] }]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
     },
     "nsis": {
       "oneClick": false,

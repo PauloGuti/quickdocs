@@ -1,6 +1,7 @@
 const { ipcMain, app, dialog } = require('electron');
 const fs = require('fs');
 const config = require('./config');
+const updater = require('./updater');
 const { registerShortcut, getCurrentAccelerator } = require('./shortcut');
 
 function registerIpcHandlers({ storage, auth, getWindow, toggleWindow }) {
@@ -93,6 +94,11 @@ function registerIpcHandlers({ storage, auth, getWindow, toggleWindow }) {
   ipcMain.handle('auth:getCurrentUser', async () => auth.getCurrentUser());
   ipcMain.handle('auth:signIn', async () => auth.signIn());
   ipcMain.handle('auth:signOut', async () => auth.signOut());
+
+  ipcMain.handle('update:check', () => updater.checkForUpdates());
+  ipcMain.handle('update:install', (e) =>
+    updater.installUpdate((percent) => e.sender.send('update:progress', percent))
+  );
 
   ipcMain.handle('app:getVersion', () => app.getVersion());
   ipcMain.on('panel:close', () => {

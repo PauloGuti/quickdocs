@@ -1016,5 +1016,44 @@
     state.settings = await window.quickdocs.settings.set({ startAtLogin: evt.target.checked });
   });
 
+  // Actualizaciones (GitHub Releases)
+  const updateBtn = document.getElementById('update-btn');
+  const updateStatus = document.getElementById('update-status');
+  let updateReady = false;
+
+  function showUpdateAvailable(info) {
+    updateReady = !!info.canInstall;
+    updateStatus.textContent = info.canInstall
+      ? `Nueva versión v${info.version} disponible (tienes v${info.current}).`
+      : `Nueva versión v${info.version} disponible, pero esta copia no se puede actualizar sola.`;
+    updateBtn.textContent = info.canInstall ? `Actualizar a v${info.version}` : 'Buscar actualizaciones';
+    updateBtn.disabled = false;
+  }
+
+  updateBtn.addEventListener('click', async () => {
+    updateBtn.disabled = true;
+    if (updateReady) {
+      updateStatus.textContent = 'Descargando… 0%';
+      const result = await window.quickdocs.update.install();
+      if (!result.success) {
+        updateStatus.textContent = `No se pudo actualizar: ${result.error}`;
+        updateBtn.disabled = false;
+      } else {
+        updateStatus.textContent = 'Instalando y reiniciando…';
+      }
+      return;
+    }
+    updateStatus.textContent = 'Buscando…';
+    const info = await window.quickdocs.update.check();
+    if (info.status === 'available') return showUpdateAvailable(info);
+    updateStatus.textContent =
+      info.status === 'error' ? `No se pudo buscar: ${info.error}` : `Estás al día (v${info.current}).`;
+    updateBtn.disabled = false;
+  });
+  window.quickdocs.update.onProgress((p) => {
+    if (updateReady) updateStatus.textContent = `Descargando… ${p}%`;
+  });
+  window.quickdocs.update.onAvailable(showUpdateAvailable);
+
   init();
 })();

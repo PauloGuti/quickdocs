@@ -46,6 +46,9 @@ const config = {
     oauthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || '',
   },
 
+  // Repo público de GitHub desde el que se descargan las actualizaciones.
+  updates: { repo: process.env.UPDATE_REPO || 'PauloGuti/quickdocs' },
+
   gcpProjectId: process.env.GCP_PROJECT_ID || '',
 };
 

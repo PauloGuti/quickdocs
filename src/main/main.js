@@ -1,14 +1,18 @@
-const { app, globalShortcut, Menu } = require('electron');
+const { app, globalShortcut, Menu, powerMonitor } = require('electron');
 const config = require('./config');
 const { createStorage } = require('./storage');
 const OfflineAuthProvider = require('./auth/local');
 const { createPopupWindow, getPopupWindow, togglePopupWindow } = require('./window');
 const { createTray } = require('./tray');
 const { registerIpcHandlers } = require('./ipc');
-const { registerShortcut } = require('./shortcut');
+const { startAutoCheck } = require('./updater');
+const { registerShortcut, getCurrentAccelerator } = require('./shortcut');
 
 // QuickDocs es una app de acceso rápido tipo Spotlight/Raycast: vive en la
 // barra de menú (tray), no en el Dock, y se invoca con un atajo global.
+process.on('uncaughtException', (err) => console.error('[QuickDocs] uncaughtException:', err));
+process.on('unhandledRejection', (err) => console.error('[QuickDocs] unhandledRejection:', err));
+
 if (process.platform === 'darwin') {
   app.dock?.hide();
 }
@@ -51,6 +55,17 @@ if (!gotLock) {
     }
 
     app.setLoginItemSettings({ openAtLogin: !!settings.startAtLogin });
+
+    // Tras suspender/desbloquear, macOS a veces deja de entregar el atajo
+    // global: se vuelve a registrar para que no "deje de abrir".
+    const reRegister = () => registerShortcut(getCurrentAccelerator() || accelerator, togglePopupWindow);
+    powerMonitor.on('resume', reRegister);
+    powerMonitor.on('unlock-screen', reRegister);
+
+    startAutoCheck((info) => {
+      const win = getPopupWindow();
+      if (win && !win.isDestroyed()) win.webContents.send('update:available', info);
+    });
   });
 
   app.on('will-quit', () => {
